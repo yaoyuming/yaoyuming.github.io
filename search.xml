@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Gitlab 安装</title>
+    <url>/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>gitlab 运行需要较大内存，建议将虚拟机内存设置为 4GB 以上，并保证相关端口不被其他进行占用。</p>
+</blockquote>
+<h3 id="安装相关依赖"><a href="#安装相关依赖" class="headerlink" title="安装相关依赖"></a>安装相关依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">yum -y install policycoreutils openssh-server openssh-clients postfix<br></code></pre></td></tr></table></figure>
+
+<h3 id="设置-postfix"><a href="#设置-postfix" class="headerlink" title="设置 postfix"></a>设置 postfix</h3><blockquote>
+<p>设置 postfix 为开机自启动，目的：支持 gitlab 邮件发送。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">systemctl enable postfix &amp;&amp; systemctl start postfix<br></code></pre></td></tr></table></figure>
+
+<h3 id="rpm-包安装"><a href="#rpm-包安装" class="headerlink" title="rpm 包安装"></a>rpm 包安装</h3><p>官方参考链接：<a href="https://packages.gitlab.com/gitlab/gitlab-ce/install#bash-rpm">https://packages.gitlab.com/gitlab/gitlab-ce/install#bash-rpm</a></p>
+<p>使用以下命令进行快速安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>EL 是 Red Hat Enterprise Linux 的简写 </p>
+<ul>
+<li>EL6 软件包用于在 Red Hat 6.x, CentOS 6.x, and CloudLinux 6.x 的安装。</li>
+<li>EL5 软件包用于在 Red Hat 5.x, CentOS 5.x, CloudLinux 5.x 的安装。</li>
+<li>EL7 软件包用于在 Red Hat 7.x, CentOS 7.x, and CloudLinux 7.x 的安装。</li>
+</ul>
+</blockquote>
+<p>所以这里我们采用安装 EL7 的模式，安装命令如下：</p>
+<p>官方参考链接：<a href="https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-15.8.5-ce.0.el7.x86_64.rpm">https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-15.8.5-ce.0.el7.x86_64.rpm</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">sudo yum -y install gitlab-ce-15.8.5-ce.0.el7.x86_64<br></code></pre></td></tr></table></figure>
+
+<p>安装完毕后的主体文件都在 <code>/opt/gitlab/</code> 目录下，可自行翻阅按需修改。</p>
+<h2 id="修改-root-密码"><a href="#修改-root-密码" class="headerlink" title="修改 root 密码"></a>修改 root 密码</h2><p>官方修改密码：(<a href="https://link.jianshu.com/?t=http://docs.gitlab.com/ce/security/reset_root_password.html">http://docs.gitlab.com/ce/security/reset_root_password.html</a>)</p>
+<p>在root用户下，执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">老版命令</span><br>gitlab-rails console production<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">新版命令</span><br>gitlab-rails console -e production<br></code></pre></td></tr></table></figure>
+
+<p>获得用户数据，修改用户密码</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><code class="hljs ruby">[root<span class="hljs-variable">@svr34</span> bin]<span class="hljs-comment"># gitlab-rails console production</span><br><span class="hljs-title class_">Loading</span> production environment (<span class="hljs-title class_">Rails</span> <span class="hljs-number">4.2</span>.<span class="hljs-number">5.2</span>)<br><br><span class="hljs-meta prompt_">irb(main):001:0&gt;</span> user = <span class="hljs-title class_">User</span>.where(<span class="hljs-symbol">id:</span> <span class="hljs-number">1</span>).first<br>=&gt; #&lt;User id:1 @root&gt;<br><br><span class="hljs-meta prompt_">irb(main):002:0&gt;</span> user.password=<span class="hljs-string">&quot;7613302589&quot;</span><br>=&gt; <span class="hljs-string">&quot;12345678&quot;</span><br><br><span class="hljs-meta prompt_">irb(main):003:0&gt;</span> user.password_confirmation=<span class="hljs-string">&quot;7613302589&quot;</span><br>=&gt; <span class="hljs-string">&quot;12345678&quot;</span><br><br><span class="hljs-meta prompt_">irb(main):004:0&gt;</span> user.save!<br>=&gt; <span class="hljs-literal">true</span><br><br><span class="hljs-meta prompt_">irb(main):005:0&gt;</span> quit<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改访问-URL"><a href="#修改访问-URL" class="headerlink" title="修改访问 URL"></a>修改访问 URL</h2><p>编辑 gitlab.rb 文件。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">vim /etc/gitlab/gitlab.rb</span><br><br>external_url &#x27;http://192.168.50.245:8138&#x27;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此处注意别使用已被占用的端口！（如8080）</p>
+</blockquote>
+<img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/image-20230402104707147.png" alt="image-20230402104707147" style="zoom:50%;">
+
+<h2 id="重置并启动-Gitlab"><a href="#重置并启动-Gitlab" class="headerlink" title="重置并启动 Gitlab"></a>重置并启动 Gitlab</h2><p>重置：</p>
+<blockquote>
+<p><em>注：第一次预计需要几分钟</em></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">gitlab-ctl reconfigure<br></code></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">gitlab-ctl restart<br></code></pre></td></tr></table></figure>
+
+<h2 id="端口用途一览"><a href="#端口用途一览" class="headerlink" title="端口用途一览"></a>端口用途一览</h2><img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/image-20230402124422358.png" alt="image-20230402124422358" style="zoom: 67%;">
+
+<table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>归类</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8060</td>
+<td>Nginx</td>
+<td>用途不明</td>
+</tr>
+<tr>
+<td>8138</td>
+<td>Nginx</td>
+<td>第二个 nginx 的端口，就是 gitlab 实例的主端口，所有外部访问的 http 均通过 gitlab 内置的 nginx 服务器处理，并使用该端口，当然暴露地址为外网0.0.0.0</td>
+</tr>
+<tr>
+<td>9121</td>
+<td>Redis</td>
+<td>redis_exporter 的 9121，是 gitlab 内置 redis 数据库，只向本机暴露</td>
+</tr>
+<tr>
+<td>9090</td>
+<td>Prometheus</td>
+<td>向本机暴露，用途应该是创建和管理时间序列事件的触发，如通知那些功能</td>
+</tr>
+<tr>
+<td>9187</td>
+<td>PostgreSQL</td>
+<td>postgres_expoter 的9187，是 gitlab 内置的 postegres 数据库，向本机暴露</td>
+</tr>
+<tr>
+<td>9093</td>
+<td>Ruby</td>
+<td>config.ru 的 9093，gitlab 使用 ruby 的 unicorn 作为 app server 运行，管理 worker 等功能，比较重要，默认为 8080，由于 8080 比较受欢迎，这个端口基本上都得改，暴露可自行设定；</td>
+</tr>
+<tr>
+<td>9168</td>
+<td>Ruby</td>
+<td>用途不明</td>
+</tr>
+<tr>
+<td>9100</td>
+<td>NodeJS</td>
+<td>node_exporter 的 9100，一个 nodejs 进程，用于实现测量所在的机器的资源状态比如cpu、内存、硬盘等数据的功能</td>
+</tr>
+<tr>
+<td>9229</td>
+<td>Go</td>
+<td>gitlab-workhors 的 9229，一个是用 go 语言写的组件，是 gitlab 发展途中添加进来的用于优化 git over http 的组件，具体历史可以查看<a href="https://www.oschina.net/translate/a-brief-history-of-gitlab-workhorse">这里</a>了解gitlab-workhors的由来</td>
+</tr>
+<tr>
+<td>8082</td>
+<td>其他</td>
+<td>sidekiq 的 8082，是一种多线程后台处理系统，用于实现 gitlab 异步运行任务</td>
+</tr>
+<tr>
+<td>9236</td>
+<td>其他</td>
+<td>gitaly 的9236，是一个能够提供访问 git 仓库的 RPC 远程调用功能的服务，属于 gitlab 的一个托管组件<br>gitlab 的配置文件位于<code>/etc/gitlab/gitlab/gitlab.rb</code>，使用vim等工具可以直接修改，各种参数配置修改可以参考<a href="https://docs.gitlab.com/">官方文档</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><h3 id="关闭-selinux"><a href="#关闭-selinux" class="headerlink" title="关闭 selinux"></a>关闭 selinux</h3><blockquote>
+<p><strong>什么是selinux ？</strong></p>
+<p>SELinux：即安全增强型 Linux（Security-Enhanced Linux）</p>
+<p>它是一个 Linux 内核模块，也是 Linux 的一个安全子系统</p>
+<p>它主要由美国国家安全局开发，主要作用是最大限度地减小系统中服务进程可访问的资源（最小权限原则）</p>
+<p><strong>为什么要关闭 selinux ？</strong></p>
+<p>有的软件对于 selinux 的安全规则支持不够好，就会建议在安装前把 selinux 先关闭，例如 k8s，本次在启动 nginx 的过程中发现 gitlab 会报 502 的错误，经由使用 <code>journalctl -xe</code>  命令发现有 selinux 的相关错误信息，所以需要把 selinux 做一次人工的手动禁用。</p>
+<p>selinux 常用命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看审计日志</span><br>cat /var/log/audit/audit.log<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">分析一个文件</span><br>sealert -a /var/log/audit/audit.log<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">查询系统中的布尔型规则及其状态</span><br>getsebool -a<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>selinux的三种运行模式:</p>
+<ul>
+<li>enforcing: 强制模式，SELinux 正在运行中，已经在限制 domain&#x2F;type</li>
+<li>permissive: 宽容模式：SELinux 正在运行中，但仅发出警告信息,并不会实际限制 domain&#x2F;type 的存取（permissive模式可以用在测试环境中供调试规则时使用）</li>
+<li>disabled: 关闭，SELinux 没有实际运行。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">sestatus -v # 查看当前信息<br>getenforce # 查看当前运行模式<br></code></pre></td></tr></table></figure>
+
+<h4 id="临时关闭"><a href="#临时关闭" class="headerlink" title="临时关闭"></a>临时关闭</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">0: Permissive</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">1: Enforcing</span><br><br>setenforce 0<br></code></pre></td></tr></table></figure>
+
+<h4 id="永久关闭"><a href="#永久关闭" class="headerlink" title="永久关闭"></a>永久关闭</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">vim /etc/selinux/config</span><br><br>SELINUX=disabled<br></code></pre></td></tr></table></figure>
+
+<h3 id="外部-nginx-安装"><a href="#外部-nginx-安装" class="headerlink" title="外部 nginx 安装"></a>外部 nginx 安装</h3><p>添加 Nginx 到 YUM 源</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">sudo rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm<br></code></pre></td></tr></table></figure>
+
+<p>安装 nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">sudo yum install -y nginx<br></code></pre></td></tr></table></figure>
+
+<p>启用 nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">sudo systemctl enable nginx.service &amp;&amp; sudo systemctl start nginx.service<br></code></pre></td></tr></table></figure>
+
+<p>Nginx 常用配置目录如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">资源文件目录</span><br>/usr/share/nginx/html/<br>├── 50x.html<br>└── index.html<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">配置文件主目录</span><br>/etc/nginx/<br>├── conf.d<br>│   ├── default.conf<br>│   └── gitlab.conf # gitlab 配置文件<br>├── fastcgi_params<br>├── mime.types<br>├── modules<br>├── nginx.conf # nginx 根目录配置文件<br>├── scgi_params<br>└── uwsgi_params<br></code></pre></td></tr></table></figure>
+
+<h3 id="代理-gitlab-内部-nginx"><a href="#代理-gitlab-内部-nginx" class="headerlink" title="代理 gitlab 内部 nginx"></a>代理 gitlab 内部 nginx</h3><p>gitlab 服务器主体框架如下：</p>
+<img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/gitlab-frame.png" class alt="gitlab服务器框架">
+
+<h4 id="nginx-配置文件"><a href="#nginx-配置文件" class="headerlink" title="nginx 配置文件"></a>nginx 配置文件</h4><p>gitlab.conf 配置文件内容如下：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 主访问入口</span><br><span class="hljs-section">server</span> &#123;<br>  <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>  <span class="hljs-attribute">server_name</span> gitlab.yahya.top;<br><br>  <span class="hljs-comment"># 入口反向代理</span><br>  <span class="hljs-section">location</span> / &#123;<br>    <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br>    <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br>    <span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;<br>    <span class="hljs-comment"># 配置反向代理地址</span><br>    <span class="hljs-attribute">proxy_pass</span> http://192.168.50.245:8138;<br>    <span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;<br>    <span class="hljs-comment"># 一定记得要配置 body_size</span><br>    <span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">1024m</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>修改 gitlab.rb 文件</p>
+<blockquote>
+<p>external_url 的配置直接影响到 gitlab 系统中所有 http 入口的地址，比如 git 仓库的 http 地址，gitlab 访问页面的地址，注册回调的地址，邮件验证的地址等。</p>
+</blockquote>
+<p>编辑 gitlab.rb 文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">vim /etc/gitlab/gitlab.rb<br></code></pre></td></tr></table></figure>
+
+<h4 id="配置域名"><a href="#配置域名" class="headerlink" title="配置域名"></a>配置域名</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">external_url &#x27;http://gitlab.yahya.top&#x27;<br></code></pre></td></tr></table></figure>
+
+<h4 id="修改对外主端口"><a href="#修改对外主端口" class="headerlink" title="修改对外主端口"></a>修改对外主端口</h4><figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">nginx[&#x27;listen_port&#x27;] = 8138<br></code></pre></td></tr></table></figure>
+
+<h4 id="max-body-size-配置"><a href="#max-body-size-配置" class="headerlink" title="max_body_size 配置"></a>max_body_size 配置</h4><p>gitlab 是可以使用 http 和 ssh 两种方式来进行git操作的，当使用 http 时，是通过post请求发送内容，若 nginx 在代理时没有设置 body_size 时将会收到：413 Request Entity Too Large 的错误，push 不了代码，内外部的 nginx 都需要配置，在 gitlab.rb 中添加：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">nginx[&#x27;client_max_body_size&#x27;] = &#x27;1024m&#x27;<br></code></pre></td></tr></table></figure>
+
+<h2 id="认证普通用户"><a href="#认证普通用户" class="headerlink" title="认证普通用户"></a>认证普通用户</h2><blockquote>
+<p>默认情况下注册的用户是需要进行审批，否则在没有审批的情况下登录会报以下的错误：</p>
+<p>Your account is pending approval from your GitLab administrator and hence bl</p>
+</blockquote>
+<p>登录 root 用户，点击头像这里</p>
+<img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/image-20230402122006519.png" class alt="image-20230402122006519">
+
+<p>点击 Overview -&gt; Users -&gt; Pending approval，审批需要注册的用户即可。</p>
+<img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/image-20230402122531351.png" class alt="image-20230402122531351">
+
+<h2 id="临时关闭分支保护"><a href="#临时关闭分支保护" class="headerlink" title="临时关闭分支保护"></a>临时关闭分支保护</h2><blockquote>
+<p>git push 报错 pre-receive hook declined，原因为 master 为受保护分支，无法强推代码到 master 分支上。使用 Owner 以及 Admin 角色账号推送都无法成功。</p>
+</blockquote>
+<p>Settings -&gt; Repository -&gt; Protected Branches 临时 Unprotect master 分支(强推成功后一定要重新添加为受保护的分支)</p>
+<img src="/2023/04/09/%E8%BF%90%E7%BB%B4/gitlab%20%E5%AE%89%E8%A3%85/image-20230402131743121.png" alt="image-20230402131743121" style="zoom:67%;">
+
+<p><strong>关于 GitLab 访问权限</strong></p>
+<p>访问权限 - Visibility Level：</p>
+<p>这个是在建立项目时就需要选定的，主要用于决定哪些人可以访问此项目，包含 3 种：</p>
+<ul>
+<li><strong>Private - 私有</strong>，只有属于该项目成员才有看到</li>
+<li><strong>Internal - 内部</strong>，用 GitLab 账号的人都看到</li>
+<li><strong>Public - 公开</strong>，任何人可以看到</li>
+</ul>
+<p>开源项目和组设置的是 Internal。</p>
+<p>行为权限：</p>
+<p>在满足行为权限之前，必须具备访问权限（如果没有访问权限，那就无所谓行为权限了），行为权限是指对该项目进行某些操作，比如提交、创建问题、创建新分支、删除分支、创建标签、删除标签等角色。</p>
+<blockquote>
+<p>官方权限解释文档：<a href="https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions">https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions</a></p>
+</blockquote>
+<ul>
+<li><p><strong>Guest - 访客</strong></p>
+<p>可以创建 issue、发表评论，不能读写版本库。</p>
+</li>
+<li><p><strong>Reporter  - 报告者</strong></p>
+<p>可以理解为测试员、产品经理等，一般负责提交 issue 等<br> 可以克隆代码，不能提交，QA、PM 可以赋予这个权限。</p>
+</li>
+<li><p><strong>Developer - 开发者</strong></p>
+<p>可以克隆代码、开发、提交、push，RD 可以赋予这个权限。</p>
+</li>
+<li><p><strong>Master - 主人</strong></p>
+<p>可以创建项目、添加 tag、保护分支、添加项目成员、编辑项目，核心 RD 负责人可以赋予这个权限。</p>
+</li>
+<li><p><strong>Owner - 拥有者</strong></p>
+<p>可以设置项目访问权限 - Visibility Level、删除项目、迁移项目、管理组成员，开发组 Leader 可以赋予这个权限。</p>
+</li>
+<li><p><strong>Maintainer - 维护者</strong></p>
+<p>权限与 Owner 差不多，但无删除项目等权限。</p>
+</li>
+</ul>
+<h2 id="参见错误"><a href="#参见错误" class="headerlink" title="参见错误"></a>参见错误</h2><p>502 错误：</p>
+<p>首先保证Gitlab可用运行内存大于 <strong>4G</strong>，端口未被占用</p>
+<p>再赋予<strong>权限</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">chmod -R 755 /var/log/gitlab<br></code></pre></td></tr></table></figure>
+
+<p>再重置重启，访问后仍然可能遇到502，不过我刷新2次就一切ok了。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.hobairiku.site/2018/02/26/gitlab-setup/#1-%E5%87%86%E5%A4%87">使用Nginx搭建并代理GitLab服务器</a></p>
+<p><a href="https://blog.csdn.net/Abysscarry/article/details/79402695">Centos7 搭建Gitlab服务器并配置项目全过程</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1918458?from=15425&areaSource=102001.1&traceId=ENuxuOXF_A89HJy85bkR3">gitlab配置域名并https访问</a></p>
+<p><a href="https://www.cnblogs.com/architectforest/p/12987499.html">linux(centos8):禁用selinux(临时关闭&#x2F;永久关闭)</a></p>
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>gitlab</category>
+      </categories>
+      <tags>
+        <tag>gitlab1</tag>
+      </tags>
+  </entry>
+</search>
