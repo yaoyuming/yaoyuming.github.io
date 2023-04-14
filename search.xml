@@ -1,3 +1,1415 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title>gitkraken 破解</title>
+    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/gitkraken/</url>
+    <content><![CDATA[1. 下载客户端
+gitkraken windows版本 6.5.1下载地址-1
+gitkraken windows版本 6.5.1下载地址-2
+gitkraken Mac版本 6.5.1下载地址
+gitkraken linux deb 6.5.1下载地址
+
+2. 屏蔽更新host# gitKraken 更新屏蔽127.0.0.1 release.gitkraken.com
+
+3. 打开gitkraken并登陆4. 下载破解脚本git clone https://github.com/5cr1pt/GitCracken.gitcd GitCracken/GitCrackenrm yarn.lockyarn installyarn build# windows gitbashnode dist/bin/gitcracken.js patcher --asar ~/AppData/Local/gitkraken/app-6.5.0/resources/app.asar# mac node dist/bin/gitcracken.js patcher --asar 你的gitkraken的目录/resources/app.asar
+
+5. 禁用更新删掉Update.exe, 查找和Gitkraken目录有关的Update.exe(一般在C:\Users\你的用户名\AppData\Local\gitkraken目录下)。
+
+参考：
+插件github
+破解插件
+才发现 gitkraken 现在要给钱才能打开私有库了
+]]></content>
+      <categories>
+        <category>破解</category>
+      </categories>
+      <tags>
+        <tag>破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jrebel 破解</title>
+    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/jrebel/</url>
+    <content><![CDATA[1. 生成 GUID 的网址https://www.guidgen.com/
+2. 用这个网址 + 生成的 GUID 激活https://jrebel.qekang.com/
+例如:
+https://jrebel.qekang.com/738b776f-6cc9-4ac5-9574-960a057392db
+
+
+3. 设置离线模式 来防止失效]]></content>
+      <categories>
+        <category>破解</category>
+      </categories>
+      <tags>
+        <tag>破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>typora 优化</title>
+    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/typora%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[插入的图片左对齐p .md-image:only-child&#123;    width: auto;    text-align: inherit;&#125;
+
+右键打开
+Win+R 调出运行窗口
+输入 regedit 打开注册表
+
+
+
+1. 对文件增加Typora右键打开项设置使用 Typora.exe 打开
+
+
+首先找到路径计算机\HKEY_CLASSES_ROOT\*\shell\
+在 shell 文件夹上右键 新建-&gt;项，文件夹名 Typora
+在 Typora 右键 新建-&gt;项，文件夹名 command
+单击 command，双击右侧名称中的默认，数值数据 中输入&quot;C:\Program Files\Typora\typora.exe&quot; &quot;%1&quot;  (你自己程序所在位置)
+此时已经可以在文件上右键通过Typora打开文件了
+
+设置图标和右键中显示的提示
+
+单击Typora
+右侧双击默认 数值数据 是右键时提示的文字，这里填写Open With Typora
+右侧右键 新建 -&gt; 字符串值，输入icon，双击icon 数值数据输入&quot;C:\Program Files\Typora\typora.exe&quot;  (你自己程序所在位置)
+
+
+2. 对文件夹增加Typora右键打开项
+首先找到路径  计算机\HKEY_CLASSES_ROOT\Folder\shell\
+按照上面的方法
+新建 Typora 及子项 command
+单击 command 右侧设置指令
+单击 Typora 右侧设置右键显示的内容和 icon
+
+3. 命令解释
+指令要用双引号，若不用双引号window对带有空格的路径识别是有问题的
+
+&quot;C:\Program Files\Typora\typora.exe&quot; &quot;%1&quot;
+
+%1 或获取当前选择的内容，可能是文件的路径，也可能是文件夹的路径
+当你cmd终端中输入如下的指令时Typora会打开hello.markdown文件
+&quot;C:\Program Files\Typora\typora.exe&quot; &quot;F:\hello.markdown&quot;
+
+4. 简易设置方式在桌面新建 typora-file.reg 和 typora-folder.reg 两个文件
+用记事本分别录入两个内容
+然后分别双击两个文件会，注册表会自动设置
+Windows Registry Editor Version 5.00[HKEY_CLASSES_ROOT\*\shell\Typora]&quot;icon&quot;=&quot;C:\\Program Files\\Typora\\typora.exe&quot;@=&quot;Open With Typora&quot;[HKEY_CLASSES_ROOT\*\shell\Typora\command]@=&quot;\&quot;C:\\Program Files\\Typora\\typora.exe\&quot; \&quot;%1\&quot;&quot;
+
+Windows Registry Editor Version 5.00[HKEY_CLASSES_ROOT\Folder\shell\Typora]&quot;icon&quot;=&quot;C:\\Program Files\\Typora\\typora.exe&quot;@=&quot;Open With Typora&quot;[HKEY_CLASSES_ROOT\Folder\shell\Typora\command]@=&quot;\&quot;C:\\Program Files\\Typora\\typora.exe\&quot; \&quot;%1&quot;&quot;
+
+荧光笔高亮开启高亮打开方式：文件 &gt; 偏好设置 &gt; Markdown &gt; Markdown扩展语法中把 高亮 选中 &gt; 重启Typora，如下图所示：
+
+
+更改高亮配色打开方式：文件 &gt; 偏好设置 &gt; 外观 &gt; 打开主题文件夹 &gt; drake-light.css文件 &gt; Ctrl+F 搜索 mark &gt; 修改喜欢的 background(背景颜色) 和 color(字体颜色) 保存。
+这里修改后的最终效果如下：
+/* height light */#write mark &#123;    background-color: #f8f840;    padding: .1rem .5rem;    margin: 0 .2rem;&#125;
+
+设置高亮快捷键设置方式：文件 &gt; 偏好设置 &gt; 通用 &gt; 打开高级设置 &gt; 会看到两个json文件，添加绑定快捷键，如下所示：
+&#123;   ...	&quot;keyBinding&quot;: &#123;    &quot;Highlight&quot;: &quot;Ctrl + q&quot;  &#125;,  ...&#125;
+
+]]></content>
+      <categories>
+        <category>破解</category>
+      </categories>
+      <tags>
+        <tag>破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>有道云笔记去广告</title>
+    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[有道云笔记v6.70去除广告去除文章列表底部广告编辑文件C:\Program Files (x86)\Youdao\YoudaoNote\theme\build.xml
+搜索AdWraperMid, 找到如下代码块:
+&lt;AdWraperMid type=&quot;panel&quot; css=&quot;public&quot; dockstyle=&quot;bottom&quot; visible=&quot;false&quot; bounds=&quot;0,0,0,161&quot;&gt;
+
+修改成如下部分
+&lt;AdWraperMid type=&quot;panel&quot; css=&quot;public&quot; dockstyle=&quot;bottom&quot; visible=&quot;false&quot; bounds=&quot;0,0,0,0&quot;&gt;
+
+其实就是修改了第一行末尾的bounds=&quot;0,0,0,161&quot; 为 bounds=&quot;0,0,0,0&quot;，来隐藏广告位窗口。
+去除左下角广告搜索PanelAd, 找到如下代码块，&lt;PanelAd 这一行的 ass=&quot;mainform panelclient PanelAd&quot; 删除即可:
+&lt;PanelAd type=&quot;adpanel&quot; css=&quot;public&quot; ass=&quot;mainform panelclient PanelAd&quot;&gt;
+
+修改后：
+&lt;PanelAd type=&quot;adpanel&quot; css=&quot;public&quot;&gt;
+
+然后保存文件，重启软件。
+]]></content>
+      <categories>
+        <category>破解</category>
+      </categories>
+      <tags>
+        <tag>破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑苹果安装教程</title>
+    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[目录镜像下载macOS Monterey 12.6.3 (21G419) 正式版 ISO、IPSW、PKG 下载
+BIOS 设置官方建议OpenCore 官方建议的 10 代 CPU 架构的 BISO 调整如下：
+禁用
+
+Fast Boot
+Secure Boot
+Serial&#x2F;COM Port
+Parallel Port
+VT-d (如果设置了 DisableIoMapper 为 YES，则可以打开这个选项)
+CSM
+Thunderbolt (建议关闭雷电，第一次安装可能出现玄学问题)
+Intel SGX
+Intel Platform Trust
+CFG Lock
+
+开启
+
+VT-x
+Above 4G decoding
+Hyper-Threading
+Execute Disable Bit
+EHCI&#x2F;XHCI Hand-off
+OS type: Windows 8.1&#x2F;10 UEFI Mode
+DVMT Pre-Allocated(iGPU Memory): 64MB
+SATA Mode: AHCI
+
+ASUS-11th
+disable igpu（Otherwise, you will not be able to sleep normally）
+disable Intel Rapid Storage Technology 最后需要按键盘上的F10键保存退出即可.
+
+ASUS-10th
+Disabe
+Fast Boot
+VT-d
+CSM
+Intel SGX
+CFG Lock
+Enable
+VT-x (no option in BIOS, it’s enabled by default)
+Above 4G decoding
+Hyper-Threading
+EHCI&#x2F;XHCI Hand-off
+OS type: Windows UEFI Mode (Clear Secure Boot Keys or choose Other type)
+DVMT Pre-Allocated(iGPU Memory): 64MB 最后需要按键盘上的F10键保存退出即可.
+
+MSI-10th
+Boot – Fast Boot -&gt; Disabled
+Advanced – PCH Sorage Configuration – SATA Mode Selection -&gt; AHCI
+Boot – CSM(Compatibility Support Module) -&gt; Disabled
+Ai Tweaker – Ai Overclock Tuner -&gt; XMP
+Advanced – CPU configuration – Intel Virtualization Technology -&gt; Disabled
+Advanced – System Agent (SA) Configuration – VT-D -&gt; Disabled
+Advanced – System Agent (SA) Configuration – Above 4G Decoding -&gt; Disabled
+Advanced – System Agent (SA) Configuration – Graphics Configuration – Primary Display -&gt; CPU Graphics 集成显卡配置1
+Advanced – System Agent (SA) Configuration – Graphics Configuration – iGPU Multi-Monitor -&gt; Disabled 集成显卡配置2
+Advanced – PCH configruation - IOAPIC 24-119 Entries -&gt; Enabled
+Advanced – PCH-FW Configuration – TPM Device Selection -&gt; Discrete TPM
+Advanced – APM Configuration – ErP Ready -&gt; Disabled
+Advanced – Network Stack Configuration – Network Stack -&gt; Disabled
+Boot – Secure Boot – OS Type – Other OS 最后需要按键盘上的F10键保存退出即可.
+
+MSI-11th
+Boot – Fast Boot -&gt; Disabled
+Advanced – PCH Sorage Configuration – SATA Mode Selection -&gt; AHCI
+Boot – CSM(Compatibility Support Module) -&gt; Disabled
+Ai Tweaker – Ai Overclock Tuner -&gt; XMP
+Advanced – CPU configuration – Intel Virtualization Technology -&gt; Disabled
+Advanced – System Agent (SA) Configuration – VT-D -&gt; Disabled
+Advanced – System Agent (SA) Configuration – Above 4G Decoding -&gt; Disabled
+Advanced – System Agent (SA) Configuration – Graphics Configuration – Primary Display -&gt; PCIE 独立显卡配置 1
+Advanced – System Agent (SA) Configuration – Graphics Configuration – iGPU Multi-Monitor -&gt; Enabled 独立显卡配置 2
+Advanced – PCH configruation - IOAPIC 24-119 Entries -&gt; Enabled
+Advanced – PCH-FW Configuration – TPM Device Selection -&gt; Discrete TPM
+Advanced – APM Configuration – ErP Ready -&gt; Disabled
+Advanced – Network Stack Configuration – Network Stack -&gt; Disabled
+Boot – Secure Boot – OS Type – Other OS 最后需要按键盘上的F10键保存退出即可.
+
+USB 定制1、从仓库下载 「Windows.exe」到 Windows 平台，双击即可运行
+ 
+2、输入D然后回车来探测电脑上的端口
+ 
+3、分别在各个 USB 接口插入USB2.0和USB 3.X的设备，每插入一次停留 5 秒钟，如果有Type-C设备的话，正反都要分别插入记录都挨个插一遍后，输入 B 回车即可返回主菜单
+ 
+4、回到主菜单，输入S来查看端口探测的结果，此时结果查看感觉没问题的话，输入K回车，即可导出UTBMap.kext文件（一般情况下会保存在当前程序的同级目录下） 
+5、除了上述生成的UTBMap.kext文件以外，我们还需要配合USBToolBox.kext使用（仓库）将上述两个 Kext 放到 OC 的 Kexts 文件夹下面并加载，去除 usbport.kext
+ 
+6、重启即可生效，至此你的 USB 基本上定制完了，尽情使用吧。
+蓝牙配置
+2021 年 6 月初的 WWDC2021 上，苹果发布了下一代 macOS，代号 Monterey（蒙特雷），大版本号 12.0。爱折腾爱尝鲜的黑苹果小伙伴们已经通过各种折腾安装上了新版 macOS。但是很快出现了各种各样的驱动问题，其中比较突出的是蓝牙掉驱动并且卡跑码问题。Monterey 大幅精简了蓝牙框架，原因是 macOS 12.0 砍掉了 2015 年之前机型的支持，另外可能也是为通用控制做准备。
+很快，OC 团队做出反应添加了解决方案。说起来也简单，就是新加一个驱动：BlueToolFixup.kext，然后在 macOS 12.0 取消蓝牙 injector（注入器）的加载。
+「注意」
+
+BlueToolFixup.kext 目前是 BrcmPatchRAM 文件包中的一部分，新版本发布会直接包括这个文件，英特尔蓝牙也需要这个驱动；
+使用奋威 T919 或其它免驱动型网卡的，无需担心蓝牙兼容性问题，在 Monterey 里依旧无需任何驱动。
+
+
+
+
+解决方法
+将 Lilu 升级到 1.5.7 及以上；
+博通卡：将 BrcmPatchRAM 升级到 2.6.1 及以上；
+英特尔：将 IntelBluetoothFirmware 升级到 2.0.1 及以上；
+关闭 OpenCore 的 XhciPortLimit，位于 config → Kernel → Quirks 区域，在升级或安装 macOS Monterey 之前，建议定制好 USB 接口；
+将 BlueToolFixup.kext 放到 Clover&#x2F;OpenCore 对应的 kext 目录
+OpenCore：&#x2F;EFI&#x2F;OC&#x2F;Kexts&#x2F;
+Clover：&#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;Other&#x2F;
+
+
+最后，按照下一章节的说明修改 config.plist 文件。
+
+Clover 方法Clover 使用文件夹名称来区别各个系统加载的 kext，所以可以这么操作：
+
+博通卡：把 BrcmBluetoothInjector.kext 从 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;Other&#x2F; 挪到 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;11.0&#x2F;，将 BlueToolFixup.kext 放到 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;12.0&#x2F;
+英特尔：把 IntelBluetoothInjector.kext 从 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;Other&#x2F; 挪到 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;11.0&#x2F;，将 BlueToolFixup.kext 放到 &#x2F;EFI&#x2F;CLOVER&#x2F;Kexts&#x2F;12.0&#x2F;
+
+如果没有 11.0&#x2F;12.0 的文件夹，自己新建就可以。这样一来 Clover 在引导 11.0 时会加载 Injector，但是引导 12.0 时则不会加载 Injector，会加载 BlueToolFixup.kext 。其它 Kext 文件继续放在 Other 目录无影响。
+「注意」以上方法如果不起作用，那么在迁移到 Monterey 时，需要手动从 Kext 目录移除 Injector 文件。「提示」如果你没有从 12.0 切换到低版本 macOS 的需求，xxxxInjector .kext 可以直接删除（无论博通和英特尔都一样），无需设置文件夹；
+OpenCore 方法OpenCore 用户推荐使用另一种方法，利用 OpenCore 的最小内核（MinKernel）和最大内核（MaxKernel）特性，给 injector 设置最大内核 20.99.99，也就是对应 macOS Big Sur 11.0，给 BlueToolFixup.kext 设置最小内核 21.0.0，对应 macOS Monterey 12.0。
+「提示」如果你没有从 12.0 切换到低版本 macOS 的需求，xxxxInjector .kext 可以直接删除（无论博通和英特尔都一样），也无需设置最大最小内核；
+可以直接看图操作：
+博通免驱网卡
+升级 macos 12 方式：
+使用 BlueToolFixup.kext 替代掉 BrcmBluetoothInjector.kext 即可。
+最终使用驱动如下：
+
+BlueToolFixup.kext
+BrcmFirmwareData.kext
+BrcmPatchRAM3.kext
+
+
+
+
+Intel无线网卡
+升级 macos 12 方式：
+使用 BlueToolFixup.kext 替代掉 IntelBluetoothInjector.kext 即可。
+BlueToolFixup.kext 可以从这里下载：https://github.com/acidanthera/BrcmPatchRAM/releases
+最终使用驱动如下：
+
+BlueToolFixup.kext
+IntelBluetoothFirmware.kext
+
+
+
+
+完成后，记得保存然后重启，如果无效，请关机冷启动，清除 Kext 缓存，或尝试重置 NVRAM。
+设置启动参数
+下面是 macOS 系统可以使用的启动参数列表，功能解释同时列出，使用要点有两个：
+
+参数之间以空格分隔开；
+在一个参数中，- 和 &#x3D; 只会同时存在一个，例如：debug&#x3D;0x100，-xcpm。即：有了 &#x3D; 号就不会有 - 号，反之亦然，新手请务必牢记。
+
+
+参数说明一览：
+
+
+
+常用
+参数
+作用
+
+
+
+*
+agdpmod&#x3D;pikera
+Navi 核心避免黑屏使用，其它显卡如 RX400&#x2F;500，Vega56&#x2F;64 无需此参数
+
+
+*
+keepsyms&#x3D;1
+辅助上一个参数
+
+
+*
+debug&#x3D;0x100 或 debug&#x3D;0x200
+防止自动重启，禁用五国图直接输出错误信息
+
+
+*
+-v
+用于安装前期启动时显示代码界面，在安装macOS时，应添加此参数以获取明确的错误信息。
+
+
+
+-x
+安全启动模式，类似 Windows 的安全模式。此模式下 macOS 会尽可能少的加载 Kext 文件。
+
+
+
+-s
+单用户模式。这一模式将会启动终端模式，可以用这种方式修复你的系统。
+
+
+
+-f
+关闭 Kext 缓存模式，等于强制重建 Kext 缓存。
+
+
+
+-l
+在系统日志中输出内存泄漏的相关记录。
+
+
+
+arch&#x3D;x86_64
+该参数会强制 macOS 以 64 位内核模式启动，在 10.15 及以上没有什么作用。对应的是 arch&#x3D;i386，将强制以 32 位模式启动。
+
+
+
+iog&#x3D;0x0
+此参数将强制 MacBook 机型在合盖后，接入外部显示器和键盘时系统保持开启状态；但同时，此参数会在接入外部显示器时关闭笔记本的内屏，这可能对保护屏幕以及省电有帮助。
+
+
+
+platform&#x3D;X86PC
+此参数将强制禁用 ACPI 电源管理。而 platform&#x3D;ACPI 将强制启用 ACPI 电源管理。
+
+
+
+idlehalt&#x3D;1
+强制 CPU 进入低功耗模式。
+
+
+
+debug&#x3D;0x100
+此参数用于禁用五国图，把 Kernel Panic（内核崩溃）的相关数据直接输出在屏幕上，可用于禁止发生内核崩溃时自动重启，这将对排查错误有助益，这一参数还可以用于 Core Dump。其它可用值还有：0x200，这可以在内核崩溃后使用快捷键（C 继续、R 重启、K 进入 KDB）；0x400 可用于触发内核崩溃后自动进行 Core Dump；0x2000 将只生成并发送 Kernel Panic 日志，不包括完整的 Core Dump。除此之外还有很多其他值，但一般以上几个已经足够安装 macOS 时使用。
+
+
+
+keepsyms&#x3D;1
+此参数可以为 debug&#x3D;0xN 提供更多错误信息。
+
+
+
+dart&#x3D;0
+此参数会关闭 64 位硬件上的系统 PCI 地址映射器（DART）。DART 在拥有 2GB 以上物理内存的机器上是必需的，在默认情况下 DART 都是加载的。当使用 Clover 引导系统且 BIOS 无法关闭 VT-d 时可尝试此参数。gg
+
+
+
+darkwake&#x3D;0
+在拥有完全定制好的 USB 接口时完全不必使用此参数，除非你真的需要操控 HID Tickle 行为。darkwake 是 XNU 的一部分，XNU 是一个混合内核，是 Darwin 系统的一部分（macOS 和 iOS 均使用了 Darwin ）。因启动参数仅用于按位计算，所以可能的值有 0、1、2、3、256、257、258、259 等等以此类推，也因此 darkwake&#x3D;8 实际等于 darkwake&#x3D;0；darkwake&#x3D;10 实际等于 darkwake&#x3D;2，XNU 自 2782.1.97 起删除了这两个值（8 和 10），故这两个值在 Yosemite 及更高版本 macOS 中已失效。黑苹果建议关闭电能小憩，使用 pmset 命令调试休眠。如果实在需要使用，可尝试 darkwake&#x3D;0 或 3。更多信息可参考外网这篇文章。
+
+
+
+nvda_drv&#x3D;1
+用于启用英伟达显卡驱动，包括开启 NVIDIA Web Driver
+
+
+*
+nv_disable&#x3D;1
+关闭英伟达显卡驱动，请勿与 nvda_drv&#x3D;1 同时使用。
+
+
+
+-no_compat_check
+用于禁用 macOS 兼容性检查。例如，macOS 11.0 BigSur 不再支持 iMac 2014 年之前推出的机型，此时可使用此参数以禁止兼容性检查，以达到安装目的。
+
+
+
+kext-dev-mode&#x3D;1
+开启 Kext 开发模式，将允许加载未签名的 Kext。在 Yosemite 及更高版本 macOS 中，默认情况下出于安全原因，只会加载已签名的 Kext。此参数可以在 Yosemite 更改此设置，允许加载未签名的 Kext。在比 Yosemite 更新的 macOS 版本（El Capitan）中，引入了另一种安全机制，即系统完整性保护（SIP，也称为 Rootless），该系统会防止修改系统文件，加载未签名的 Kext 等。SIP 可以通过注入正确的 CSR NVRAM 变量来禁用，也可以通过恢复分区运行命令行禁用它。总之，在 10.11 及以后的系统中，已无需此参数。
+
+
+
+cpus&#x3D;1
+CPU单核模式，用于限制系统中活动 CPU 的数量。苹果的开发者工具有一个选项用于启用或禁用系统中的一些 CPU，但你也可以通过这个参数指定要使用的 CPU 数量。在某些情况下，这也许有助于省电，或者你正在调试 X86 电源驱动。
+
+
+
+-xcpm
+用于强制开启 xcpm 以实现 CPU 原生电源管理，一般用于较老架构的 CPU，例如 Ivy Bridge。
+
+
+
+-gux_no_idle
+用于终止英特尔芯片的空闲模式（idle-mode）功能。
+
+
+
+slide&#x3D;N
+用于引导系统时分配系统内核在内存中的位置，Clover 在一排加号处卡住可以尝试 slide&#x3D;0，其它参考：Slide 值的说明。
+
+
+
+rootless&#x3D;0
+使用 Rootless 模式，请勿在 El Capitan 及更高版本的 macOS 上使用，因为从 El Capitan 起引入了 SIP（系统完整性保护）机制。一般情况下关闭 SIP 即可达成你的目的。
+
+
+
+-disablegfxfirmware
+在 WhateverGreen.kext 出现之前，该参数用于关闭苹果的 iGPU firmware 以正确驱动 Intel 核显，在 macOS 10.13 及更高版本中已不使用。
+
+
+
+npci&#x3D;0x2000 或 npci&#x3D;0x3000
+AMD 系统没有开启 Above 4G Decoding 时使用；此参数会禁用某些与 kIOPCIConfiguratorPFM64 相关的 PCI 调试，另一个相似的选择是 npci&#x3D;0x3000，后者还会禁用与 gIOPCITunnelledKey 相关的调试。当 X299 卡在 PCI Start Configuration 时，应使用此参数，因为存在与 PCI 通道有关的 IRQ 冲突。
+
+
+*
+brcmfx-aspm
+解决蓝牙连线问题，结合 AirportBrcmFixup.kext 使用
+
+
+
+igfxonln&#x3D;1
+使用 HDMI 接口每次开机&#x2F;重启都需要重新插拔才能显示的，添加启动参数 igfxonln&#x3D;1
+
+
+*
+-wegnoegpu
+禁用独显（针对笔记本机型）
+
+
+切换到 NVRAM 选项卡，右侧找到 7C436110-AB2A-4BBB-A880-FE41995C9F82，启动参数即显示在右方面板，目前配置情况如下：
+
+
+agdpmod=pikera keepsms=1 brcmfx-aspm
+
+设置默认启动项
+config.plist 勾上仿冒苹果快捷键 PollAppleHotKey，在启动选择界面，先选中要启动的项，然后按键盘的 Ctrl + Enter 进入系统即可
+
+
+也有看到说在 设置-启动磁盘 可选择默认启动项,修改后重启
+
+
+更新 OC
+下载最新版本OCAT(https://github.com/ic005k/OCAuxiliaryTools/releases)
+挂载你的efi分区（也叫esp分区） [
+挂载后先不要着急打开，先把OCAT（即OCAuxiliaryTools）同步一下再打开 [
+然后再打开Config.plist。首先点击全选，然后检查kext更新，更新kext，后点击选择opencore版本，选择最新版，获取opencore，后点击同步 保存即可 [
+
+生成三码1、同步完不必急着关闭OCAT，切换到PL选项卡
+
+2、首先点击生成生成三码，然后点击生成生成rom，保存``重启即可
+参考文章黑苹果启动参数都是做什么用的？如何添加或删除？
+更新macOS Monterey后遇到的各种Bug及解决方法合集（持续更新）
+黑苹果修复博通&#x2F;英特尔蓝牙在macOS Monterey 12.0 正式版中失效的方法
+macOS 12 蓝牙
+驱动英特尔核显，让黑苹果流畅运行「OpenCore专门篇」
+国光黑苹果入门安装教程
+【黑苹果】手把手黑苹果安装教程-基于 OpenCore（持续更新中）
+【黑苹果】macOS 12 Monterey 原版 OC 引导安装教程
+国光 2021 年中的黑苹果组装方案以及驱动分享
+minisforum HX80G&#x2F;HX90G&#x2F;HX99G兼Ventura安装教程
+EFI 下载hackintosh-with-B560-msi-asus
+ASUS-MSI-10-11-HACKINTOSH-OPENCORE
+AsRock-Z490-Steel-Legend-i7-10700
+国光 3k 元不到的 i9 极致性能的 ITX 黑苹果方案分享
+国光 微星 B560M Big Sur 黑苹果记录体验
+10400 msi b560黑苹果
+【黑苹果安装教程】i7 10700+微星B460M 迫击炮 WIFI
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑苹果常用配置</title>
+    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[目录macOS 开启或关闭 SIP
+参考链接：https://sspai.com/post/55066
+
+SIP 全称为「System Integrity Protection」即「系统完整性保护」，是 OS X El Capitan 时开始采用的一项安全技术，SIP 将一些文件目录和系统应用保护了起来。但这会影响我们一些使用或设置，比如：更改系统应用图标、终端操作系统目录文件提示「Operation not permitted」、Finder 无法编辑系统目录里的文件。
+关闭 SIP因为 SIP 是系统级的权限操作，我们无法直接关闭它，需要前往「macOS 恢复功能」下进行。将 Mac 开机，立即在键盘上按住 Command ⌘ + R，直到看到 Apple 标志或旋转的地球时松开。看到「实用工具」窗口时，恢复功能启动即完成。
+
+
+在上方的菜单栏点击「实用工具」选择「终端」。
+
+
+在终端中，输入「csrutil disable」后回车。
+回车后会提示「成功关闭了系统完整性保护，请重启机器」
+点击菜单栏  标志，选择「重新启动」。
+
+
+就此我们关闭了 SIP。
+打开 SIPSIP 是避免软件任意修改或覆盖任意系统文件或应用，日常还是建议保持开启状态的。仍然是进入到「macOS 恢复功能」，但这次在终端输入的是「csrutil enable」开启 SIP，重启 Mac 即可。
+和之前不同，这次输入的是「csrutil enable」
+
+查看 SIP 当前状态csrutil status
+
+
+
+opencore 重置 nvram在 OpenCore 中，重置 NVRAM 的方法有以下几种：
+
+在 OpenCore 引导界面中，按下 Command + Option + P + R 键。这将在重启电脑后重置 NVRAM。
+使用 Terminal 命令重置 NVRAM。在 Terminal 中输入 sudo nvram -c 并回车。这将立即清除 NVRAM 中的所有设置。
+通过 OpenCore Configurator 清除 NVRAM。在 OpenCore Configurator 中选择 NVRAM 中的“Reset NVRAM”按钮。
+
+请注意，重置 NVRAM 将清除所有自定义设置，并将需要重新配置。
+查看错误日志pmset -g log
+
+引导进入 Recovery 分区OpenCore配置文件中勾选
+
+ UEFI -&gt; APFS -&gt; JumpstartHotPlug
+
+
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑苹果常见错误</title>
+    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/</url>
+    <content><![CDATA[目录解决 App Store 无法登录打开终端，输入命令：
+sudo nvram -cPassword:nvram: Error clearing firmware variables: (iokit/common) not permitted
+
+输入用户密码，然后回车，不必理会提示信息，然后重启
+BIOS 未禁用 CFG LOCK 选项相关错误信息：
+
+卡在 [EB|#LOG:EXITBS:START]
+
+某些用户会忘记或无法禁用BIOS中的CFG-Lock(特别是与用于电源管理的锁定0xE2 MSR位有关，显然更安全地关闭CFG-Lock)。**&#x3D;&#x3D;请注意，这仅适用于Intel用户，不适用于AMD&#x3D;&#x3D;。**发生这种情况时，有几个可能的解决方法：
+开OpenCore的配置文件config.plist，勾选如下三个选项：
+
+Kernel -&gt; Quirks
+AppleCpuPmCfgLock
+AppleXcpmCfgLock
+
+
+UEFI -&gt; Quirks
+IgnoreInvalidFlexRatio
+
+
+
+
+
+
+
+BIOS 重设或重启 &#x2F; 关机后发送到安全模式AppleRTC 的问题，很简单的解决方法：
+
+打开 Config.plist 配置文件：
+Kernel -&gt; Quirks -&gt; DisableRtcChecksum
+
+
+
+注意：如果仍然有问题，则需要使用 RTCMemoryFixup.kext 并排除范围。
+参考链接Big Sur安装常见问题
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑苹果装机配置</title>
+    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E8%A3%85%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[目录电脑配置
+
+
+类型
+型号
+价格
+渠道
+
+
+
+网卡
+T919 BCM94360CD
+150
+闲鱼
+
+
+显卡
+蓝宝石 RX460 4GB 超白金版
+229
+闲鱼
+
+
+内存条
+镁光 3200 DDR4 32G
+790
+闲鱼
+
+
+散热
+雅浚 B3 PRO 4 热管 ARGB 神光同步
+74.01
+闲鱼
+
+
+SSD 固态硬盘
+西数 SN570 1T
+350
+闲鱼
+
+
+主板
+MSI MAG-B560M-MORTAR-WIFI
+580
+闲鱼
+
+
+机箱
+爱国者 T9 机箱
+83.6
+闲鱼
+
+
+电源
+爱国者 G7 全模组 700W
+238
+闲鱼
+
+
+风扇
+爱国者 冰魄彩虹 V1 * 6
+56
+闲鱼
+
+
+CPU
+i7-10700
+1091
+淘宝
+
+
+螺丝
+风扇铁黑&#x2F;镀镍螺丝
+3.43
+淘宝
+
+
+转接线
+大 4pin 一分五扩展线
+12.99
+淘宝
+
+
+转接线
+大 4pin 转 6 pin，显卡用
+5.79
+淘宝
+
+
+硅脂
+信越 7921 导热硅脂
+20.90
+淘宝
+
+
+合计
+
+3475.72
+
+
+
+参考链接台式装机全程攻略
+2022年黑苹果macOS Big Sur&#x2F;Monterey显卡支持列表，持续更新中。
+黑苹果无线网卡购买&amp;安装&amp;使用指南2022年版
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑苹果驱动下载地址</title>
+    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E9%A9%B1%E5%8A%A8%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80/</url>
+    <content><![CDATA[目录kext其他
+
+
+名称
+适用版本
+用途
+下载地址
+备注
+
+
+
+Lilu.kext
+通用
+很多其他著名 kext 的依赖，没有这个其他都跑不了
+https://github.com/acidanthera/Lilu/releases
+必须得使用
+
+
+VirtualSMC.kext
+通用
+模拟在真实 mac 上找到的 SMC 芯片，没有这个 macOS 将无法启动
+https://github.com/acidanthera/VirtualSMC/releases
+必须得使用
+
+
+AppleALC.kext
+通用
+用于 AppleHDA 修补，支持大多数板载声卡
+https://github.com/acidanthera/AppleALC/releases
+强烈建议用
+
+
+LucyRTL8125Ethernet.kext
+通用
+Realtek 的 2.5Gb 网卡驱动，需要 10.15 +
+https://github.com/Mieze/LucyRTL8125Ethernet/releases
+更多网卡参考
+
+
+NVMeFix.kext
+通用
+改善与非 Apple SSD 的兼容性，有助于主动电源管理
+https://github.com/acidanthera/NVMeFix/releases
+可以试试看
+
+
+SMCProcessor.kext
+通用
+用于监控 CPU 温度，AMD 不适用
+https://github.com/acidanthera/VirtualSMC/releases
+很有必要用
+
+
+SMCSuperIO.kext
+通用
+用于监控风扇速度，AMD 不适用
+https://github.com/acidanthera/VirtualSMC/releases
+很有必要用
+
+
+WhateverGreen.kext
+通用
+所有 GPU 都受益于这个 kext，必备插件
+https://github.com/acidanthera/WhateverGreen/releases
+必须得使用
+
+
+USBPorts.kext
+通用
+参考这个文章：使用 Hackintool 定制黑苹果 USB 驱动
+
+需要自定义
+
+
+博通蓝牙
+BrcmPatchRAM 需要按系统版本进行选择：
+
+BrcmPatchRAM3 用于 macOS 10.14 及更高版本，必须搭配 BrcmBluetoothInjector 使用；
+BrcmPatchRAM2 用于 macOS 10.11 到 10.14；
+BrcmPatchRAM 用于 OS X 10.10 或更老的版本；
+
+如果您有非 PatchRAM 设备（或者不确定），请安装 macOS 版本的 BrcmNonPatchRAM.kext 或 BrcmNonPatchRAM2.kext 之一，请不要同时安装两者。
+
+
+
+
+名称
+适用版本
+用途
+下载地址
+
+
+
+AirportBrcmFixup.kext
+通用
+将旧的 Broadcom 卡注入较新版本的 macOS 的附加功能
+https://github.com/acidanthera/AirportBrcmFixup/releases
+
+
+BlueToolFixup.kext
+Monterey
+修复系统设置内的蓝牙开关
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmBluetoothInjector.kext
+bigsur
+修复系统设置内的蓝牙开关
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmBluetoothInjectorLegacy.kext
+-
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmFirmwareData.kext
+通用
+上传固件
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmFirmwareRepo.kext
+-
+安装到 &#x2F;System&#x2F;Library&#x2F;Extensions（在10.11及更高版本上为 &#x2F;Library&#x2F;Extensions）。 该 kext 的内存效率比 BrcmFirmwareData.kext 略高，但是不能由引导加载程序注入。
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmNonPatchRAM.kext
+-
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmNonPatchRAM2.kext
+-
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmPatchRAM.kext
+-
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmPatchRAM2.kext
+-
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+BrcmPatchRAM3.kext
+通用
+
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+intel蓝牙
+IntelBluetoothFirmware 是一个用于在 macOS 中启用原生蓝牙的固件上传驱动，固件的二进制文件来自 Linux。
+经过数月的测试后，这个驱动已经被证实可以正常稳定工作。目前支持 macOS 10.13 及以上，支持的设备 ID 如下：
+0x8087, 0x0a2a0x8087, 0x07dc0x8087, 0x0aa70x8087, 0x00250x8087, 0x0aaa0x8087, 0x00260x8087, 0x00290x8087, 0x0a2b
+如果驱动程序有问题，请在终端中运行以下命令：
+log show --last boot | grep IntelFirmware
+
+
+
+
+名称
+适用版本
+用途
+下载地址
+
+
+
+BlueToolFixup.kext
+Ventura，Monterey
+修复系统设置内的蓝牙开关
+https://github.com/acidanthera/BrcmPatchRAM/releases
+
+
+IntelBluetoothInjector.kext
+bigsur
+修复系统设置内的蓝牙开关
+https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases
+
+
+IntelBluetoothFirmware.kext
+
+上传固件
+https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases
+
+
+IntelBTPatcher.kext
+Ventura
+
+https://github.com/OpenIntelWireless/IntelBluetoothFirmware/releases
+
+
+网卡
+
+
+名称
+适用版本
+用途
+下载地址
+
+
+
+AirportItlwm.kext
+通用
+网卡驱动
+https://github.com/OpenIntelWireless/itlwm/releases
+
+
+参考链接BrcmPatchRAM 黑苹果WiFi无线网卡蓝牙驱动
+使用 WIFI&#x2F;BlueTooth 擴展卡，在Monterey 藍芽無法驅動的解決方案
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>draw.io 基础教程</title>
+    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/draw.io/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[1. 网页端使用懒得安装的直接使用下面这个链接直接开始绘图：https://www.draw.io
+2. 桌面端下载在github项目右侧有个release，这里是作者打包生成好的安装文件，比如现在最新的版本是14.5.1点击进去后，可以看到如下图所示的下载页面。根据你自己的系统以及硬件平台选择合适的安装文件。
+
+
+
+3. 语言设置安装完后第一次打开默认界面是英文的，如果想使用中文，可以点击Language接着选择自己喜欢的语言，如果想提升英语的还是默认吧哈哈。
+选择简体中文。
+设置完语言后记得重启下软件。
+
+4. 开始绘图打开drawio后，点击创建新绘图：
+
+
+接着会提示你选择一个模板，这里直接创建一个空白框图（可根据自身情况选择)
+
+创建完后，如图所示：
+
+
+
+
+添加元素
+选择你需要的元素拖入画布 (左侧有官方提供的各种类型元素，点击左下角更多图形可以找到更多类别)
+选中元素后可使用鼠标点击元素边缘上的点对元素进行放大&#x2F;缩小等操作（元素右上角的旋转标志可以选择元素）
+双击元素可以输入文字
+选中元素后可在右侧的样式中修改元素的样式（颜色等）
+在右侧的文本中可以修改文字的字体、大小以及颜色等等
+在右侧的调整图形中可以对元素的位置、大小以及角度等进行更加精细的调整
+
+
+
+元素对齐当要对齐多个元素时，选择多个元素（可通过ctrl+鼠标左键选择多个目标），然后点击调整图形 -&gt; 对齐 然后选择你想要的对齐方式。
+
+
+元素等距分布当要等距摆放多个元素时，选择多个元素（可通过ctrl+鼠标左键选择多个目标），然后点击调整图形 -&gt; 等距分布 然后选择你想要的分布方式。
+
+
+连接元素当把鼠标放置元素上（注意没有点击，只是放置）会出现如下图所示的标识，四个箭头（用红圈标出的部分），16个小叉叉（用绿色的圈圈标出）。如果点击了元素只会显示四个箭头。
+
+
+连接的操作有很多种，这里只简单讲一种，在刚刚说的 当把鼠标放置元素上 后在元素周围出现各种标识，你可以自己随便选择一个作为连接线的起始位置，鼠标左键按下（不要松）拖动鼠标移至你想连接的位置。
+
+
+连接后在右侧的样式中可以修改连接线的样式、连接方式、颜色、粗细、线形等等。
+
+
+添加文字
+在通用里拖一个Text元素放到你想放的位置
+双击Text元素编辑文字
+在右侧的文本中对文字的颜色、字体、大小等进行编辑
+
+
+
+添加公式可参考官方给的文档：https://www.diagrams.net/doc/faq/math-typesetting
+
+
+在使用公式功能之前需要打开数学排版，在其他 -&gt; 数学排版 在点击后会显示一个勾勾，然后就能用了：
+
+
+现在官方支持三种格式，比如写博文中常用的LaTeX格式。用起来也非常方便，直接把公式复制到Text元素里就行了。
+$$\sqrt&#123;3×-1&#125;+(1+x)^2$$
+
+
+如果不了解LaTeX公式不了解可以看下下面几个连接：帮助文档： https://www.latexlive.com/help在线公式编辑器： https://www.latexlive.com/
+添加图片有时，需要使用一些现成的图片，点击上方的加号，再点击图片按钮。
+
+
+接着你可以通过打开按钮选择自己本地的图片，或者通过网上图片的url直接载入进来。
+
+
+添加表格点击上方的表格图标，然后拖动鼠标可以选择自己需要的表格大小（行数和列数）。
+
+选中表格，在右侧的调整图形中可以调整表格的大小、位置等属性。
+
+
+自由绘图有时一些特殊的图案软件中并没有提供，这时可以使用自由绘图功能自己去绘制。点击上方的加号，再点击自由绘图，会弹出一个自由绘图窗口。
+
+点击开始绘图按钮就可以自己用鼠标随便绘制，绘制完后点击结束绘图按钮，刚刚绘制好的图案就会变成一个元素随意使用。
+
+
+组合元素同时选中多个元素，在元素上点击鼠标反键，再点击组合即可组合成一个元素。
+
+
+保存元素模板有时一些元素（可能是你自己组合设计的新元素）经常被用到，我们可以将其保存成一个模板方便下次使用。如下图所示，将需要保存的元素用鼠标拖至左侧的 便筏本 中，这样以后都可以使用到。
+
+点击便筏本的铅笔符号可以编辑管理自己的便筏本。
+
+
+5. 保存保存文件在左上角点击 文件 -&gt; 保存 将绘图文件保存到指定路径。
+
+
+导出图片在左上角点击 文件 -&gt; 导出为 将绘图文件导出成指定格式，一般为了方便使用会导出成PNG或者JPEG格式等。
+
+
+比如我要将图片保存成PNG格式的图片，软件会提示是否要透明背景、阴影、网格等。另外还有个边框宽度参数，这个参数代表输出图像时是否需要在图片边缘增加一些空白边缘。默认是0，如果需要可以自己设置。
+
+
+大家可以简单对比下设置和不设置边缘宽度的区别。
+
+
+6. 常用快捷键
+
+
+快捷键
+作用
+
+
+
+CTRL + C
+复制元素
+
+
+CTRL + X
+剪切元素
+
+
+CTRL + V
+粘贴元素
+
+
+CTRL + Z
+撤销操作
+
+
+CTRL + S
+保存绘图（建议经常保存，养成良好习惯）
+
+
+CTRL + A
+选中全部元素
+
+
+DELETE
+删除选中元素
+
+
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>postman 常用配置</title>
+    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/postman/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[参考链接
+导入 chrome 请求1. 选择 Copy as cURL（bash）
+
+2. 导入 postmanpostman 左上角点击 Import，选择 Paste Raw Text，去除 –compressed 即可成功导入。
+
+
+Postman Interceptor 使用1. chrome 启用 Interceptor
+
+2. 设置拦截域名
+
+3. postman 启用拦截
+
+即可即时拦截捕获所有异步请求。
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>v2rayN 配置教程</title>
+    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/v2rayN/%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[4.12 最新 v2rayN windows 进阶版使用教程 | 附PAC模式路由规则 | 多个自定义路由规则在上篇 v2rayN 使用教程中（点击跳转），已经向大家介绍了最新 v2rayN windows 的重大更新内容以及如何快速使用新版 v2rayN 客户端：
+
+比如，删除了常见PAC 模式; 自定义路由规则集和自由切换多个路由规则集；
+系统代理把windows系统部分软件流量（比如浏览器）转到v2ray的http入口、VMESS和VLESS协议 增加SNI属性等
+新版 v2rayN 下载地址：https://github.com/2dust/v2rayN/releases/
+
+不少小伙伴，也在上期视频教程下方（点击跳转）留言：
+需要详细介绍“自定义路由规则的原理”、“分享一些常用的路由规则”、“能不能如何通过路由规则实现旧版客户端的PAC模式”等等。今天我们就来一起学习吧！
+新旧版的不同点旧版的PAC模式是由“本地的PAC文件&#x2F;GFW LIST”对流量先进行分流；然后，再通过v2ray.exe去判断是否走代理出站，并配合”v2ray_privoxy.exe”进行流量转发；这也是为什么使用旧版客户端时， win10 UWP应用能正常工作的原因；新版的路由模式则是直接通过v2ray.exe 程序去分流和判断是否走代理的。（个人理解，如有错误，请帮忙留言指正，谢谢！）
+旧版客户端：
+
+
+
+新版客户端： 
+
+
+
+那旧版PAC 模式消耗的内存更多一点（见下图），自定义灵活度也不高；
+新版v2rayN 自定义灵活度高、使用的内存更小、有一定的速度提高，但有学习成本！
+
+
+常说的 Geo文件是什么？与路由规则和路由规则集的关系是什么？Geo文件即路由规则文件：
+
+“geosite.dat”：提供一个预定义好的 「全球域名」 列表，
+
+“geoip.dat” ：提供一个预定义好的 「全球 ip-地区」 列表。
+
+
+
+“.dat文件”里面有无数个分类，比如,中国的域名和IP都在 geosite:cn 和 geoip:cn
+gfwlist的网址(也就是经典的PAC)在 geosite:gfw | 点击跳转
+广告域名在 geosite:category-ads-all
+国外域名在 geosite:geolocation-!cn
+本地IP在 geoip:private里;
+还有一千多种分类细分，比如 geosite:steam geosite:google 等，
+以上内容来自于“网友 ycdm ”，谢谢他的分享。
+
+综上:
+geo路由规则文件是”全球域名和 全球地区的 IP 数据库”
+路由规则可以采用”数据库内任意域名或者IP的分类”或者”添加一个不在数据库的域名或者IP”，并选择“对应的出站标签”；然后 “xray.exe或者 v2ray.exe “（常说的核心） 自带的路由模式，会根据路由规则中”不同的出站标签”，来决定“出站标签”包含的域名和IP是否走代理出站、直连（本地网络访问）还是禁止访问。
+那“路由规则集”就是”包含一个或者多个路由规则的集合”
+
+如何添加&#x2F;自定义路由规则集？添加规则集的目的：不同的路由规则集对应不同的代理模式，可以分别对应“PAC 模式”、“绕过大陆”、“全局代理”等等，来满足自己不同的“科学上网”或者“其他特殊的需求”。
+1、下载 Geo 路由规则文件（推荐 V2ray路由加强版）：点击跳转2、普通用户： 直接启用“默认的基础路由规则”，并按照自己的需求和格式要求，在对应的对话框输入内容。
+
+3. 路由规则输入的格式默认的“基础功能”—“一键导入基础规则”
+可以在对应的对话框，输入单个网址或者 IP，多个选项，用英文输入方法下的逗号”,” 隔开。比如，在”阻止的Domian或 IP” 输入“domian:jamesdailylife.com”；此时，就不能访问该网址。
+启用 “geoip.data” 和 “geosite.data”中，已经包含常用的域名和IP。使用方式：geosite:filename，如 geosite:google 表示对文件内符合 google 内包含的域名，按照自身需求录入到“代理、直连、阻止” ，就行了。
+
+“代理的Domian或 IP”：此对话框的域名或者IP 走代理
+
+“直连的Domian或 IP”：此对话框的域名或者IP 不走代理
+
+“阻止的Domian或 IP”：此对话框的域名或者IP 不能访问
+
+
+
+
+相关域名和IP分类名的解释
+
+category-ads：包含了常见的广告域名。category-ads-all：包含了常见的广告域名，以及广告提供商的域名。cn：相当于 geolocation-cn 和 tld-cn 的合集。apple：包含了 Apple 旗下绝大部分域名。google：包含了 Google 旗下绝大部分域名。microsoft：包含了 Microsoft 旗下绝大部分域名。facebook：包含了 Facebook 旗下绝大部分域名。twitter：包含了 Twitter 旗下绝大部分域名。telegram：包含了 Telegram 旗下绝大部分域名。geolocation-cn：包含了常见的大陆站点域名。geolocation-!cn：包含了常见的非大陆站点域名，同时包含了 tld-!cn。tld-cn：包含了 CNNIC 管理的用于中国大陆的顶级域名，如以 .cn、.中国 结尾的域名。tld-!cn：包含了非中国大陆使用的顶级域名，如以 .hk（香港）、.tw（台湾）、.jp（日本）、.sg（新加坡）、.us（美国）.ca（加拿大）等结尾的域名。
+category-games： 包含了 steam、ea、blizzard、epicgames 和 nintendo 等常见的游戏厂商。更多域名类别，请查看 data 目录 。
+
+4. “启用路由高级功能”后，自定义路由规则集的方法有点不同。A. 添加已经编写好&#x2F;在使用的路由规则集：
+“从文件中导入规则”： 导入本地的”路由规则集文件”
+“从剪贴板中导入规则”： 复制“其他人分享的路由规则集范本”（文章末尾有）
+“从订阅Url中导入规则”： 粘贴“别人分享的、含有路由规则集的url链接”
+
+订阅url地址，不是机场的订阅地址，而是含规则集的 url 地址。
+除了规则以外的请求，都走“代理”就是白名单模式；都走“直连”就是黑名单模式。
+B.添加单个或者多个路由规则：
+“Proxy” ： 走代理的域名或者IP
+“Direct” ：不走代理的域名或者IP
+“Block”： 不能访问的域名或者IP
+“Port”：目标端口范围，当目标端口落在此范围内时，此规则生效
+
+
+
+5. 特别注意：越靠前的规则，优先级越高；简单来说，优先使用“排在前面的路由规则”对产生的流量进行删选！！！使用加强版 v2ray 路由规则文件，一定特别“设置geoip.dat和geosite.dat文件不跟随core更新”
+
+高级用法v2fly&#x2F;domain-list-community 项目 data 目录中某些列表里的规则会被标记诸如 @cn 的 attribute（如下所示），意为该域名在中国大陆有接入点，可直连。
+steampowered.com.8686c.com @cnsteamstatic.com.8686c.com @cn
+
+对于玩 Steam 国区游戏，想要直连的用户，可以设置类别 geosite:steam@cn 为直连，意为将 steam 列表内所有被标记了 @cn attribute 的规则（域名）设置为直连。同理，由于 category-games 列表包含了 steam、ea、blizzard、epicgames 和 nintendo 等常见的游戏厂商。设置类别 geosite:category-games@cn 为直连，即可节省大量服务器流量。
+
+ 注意：在 Routing 配置中，类别越靠前（上），优先级越高，所以 geosite:category-games@cn 等所有带有 @cn attribute 的规则都要放置在 geosite:geolocation-!cn 前（上）面才能生效。
+category-games 列表内的规则（域名）可能会有疏漏，请留意规则命中情况。如发现遗漏，欢迎到项目 v2fly&#x2F;domain-list-community 提 issue 反馈。
+
+路由规则集范本请先“启用高级路由规则”，按照视频教程添加规则：点击跳转谢谢网友“ANGIANAPR”的分享：点击跳转 GitHub
+2dust 大佬分享的白名单和黑名单规则集范例
+在4.14、4.13 版客户端中，在电脑能“富强&#x2F;科学上网”的前提下，
+才能通过黑白名单范例的 URL 添加规则集！（见下图）
+
+白名单范例：https://raw.githubusercontent.com/2dust/v2rayCustomRoutingList/master/custom_routing_rules_whitelist
+黑名单范例：https://raw.githubusercontent.com/2dust/v2rayCustomRoutingList/master/custom_routing_rules_blacklist
+
+
+1. PAC模式&#x2F;GFW 模式，带广告屏蔽的：
+[  &#123;    &quot;outboundTag&quot;: &quot;block&quot;,    &quot;domain&quot;: [      &quot;geosite:category-ads-all&quot;,    ]  &#125;,  &#123;     &quot;outboundTag&quot;: &quot;proxy&quot;,     &quot;ip&quot;: [       &quot;geoip:telegram&quot;     ],     &quot;domain&quot;: [       &quot;geosite:gfw&quot;    ]  &#125;,  &#123;    &quot;port&quot;: &quot;0-65535&quot;,    &quot;outboundTag&quot;: &quot;direct&quot;  &#125;]
+
+2. PAC模式&#x2F;GFW 模式，不带广告屏蔽：
+[  &#123;     &quot;outboundTag&quot;: &quot;proxy&quot;,     &quot;ip&quot;: [       &quot;geoip:telegram&quot;     ],     &quot;domain&quot;: [       &quot;geosite:gfw&quot;    ]  &#125;,  &#123;    &quot;port&quot;: &quot;0-65535&quot;,    &quot;outboundTag&quot;: &quot;direct&quot;  &#125;]
+
+3. 全局代理：
+[  &#123;    &quot;outboundTag&quot;: &quot;proxy&quot;,    &quot;port&quot;: &quot;0-65535&quot;,  &#125;]
+
+4. “解决Mirosoft Store等UWP软件无法访问”：点击跳转
+延伸阅读：什么是路由规则？是将入站数据（用户请求）按需求由不同的出站连接发出，以达到按需求进行代理的目的。
+常见用法是分流国内外流量，V2Ray 可以通过内部机制判断不同地区的流量，然后将它们发送到不同的出站代理。
+简单地说，先设置相关路由规则， 经过 geo文件来判断目标是否命中相关路由规则，从而决定是否走代理出站(局域网也已绕过)。 
+
+怎么在v2rayN 客户端自定义DNS？
+
+参考链接4.12 最新 v2rayN windows 进阶版使用教程 | 附PAC模式路由规则 | 多个自定义路由规则
+V2Ray 路由规则文件加强版  
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>翻墙杂项</title>
+    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/%E7%BF%BB%E5%A2%99/%E6%9D%82%E9%A1%B9/</url>
+    <content><![CDATA[目录一级域名yahyav2rayssr.top
+namesilo
+
+
+用户名
+邮箱
+密码
+
+
+
+yahya-yaoyuming
+&#54;&#x37;&#x32;&#x35;&#53;&#x34;&#x37;&#x38;&#52;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;
+Yao88219620ko!
+
+
+cloudflare
+
+
+邮箱
+密码
+
+
+
+&#54;&#55;&#50;&#53;&#x35;&#52;&#x37;&#56;&#52;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;
+Yao88219620ko!
+
+
+端口说明文档参考链接：https://developers.cloudflare.com/fundamentals/get-started/reference/network-ports/
+已开放HTTPS端口有：443, 2053, 2083, 2087, 2096, 8443
+全局API KEY:
+66f6f58b393232b878e6a855ab40944431724
+
+hosteONS
+VPS 服务器信息。
+IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;paymentsuccess=true
+
+
+
+
+邮箱
+密码
+
+
+
+&#x36;&#x37;&#50;&#53;&#x35;&#x34;&#x37;&#x38;&#x34;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;
+Yao88219620ko!
+
+
+x-ui 面板信息
+
+
+访问地址
+用户名
+密码
+
+
+
+https://194.33.38.170:8443/ 或者 https://vless.yahyav2rayssr.top:8443
+admin
+7613302589
+
+
+x-ui 安装
+这里采用 centos7-minin 系统。
+
+系统安装证书前置命令：
+yum -y install crontabsyum -y install openssl openssl-develcurl https://get.acme.sh | shyum update -y          # Debian/Ubuntu 命令yum install -y curl socat    #Debian/Ubuntu 命令
+
+x-ui 面板安装：
+bash &lt;(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh) 
+
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>parsec 账号信息</title>
+    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/parsec/%E8%B4%A6%E5%8F%B7%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[账号信息
+
+
+账号类型
+邮箱地址
+手机号
+密码
+
+
+
+主邮箱
+&#x36;&#55;&#x32;&#x35;&#x35;&#52;&#55;&#56;&#x34;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;
+13580367153
+Yao8282925ok!
+
+
+辅助邮箱
+&#121;&#x61;&#x6f;&#x79;&#117;&#x6d;&#105;&#110;&#103;&#x37;&#53;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;
+13580367153
+Yao8282925ok!
+
+
+parsec_backup_codes04855980804001280718903400166003031627442659136389041915238730673248801690064824
+]]></content>
+      <categories>
+        <category>网站账号</category>
+      </categories>
+      <tags>
+        <tag>parsec</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vps 服务器信息</title>
+    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/vps/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[目录HostEONS 服务器信息IP：194.33.38.170
+用户名：root
+密码：Yahya88219620ko
+VNCIP：103.114.160.14
+Port: 6198
+密码：76133
+]]></content>
+      <categories>
+        <category>网站账号</category>
+      </categories>
+      <tags>
+        <tag>vps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zoilr 账号信息</title>
+    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/zoilr/%E8%B4%A6%E5%8F%B7%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[目录网址https://zoilr.com
+订单查询https://zoilr.com/user/index/query
+账号邮箱：&#x36;&#x37;&#x32;&#x35;&#x35;&#x34;&#x37;&#56;&#x34;&#x40;&#x71;&#113;&#x2e;&#99;&#111;&#109;
+查询密码：Yao88219620ko
+网易邮箱邮箱：&#121;&#97;&#x6f;&#x79;&#117;&#x6d;&#105;&#110;&#103;&#x38;&#48;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;
+密码：Yao88219620ko
+苹果账号
+原始账号信息：
+苹果账号【&#99;&#106;&#101;&#112;&#120;&#x68;&#98;&#x6e;&#100;&#64;&#104;&#x6f;&#116;&#x6d;&#97;&#105;&#108;&#46;&#x63;&#111;&#x6d;】苹果密码【Qqz112211】修改资料教程【www.qtao.ink/f519】收到当日必须按教程修改全部资料包括邮箱，否则一切问题自行承担；生日【1983年1月21日】密保问题答案【朋友的名字：A111，理想的工作：B111，父母在哪认识：C111】禁止登陆iCloud（只要不是AppStore里登录都是错误的）【正确登陆教程：www.qtao.ink/ae07】常见问题（密码错误&#x2F;无法登陆&#x2F;无法更新等）解决方法【www.qtao.ink/WXMs】
+
+用户名：&#121;&#x61;&#111;&#121;&#117;&#x6d;&#x69;&#x6e;&#x67;&#56;&#x30;&#x40;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;
+密码：Yahya88219620ko
+]]></content>
+      <categories>
+        <category>网站账号</category>
+      </categories>
+      <tags>
+        <tag>zoilr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>哔哩哔哩私人信息</title>
+    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/%E7%A7%81%E4%BA%BA%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[注册时间参考网址，取里面的jointime字段
+
+https://member.bilibili.com/x2/creative/h5/calendar/card?ts=0
+
+https://member.bilibili.com/x2/creative/h5/calendar/event?ts=0
+
+https://api.bilibili.com/x/space/myinfo
+
+
+实际效果如图所示：
+
+
+取得的注册时间为：2015年10月11号
+个人ID链接：https://account.bilibili.com/account/setting
+个人ID：bili_4795208417
+]]></content>
+      <categories>
+        <category>网站账号</category>
+      </categories>
+      <tags>
+        <tag>bilibili</tag>
+      </tags>
+  </entry>
 </search>
