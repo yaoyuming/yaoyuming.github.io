@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Chrome 常见问题</title>
+    <url>/posts/5a881178/</url>
+    <content><![CDATA[chrome 插件无法正常安装浏览器地址栏输入chrome://flags/
+然后搜索extension关键字，将 disabled 改成 enabled 即可，如下图所示：
+]]></content>
+      <categories>
+        <category>Chrome</category>
+      </categories>
+      <tags>
+        <tag>chrome</tag>
+        <tag>浏览器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nginx 安装 &amp; FTP美化</title>
     <url>/posts/1b4fede6/</url>
     <content><![CDATA[目录配置 nginx 美化下载 fancyindexgit clone git@github.com:aperezdc/ngx-fancyindex.git ngx-fancyindex-0.5.2# 或者wget https://github.com/aperezdc/ngx-fancyindex/archive/refs/tags/v0.5.2.zipunzip v0.5.2.zip
@@ -440,6 +454,161 @@ CRT 转 DERopenssl x509 -in cloudflare-ssl.crt -outform der -out cloudflare-ssl.
       </tags>
   </entry>
   <entry>
+    <title>VIM 基本命令</title>
+    <url>/posts/154baef/</url>
+    <content><![CDATA[目录跳至行首&#x2F;行尾跳至当前行行首
+# shift+4命令可以敲出$字母$# 或者数字00
+
+跳至当前行行尾
+# 大写的AA
+
+                      
+]]></content>
+      <categories>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>vim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务的解决方案</title>
+    <url>/posts/d8e228f5/</url>
+    <content><![CDATA[目录事务的四大特性 ACID说到事务，就不得不提一下事务著名的四大特性。
+
+原子性 原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。
+一致性 一致性要求，事务在开始前和结束后，数据库的完整性约束没有被破坏。
+隔离性 事务的执行是相互独立的，它们不会相互干扰，一个事务不会看到另一个正在运行过程中的事务的数据。
+持久性 持久性要求，一个事务完成之后，事务的执行结果必须是持久化保存的。即使数据库发生崩溃，在数据库恢复后事务提交的结果仍然不会丢失。
+
+事务的隔离级别事务并发执行会出现的问题
+更新丢失 当有两个并发执行的事务，更新同一行数据，那么有可能一个事务会把另一个事务的更新覆盖掉。 当数据库没有加任何锁操作的情况下会发生。
+脏读 一个事务读到另一个尚未提交的事务中的数据。 该数据可能会被回滚从而失效。 如果第一个事务拿着失效的数据去处理那就发生错误了。
+不可重复读 不可重复度的含义：一个事务对同一行数据读了两次，却得到了不同的结果。它具体分为如下两种情况：
+
+
+虚读：在事务1两次读取同一记录的过程中，事务2对该记录进行了修改，从而事务1第二次读到了不一样的记录。
+幻读：事务1在两次查询的过程中，事务2对该表进行了插入、删除操作，从而事务1第二次查询的结果发生了变化。
+
+
+不可重复读 与 脏读 的区别？ 脏读读到的是尚未提交的数据，而不可重复读读到的是已经提交的数据，只不过在两次读的过程中数据被另一个事务改过了。
+
+数据库的四种隔离级别
+Read uncommitted 读未提交 在该级别下，一个事务对一行数据修改的过程中，不允许另一个事务对该行数据进行修改，但允许另一个事务对该行数据读。 因此本级别下，不会出现更新丢失，但会出现脏读、不可重复读。
+Read committed 读提交 在该级别下，未提交的写事务不允许其他事务访问该行，因此不会出现脏读；但是读取数据的事务允许其他事务的访问该行数据，因此会出现不可重复读的情况。
+Repeatable read 重复读 在该级别下，读事务禁止写事务，但允许读事务，因此不会出现同一事务两次读到不同的数据的情况（不可重复读），且写事务禁止其他一切事务。
+Serializable 序列化 该级别要求所有事务都必须串行执行，因此能避免一切因并发引起的问题，但效率很低。
+
+
+隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed。它能够避免脏读取，而且具有较好的并发性能。尽管它会导致不可重复读、幻读和第二类丢失更新这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。
+
+CAP理论CAP理论说的是：在一个分布式系统中，最多只能满足C、A、P中的两个需求。
+CAP的含义：
+
+C：Consistency 一致性 同一数据的多个副本是否实时相同。
+A：Availability 可用性 可用性：一定时间内系统返回一个明确的结果 则称为该系统可用。
+P：Partition tolerance 分区容错性 将同一服务分布在多个系统中，从而保证某一个系统宕机，仍然有其他系统提供相同的服务。
+
+BASE理论CAP理论告诉我们一个悲惨但不得不接受的事实——我们只能在C、A、P中选择两个条件。而对于业务系统而言，我们往往选择牺牲一致性来换取系统的可用性和分区容错性。不过这里要指出的是，所谓的“牺牲一致性”并不是完全放弃数据一致性，而是牺牲强一致性换取弱一致性。下面来介绍下BASE理论。
+
+BA：Basic Available 基本可用
+整个系统在某些不可抗力的情况下，仍然能够保证“可用性”，即一定时间内仍然能够返回一个明确的结果。只不过“基本可用”和“高可用”的区别是：
+“一定时间”可以适当延长 当举行大促时，响应时间可以适当延长
+给部分用户返回一个降级页面 给部分用户直接返回一个降级页面，从而缓解服务器压力。但要注意，返回降级页面仍然是返回明确结果。
+
+
+
+
+S：Soft State：柔性状态 同一数据的不同副本的状态，可以不需要实时一致。
+E：Eventual Consisstency：最终一致性 同一数据的不同副本的状态，可以不需要实时一致，但一定要保证经过一定时间后仍然是一致的。
+
+酸碱平衡ACID能够保证事务的强一致性，即数据是实时一致的。这在本地事务中是没有问题的，在分布式事务中，强一致性会极大影响分布式系统的性能，因此分布式系统中遵循BASE理论即可。但分布式系统的不同业务场景对一致性的要求也不同。如交易场景下，就要求强一致性，此时就需要遵循ACID理论，而在注册成功后发送短信验证码等场景下，并不需要实时一致，因此遵循BASE理论即可。因此要根据具体业务场景，在ACID和BASE之间寻求平衡。 
+Paxos一致性协议基本概念Paxos 可以分为两种：
+
+Single-Decree Paxos：决策单个 Value
+Multi-Paxos：连续决策多个 Value，并且保证每个节点上的顺序完全一致，多 Paxos 往往是同事运行多个单 Paxos 协议共同执行的结果。
+
+Paxos协议中的三种角色
+倡议者（Proposer）：倡议者可以提出提议（数值或者操作命令）以供投票表决
+接受者（Acceptor）：接受者可以对倡议者提出的提议进行投票表决，提议有超半数的接受者投票即被选中
+学习者（Learner）：学习者无投票权，只是从接受者那里获知哪个提议被选中
+
+Paxos的特点
+一个或多个节点可以提出提议
+系统必须针对所有提案中的某个提案达成一致（超过半数的接受者选中）
+最多只能对一个确定的提议达成一致
+只要超半数的节点存活且可互相通信，整个系统一定能达成一致状态，即选择一个确定的提议
+
+
+
+分布式事务的解决方案全局事务（DTP模型）全局事务基于DTP模型实现。DTP是由X&#x2F;Open组织提出的一种分布式事务模型——X&#x2F;Open Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：
+
+AP：Application 应用系统 它就是我们开发的业务系统，在我们开发的过程中，可以使用资源管理器提供的事务接口来实现分布式事务。
+TM：Transaction Manager 事务管理器
+分布式事务的实现由事务管理器来完成，它会提供分布式事务的操作接口供我们的业务系统调用。这些接口称为TX接口。
+事务管理器还管理着所有的资源管理器，通过它们提供的XA接口来同一调度这些资源管理器，以实现分布式事务。
+DTP只是一套实现分布式事务的规范，并没有定义具体如何实现分布式事务，TM可以采用2PC、3PC、Paxos等协议实现分布式事务。
+
+
+RM：Resource Manager 资源管理器
+能够提供数据服务的对象都可以是资源管理器，比如：数据库、消息中间件、缓存等。大部分场景下，数据库即为分布式事务中的资源管理器。
+资源管理器能够提供单数据库的事务能力，它们通过XA接口，将本数据库的提交、回滚等能力提供给事务管理器调用，以帮助事务管理器实现分布式的事务管理。
+XA是DTP模型定义的接口，用于向事务管理器提供该资源管理器(该数据库)的提交、回滚等能力。
+DTP只是一套实现分布式事务的规范，RM具体的实现是由数据库厂商来完成的。
+
+
+
+基于可靠消息服务的分布式事务这种实现分布式事务的方式需要通过消息中间件来实现。
+
+
+
+
+上游系统和消息中间件之间采用异步通信是为了提高系统并发度。业务系统直接和用户打交道，用户体验尤为重要，因此这种异步通信方式能够极大程度地降低用户等待时间。此外，异步通信相对于同步通信而言，没有了长时间的阻塞等待，因此系统的并发性也大大增加。但异步通信可能会引起Commit&#x2F;Rollback指令丢失的问题，这就由消息中间件的超时询问机制来弥补。
+那么，消息中间件和下游系统之间为什么要采用同步通信呢？
+异步能提升系统性能，但随之会增加系统复杂度；而同步虽然降低系统并发度，但实现成本较低。因此，在对并发度要求不是很高的情况下，或者服务器资源较为充裕的情况下，我们可以选择同步来降低系统的复杂度。 我们知道，消息中间件是一个独立于业务系统的第三方中间件，它不和任何业务系统产生直接的耦合，它也不和用户产生直接的关联，它一般部署在独立的服务器集群上，具有良好的可扩展性，所以不必太过于担心它的性能，如果处理速度无法满足我们的要求，可以增加机器来解决。而且，即使消息中间件处理速度有一定的延迟那也是可以接受的，因为前面所介绍的BASE理论就告诉我们了，我们追求的是最终一致性，而非实时一致性，因此消息中间件产生的时延导致事务短暂的不一致是可以接受的
+最大努力通知（定期校对）
+
+
+上游系统在完成任务后，向消息中间件同步地发送一条消息，确保消息中间件成功持久化这条消息，然后上游系统可以去做别的事情了；
+消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行；
+当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该事务完成。
+
+上面是一个理想化的过程，但在实际场景中，往往会出现如下几种意外情况：
+
+消息中间件向下游系统投递消息失败
+上游系统向消息中间件发送消息失败
+
+对于第一种情况，消息中间件具有重试机制，我们可以在消息中间件中设置消息的重试次数和重试时间间隔，对于网络不稳定导致的消息投递失败的情况，往往重试几次后消息便可以成功投递，如果超过了重试的上限仍然投递失败，那么消息中间件不再投递该消息，而是记录在失败消息表中，消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费，这就是所谓的定期校对。
+TCC（两阶段型、补偿型）TCC即为Try Confirm Cancel，它属于补偿型分布式事务。顾名思义，TCC实现分布式事务一共有三个步骤：
+
+Try：尝试待执行的业务
+这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源
+
+
+Confirm：执行业务
+这个过程真正开始执行业务，由于Try阶段已经完成了一致性检查，因此本过程直接执行，而不做任何检查。并且在执行的过程中，会使用到Try阶段预留的业务资源。
+
+
+Cancel：取消执行的业务
+若业务执行失败，则进入Cancel阶段，它会释放所有占用的业务资源，并回滚Confirm阶段执行的操作。
+
+
+
+TCC事务框架应该提供Confirm&#x2F;Cancel服务的幂等性保障
+幂等性原本是数学上的概念，即使公式：f(x)&#x3D;f(f(x)) 能够成立的数学性质。用在编程领域，则意为对同一个系统，使用同样的条件，一次请求和重复的多次请求对系统资源的影响是一致的。
+
+                      
+]]></content>
+      <categories>
+        <category>八股文</category>
+        <category>分布式事务</category>
+      </categories>
+      <tags>
+        <tag>事务</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>gitkraken 破解</title>
     <url>/posts/8aace767/</url>
     <content><![CDATA[1. 下载客户端
@@ -575,6 +744,286 @@ Windows Registry Editor Version 5.00[HKEY_CLASSES_ROOT\Folder\shell\Typora]&quot
       </categories>
       <tags>
         <tag>破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>http 状态码</title>
+    <url>/posts/e1434ae1/</url>
+    <content><![CDATA[HTTP 状态码一览状态信息：1xx代表请求已被接受，需要继续处理。这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束。
+
+
+
+消息：
+描述：
+
+
+
+100 Continue
+服务器仅接收到部分请求，但是一旦服务器并没有拒绝该请求，客户端应该继续发送其余的请求
+
+
+101 Switching Protocols
+服务器转换协议，服务器将遵从客户的请求转换到另外一种协议
+
+
+102 Processing
+代表处理将被继续执行
+
+
+成功：2xx代表请求已成功被服务器接收、理解、并接受。
+
+
+
+消息：
+描述：
+
+
+
+200 OK
+请求成功，表示正常状态
+
+
+201 Created
+请求被创建完成，同时新的资源被创建立
+
+
+202 Accepted
+处理的请求已被接受，但处理未完成
+
+
+203 Non-authoritative Information
+服务器已成功处理了请求，但一些应答头可能不正确，因为使用的是文档的拷贝
+
+
+204 No Content
+服务器成功处理了请求，但不需要返回任何实体内容，并且希望返回更新了的元信息
+
+
+205 Reset Content
+服务器成功处理了请求，且没有返回任何内容，返回此状态码的响应要求请求者重置文档视图
+
+
+206 Partial Content
+服务器已经成功处理了部分 GET 请求
+
+
+207 Multi-Status
+代表之后的消息体将是一个XML消息
+
+
+重定向：3xx代表需要客户端采取进一步的操作才能完成请求。
+
+
+
+消息：
+描述：
+
+
+
+300 Multiple Choices
+被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向
+
+
+301 Moved Permanently
+所请求的资源已经转移至新的url
+
+
+302 Move temporarily
+请求的资源临时从不同的 URI响应请求
+
+
+303 See Other
+所请求的页面可在别的url下被找到，客户端应当采用 GET 的方式访问那个资源
+
+
+304 Not Modified
+服务器告诉客户，原来缓冲的文档还可以继续使用
+
+
+305 Use Proxy
+被请求的资源必须通过指定的代理才能被访问
+
+
+306 Switch Proxy
+目前已不再使用，但是代码依然被保留
+
+
+307 Temporary Redirect
+请求的资源临时从不同的URI 响应请求
+
+
+客户端错误：4xx代表了客户端看起来可能发生了错误，妨碍了服务器的处理。
+
+
+
+消息:
+描述:
+
+
+
+400 Bad Request
+语义有误，服务器未能理解请求。或请求参数有误
+
+
+401 Unauthorized
+被请求的页面需要用户名和密码
+
+
+402 Payment Required
+为了将来可能的需求而预留的
+
+
+403 Forbidden
+对被请求资源的访问被禁止
+
+
+404 Not Found
+服务器无法找到被请求的资源
+
+
+405 Method Not Allowed
+请求中指定的方法不被允许
+
+
+406 Not Acceptable
+服务器生成的响应无法被客户端所接受
+
+
+407 Proxy Authentication Required
+用户必须首先使用代理服务器进行验证，这样请求才会被处理
+
+
+408 Request Timeout
+请求超出了服务器的等待时间
+
+
+409 Conflict
+和被请求的资源的当前状态之间存在冲突，请求无法完成
+
+
+410 Gone
+被请求的资源在服务器上已经不再可用，而且没有任何已知的转发地址
+
+
+411 Length Required
+“Content-Length” 未被定义。如果无此内容，服务器不会接受请求
+
+
+412 Precondition Failed
+请求中的前提条件被服务器评估为失败
+
+
+413 Request Entity Too Large
+由于所请求的实体数据太大，服务器不会接受请求
+
+
+414 Request-url Too Long
+由于url太长，服务器不会接受请求。当post请求被转换为带有很长的查询信息的get请求时，就会发生这种情况
+
+
+415 Unsupported Media Type
+由于请求中格式类型不被支持，服务器不会接受请求
+
+
+416 Requested Range Not Satisfiable
+客户在请求中指定的Range头与当前资源的可用范围不重合
+
+
+417 Expectation Failed
+在请求头 Expect 中指定的预期内容无法被服务器满足
+
+
+421 too many connections
+当前客户端所在的IP地址到服务器的连接数超过了服务器许可的最大范围
+
+
+422 Unprocessable Entity
+请求格式正确，但是由于含有语义错误，无法响应
+
+
+423 Locked
+当前资源被锁定
+
+
+424 Failed Dependency
+之前的某个请求发生的错误，导致当前请求失败
+
+
+425 Unordered Collectiond
+
+
+
+449 Retry With
+客户端应当切换到TLS&#x2F;1.0
+
+
+425 Unordered Collectiond
+由微软扩展，代表请求应当在执行完适当的操作后进行重试
+
+
+451 Unavailable For Legal Reasons
+该请求因法律原因不可用
+
+
+服务器错误：5xx， 6xx代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理
+
+
+
+消息:
+描述:
+
+
+
+500 Internal Server Error
+请求未完成，服务器遇到不可预知的情况。一般为服务器源码出现问题
+
+
+501 Not Implemented
+请求未完成，服务器不支持所请求的功能
+
+
+502 Bad Gateway
+请求未完成，网关或者代理工作的服务器尝试执行请求，从上游服务器收到一个无效的响应
+
+
+503 Service Unavailable
+请求未完成，服务器临时过载或维护
+
+
+504 Gateway Timeout
+网关或者代理工作的服务器尝试执行请求超时
+
+
+505 HTTP Version Not Supported
+服务器不支持或拒绝请求中指明的HTTP协议版本
+
+
+506 Variant Also Negotiates
+服务器存在内部配置错误
+
+
+507 Insufficient Storage
+服务器无法存储完成请求所必须的内容
+
+
+509 Bandwidth Limit Exceeded
+服务器达到带宽限制
+
+
+510 Not Extended
+获取资源所需要的策略并没有被满足
+
+
+600 Unparseable Response Headers
+没有返回响应头部，只返回实体内容
+
+
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
       </tags>
   </entry>
   <entry>
@@ -3264,6 +3713,255 @@ https://github.com/OpenIntelWireless/itlwm/releases
       </tags>
   </entry>
   <entry>
+    <title>Docker 安装</title>
+    <url>/posts/594d6108/</url>
+    <content><![CDATA[参考文章
+设置 yum 源以下方式三选一：
+yum-config-manager --add-repo http://download.docker.com/linux/centos/docker-ce.repo（中央仓库）yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo（阿里仓库）yum-config-manager --add-repo https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
+
+删除本地文件sudo rm -rf /var/lib/docker
+
+安装指定版本yum list docker-ce --showduplicates | sort -r
+
+可以指定版本安装，版本号可以忽略 : 和 el7，如 docker-ce-18.09.1
+yum install docker-ce-&lt;VERSION STRING&gt;
+
+查看当前版本号docker -v
+
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubernete 详解</title>
+    <url>/posts/aa794d6f/</url>
+    <content><![CDATA[基本架构
+
+Master组件API Server顾名思义是用来处理 API 操作的，Kubernetes 中所有的组件都会和 API Server 进行连接，组件与组件之间一般不进行独立的连接，都依赖于 API Server 进行消息的传送，默认情况下在本机8080端口提供rest服务(–insecure-port), 也可以启用HTTPS安全端口 (–secure-port&#x3D;6443)
+API Server架构图
+
+
+
+api层: 主要提供对外的 rest api
+访问控制层: 验证身份与鉴权,根据配置的各种资源访问许可逻辑(Adminssion control) ,判断是否允许访问
+注册表层: K8S 将所有对象都保存在registry中, 针对registry中的各种资源对象, 都定义对象类型, 如何创建资源对象, 如何转换不同版本, 以及如何将资源编码和解码为json 或protobuf 格式进行存储.
+etcd 数据库: 用于持久化存储资源对象.
+
+API版本控制
+Api Server针对每种资源都引入了一个相对不便的interal版本, 所有其他版本的资源对象(数据结构)只要支持能够转换为internal 就可以与其他版本的对象互换.
+Controller Manager负责管理集群各种资源，保证资源处于预期的状态。Controller Manager由多种controller组成，包括replication controller、endpoints controller、namespace controller、serviceaccounts controller等 。由控制器完成的主要功能主要包括生命周期功能和API业务逻辑；
+
+
+
+资源类型
+说明
+
+
+
+Deployment
+Deployment 是最常用的 Controller，比如前面在线教程中就是通过创建 Deployment 来部署应用的。Deployment 可以管理 Pod 的多个副本，并确保 Pod 按照期望的状态运行。
+
+
+ReplicaSet
+ReplicaSet 实现了 Pod 的多副本管理。使用 Deployment 时会自动创建 ReplicaSet，也就是说 Deployment 是通过 ReplicaSet 来管理 Pod 的多个副本，我们通常不需要直接使用 ReplicaSet。
+
+
+DaemonSet
+用于每个 Node 最多只运行一个 Pod 副本的场景。正如其名称所揭示的，DaemonSet 通常用于运行 daemon。
+
+
+StatefulSet
+StatefuleSet 能够保证 Pod 的每个副本在整个生命周期中名称是不变的。而其他 Controller 不提供这个功能，当某个 Pod 发生故障需要删除并重新启动时，Pod 的名称会发生变化。同时 StatefuleSet 会保证副本按照固定的顺序启动、更新或者删除。
+
+
+Job
+Job 用于运行结束就删除的应用。而其他 Controller 中的 Pod 通常是长期持续运行。
+
+
+Scheduler是调度器，“调度器”顾名思义就是完成调度的操作，就是我们刚才介绍的第一个例子中，把一个用户提交的 Container，依据它对 CPU、对 memory 请求大小，找一台合适的节点，进行放置；
+Etcd是一个分布式的一个存储系统，API Server 中所需要的这些原信息都被放置在 etcd 中，etcd 本身是一个高可用系统，通过 etcd 保证整个 Kubernetes 的 Master 组件的高可用性。
+Node组件Kubeletkubelet是node的agent，当Scheduler确定在某个Node上运行Pod后，会将Pod的具体配置信息（image、volume等）发送给该节点的kubelet，kubelet会根据这些信息创建和运行容器，并向master报告运行状态。
+Docker Engine每个Node都需要提供一个容器运行时（Container Runtime）环境，它负责下载镜像并运行容器。目前K8S支持的容器运行环境至少包括Docker、RKT、cri-o、Fraki等。
+Kube Proxyservice在逻辑上代表了后端的多个Pod，外借通过service访问Pod。service接收到请求就需要kube-proxy完成转发到Pod的。每个Node都会运行kube-proxy服务，负责将访问的service的TCP&#x2F;UDP数据流转发到后端的容器，如果有多个副本，kube-proxy会实现负载均衡，有2种方式：LVS或者Iptables
+核心组件KubeDNS在K8S集群中调度并运行提供DNS服务的Pod，同一集群内的其他Pod可以使用该DNS服务来解决主机名。K8S自1.11版本开始默认使用CoreDNS项目来为集群提供服务注册和服务发现的动态名称解析服务。
+DashboardK8S集群的全部功能都要基于Web的UI，来管理集群中的应用和集群自身。
+Heapster容器和节点的性能监控与分析系统，它收集并解析多种指标数据，如资源利用率、生命周期时间，在最新的版本当中，其主要功能逐渐由Prometheus结合其他的组件进行代替。
+Ingress ControllerService是一种工作于4层的负载均衡器，而Ingress是在应用层实现的HTTP(S)的负载均衡。不过，Ingress资源自身并不能进行流量的穿透，它仅仅是一组路由规则的集合，这些规则需要通过Ingress控制器（Ingress Controller）发挥作用。目前该功能项目大概有：Nginx-ingress、Traefik、Envoy和HAproxy等。如下图就是Nginx-ingress的应用，具体可以查看博文：https://www.cnblogs.com/linuxk/p/9706720.html
+
+
+概念PODPod 是 Kubernetes 的一个最小调度以及资源单元。用户可以通过 Kubernetes 的 Pod API 生产一个 Pod，让 Kubernetes 对这个 Pod 进行调度，也就是把它放在某一个 Kubernetes 管理的节点上运行起来。一个 Pod 简单来说是对一组容器的抽象，它里面会包含一个或多个容器。
+VolumeVolume 就是卷的概念，它是用来管理 Kubernetes 存储的，是用来声明在 Pod 中的容器可以访问文件目录的，一个卷可以被挂载在 Pod 中一个或者多个容器的指定路径下面。
+而 Volume 本身是一个抽象的概念，一个 Volume 可以去支持多种的后端的存储。比如说 Kubernetes 的 Volume 就支持了很多存储插件，它可以支持本地的存储，可以支持分布式的存储，比如说像 ceph，GlusterFS ；它也可以支持云存储，比如说阿里云上的云盘、AWS 上的云盘、Google 上的云盘等等。
+非持久性存储
+emptyDir
+
+  使用emptyDir，当Pod分配到Node上时，将会创建emptyDir，并且只要Node上的Pod一直运行，Volume就会一直存。当Pod（不管任何原因）从Node上被删除时，emptyDir也同时会删除，存储的数据也将永久删除。
+　　常用于作为临时目录、或缓存使用。
+
+hostPath
+
+　　hostPath允许挂载Node（宿主机）上的文件系统到Pod里面去。如果Pod需要使用Node上的文件，可以使用hostPath。
+hostPath类型
+
+
+
+值
+行为
+
+
+
+空
+空字符串（默认）用于向后兼容，这意味着在安装hostPath卷之前不会执行任何检查。
+
+
+DirectoryOrCreate
+如果给定路径中不存在任何内容，则将根据需要创建一个空目录，权限设置为0755，与Kubelet具有相同的组和所有权。
+
+
+Directory
+目录必须存在于给定路径中
+
+
+FileOrCreate
+如果给定路径中不存在任何内容，则会根据需要创建一个空文件，权限设置为0644，与Kubelet具有相同的组和所有权。
+
+
+File
+文件必须存在于给定路径中
+
+
+Socket
+UNIX套接字必须存在于给定路径中
+
+
+CharDevice
+字符设备必须存在于给定路径中
+
+
+BlockDevice
+块设备必须存在于给定路径中
+
+
+网络连接性存储
+SAN：iSCSI
+NFS：nfs，cfs
+
+分布式存储
+glusterfs、RBD(Rados Block Device)、cephfs
+
+云端存储
+EBS、Azure Disk、阿里云、gitRepo
+
+DeploymentDeployment 是在 Pod 这个抽象上更为上层的一个抽象，它可以定义一组 Pod 的副本数目、以及这个 Pod 的版本。一般大家用 Deployment 这个抽象来做应用的真正的管理，而 Pod 是组成 Deployment 最小的单元。
+ServiceService 提供了一个或者多个 Pod 实例的稳定访问地址。
+实现 Service 有多种方式，Kubernetes 支持 Cluster IP，上面我们讲过的 kuber-proxy 的组网，它也支持 nodePort、 LoadBalancer 等其他的一些访问的能力。
+NamespaceNamespace 是用来做一个集群内部的逻辑隔离的，它包括鉴权、资源管理等。Kubernetes 的每个资源，比如刚才讲的 Pod、Deployment、Service 都属于一个 Namespace，同一个 Namespace 中的资源需要命名的唯一性，不同的 Namespace 中的资源可以重名。
+版本一览
+
+FAGnodePort，targetPort，port的区别nodePort
+外部机器可访问的端口，比如一个Web应用需要被其他用户访问，那么需要配置type&#x3D;NodePort，而且配置nodePort&#x3D;30001，那么其他机器就可以通过浏览器访问scheme:&#x2F;&#x2F;node:30001访问到该服务，例如http://node:30001，有的像MySQL数据库可能不需要被外界访问，只需被内部服务访问，那么不必设置NodePort
+targetPort
+容器的端口，与制作容器时暴露的端口一致（DockerFile中EXPOSE），例如docker.io官方的nginx暴露的是80端口。
+port
+kubernetes中的服务之间访问的端口，尽管mysql容器暴露了3306端口（参考https://github.com/docker-library/mysql/的DockerFile），但是集群内其他容器需要通过33306端口访问该服务，外部机器不能访问mysql服务，因为他没有配置NodePort类型                      
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>Kubernete</category>
+      </categories>
+      <tags>
+        <tag>kubernete</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubernete 常用命令</title>
+    <url>/posts/e1b46314/</url>
+    <content><![CDATA[更新镜像1. set-image 方式kubectl set image -n [NAMESPACE] deploy [DEPLOY_NAME] [CONTAINER_NAME]=[IMAGE]
+
+2. edit deploy 方式kubectl edit deploy -n [NAMESPACE] [DEPLOY_NAME]
+
+切换当前 context 默认命名空间kubectl config set-context --current --namespace=&lt;namespace&gt;
+
+切换 contextkubectl config use-context &lt;context-name&gt;
+
+查看 contextkubectl config view
+
+集群信息获取集群信息kubectl config get-contexts
+
+切换集群kubectl config use-context [集群名称]
+
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>Kubernete</category>
+      </categories>
+      <tags>
+        <tag>kubernete</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubernete 系统</title>
+    <url>/posts/9e086c9c/</url>
+    <content><![CDATA[查看资源限额kubectl describe limitrange -n [NAMESPACE]
+
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>Kubernete</category>
+      </categories>
+      <tags>
+        <tag>kubernete</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>picgo</title>
+    <url>/posts/c4fe5b8b/</url>
+    <content><![CDATA[picGo密钥
+75db282dc87afa16cf26ceff14d51491ea494175
+
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nodejs 常用命令</title>
+    <url>/posts/63e97dc8/</url>
+    <content><![CDATA[目录缓存npm 查看缓存目录npm config get cache
+
+npm 清理缓存
+参考链接：http://claude-ray.com/2019/12/06/npm-install-without-cache/
+
+npm cache clean -f
+
+npm 设置代理http 代理npm 原生支持 http 代理，直接设置即可
+# 假设本地代理端口为 8080npm config set proxy &quot;http://localhost:8080&quot;npm config set https-proxy &quot;http://localhost:8080&quot;# 有用户密码的代理npm config set proxy &quot;http://username:password@localhost:8080&quot;npm confit set https-proxy &quot;http://username:password@localhost:8080&quot;
+
+socks5 代理npm 不支持 socks 代理，但是我们可以用一个工具将 socks 代理转成 http 代理，然后将 npm 代理地址设置到这个工具的地址。
+# 假设本地 socks5 代理端口为 1080# 首先安装转换工具npm install -g http-proxy-to-socks# 然后使用这个工具监听 8081 端口,支持 http 代理，然后所有 1080 的 socks 代理数据都将转换成 http 的代理数据发送到 8081 上hpts -s localhost:8081 -p 1080# 最后设置 npm 代理为 8081npm config set proxy &quot;http://localhost:8081&quot;npm config set https-proxy &quot;http://localhost:8081&quot;
+
+相当于又加了一个中间层，将 socks 转成 http。
+删除代理npm config delete proxynpm config delete https-proxy
+
+                      
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>draw.io 基础教程</title>
     <url>/posts/5e3e9b12/</url>
     <content><![CDATA[1. 网页端使用懒得安装的直接使用下面这个链接直接开始绘图：https://www.draw.io
@@ -3572,7 +4270,7 @@ namesilo
 
 
 yahya-yaoyuming
-&#x36;&#x37;&#50;&#x35;&#x35;&#x34;&#x37;&#x38;&#x34;&#64;&#x71;&#113;&#46;&#x63;&#111;&#x6d;
+&#x36;&#x37;&#50;&#x35;&#53;&#52;&#55;&#x38;&#x34;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;
 Yao88219620ko!
 
 
@@ -3584,7 +4282,7 @@ cloudflare
 
 
 
-&#x36;&#55;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;
+&#x36;&#x37;&#x32;&#x35;&#53;&#x34;&#x37;&#56;&#x34;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;
 Yao88219620ko!
 
 
@@ -3605,7 +4303,7 @@ IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;payments
 
 
 
-&#x36;&#x37;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;
+&#x36;&#55;&#50;&#x35;&#x35;&#52;&#55;&#x38;&#x34;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;
 Yao88219620ko!
 
 
@@ -3638,6 +4336,636 @@ bash &lt;(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA maven 配置</title>
+    <url>/posts/a3c558a3/</url>
+    <content><![CDATA[idea配置maven依赖优先从指定本地仓库获取在设置中搜索 Runner ,在VM Option中设置参数 -DarchetypeCatalog=internal
+-DarchetypeCatalog=internal
+
+
+
+maven离线模式及设置下载maven依赖通过idea创建maven项目，maven插件会自动将maven依赖下载到本地仓库。
+复制本地仓库先要找到maven的本地仓库，可以通过 file-&gt;settings-&gt;maven 流程查看到maven本地仓库的位置，然后直接复制，粘贴到生产环境下。
+修改maven配置这里指修改生产环境（即不能联网）下的maven的settings.xml文件
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt; 	&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;	&lt;localRepository&gt;D:\Apache\apache-maven-3.6.3&lt;/localRepository&gt;	  &lt;mirrors&gt;	 &lt;mirror&gt;            &lt;id&gt;central&lt;/id&gt;            &lt;name&gt;central&lt;/name&gt;					&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;            &lt;url&gt;file://D:\Apache\apache-maven-3.6.3&lt;/url&gt;            &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;        &lt;/mirror&gt;  &lt;/mirrors&gt;&lt;/settings&gt;
+
+步骤四，设置idea通过 file-&gt;settings-&gt;maven 流程，勾选 work offline 选项，并填写上 maven 本地仓库和修改过的 settings.xml 的位置                      
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
+        <tag>intellij idea</tag>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA 常用插件</title>
+    <url>/posts/be77417b/</url>
+    <content><![CDATA[目录列表已使用
+Key Promoter X
+Alibaba Java Coding GuideLines
+CamelCase
+Convert YAML and Properties File
+GenerateAllSetter
+GenerateSerialVersionUID
+Git Commit Message Helper
+Grep Console
+GsonFormatPlus
+Json Parser
+HighlightBracketPair
+Java Bean to Json
+JRebel and XRebel
+JRebel mybatisPlus extension
+MybatisPlus
+Kafkalytic
+Maven Helper
+RestfulToolkit-fix
+SequenceDiagram
+Translation
+Convert YAML and Properties File
+
+未使用
+String Manipulation
+MapStruct support
+arthas idea
+Statistic
+SonarLint
+Jump To Line
+Rainbow Brackets
+jclasslib：字节码查看神器
+
+参考链接看了我常用的IDEA插件，同事也开始悄悄安装了…
+IDEA小技巧：Debug拖动跳转任意行
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
+        <tag>intellij idea</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA 常用配置</title>
+    <url>/posts/4a9b2d4f/</url>
+    <content><![CDATA[目录右键增加 Open Folder as IntelliJ IDEA Project1、先win+R打开运行窗口，输入regedit，进入到注册表编辑器中，然后进入到下面的目录 计算机\HKEY_CLASSES_ROOT\Directory\Background\shell
+新建项，取名为 Intellij IDEA，如下图所示：
+
+修改 Intellij IDEA 项下的默认的数值数据为 Open Folder as IntelliJ IDEA Project
+
+新建一个字符串值，名字为 Icon，数值为 idea64.exe 所在目录的绝对路径
+
+
+
+
+然后在左边的 Intellij IDEA 的项上右击，选择新建 &gt; 项,项名为 command，修改默认的数值数据为 “idea64.exe所在目录的绝对路径” + “%V”，如下图所示：
+
+
+然后重启电脑，就可以看到下面的效果了，如下图所示：
+
+
+关闭自动弹出 Documentation取消勾选即可。
+
+
+代码行宽度超出限制时不自动换行打开 Settings &gt; Editor &gt; Code Style &gt; Java
+设置 Hard Wrap at 的值，默认为120，或者将 Wrap on typing 设置为 false，如下所示：
+
+
+IntelliJ IDEA 修改配置文件位置找到 idea.properties 文件的位置，这里找下的位置如下：
+C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.3\bin\idea.properties
+修改配置文件位置：
+
+注意：不要修改为Idea的安装目录，因为这样会导致自动更新失败。错误示例： 
+idea.config.path=C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.3\configidea.system.path=C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.3\system
+
+修改前：
+# idea.config.path=$&#123;user.home&#125;/.IntelliJIdea/config# idea.system.path=$&#123;user.home&#125;/.IntelliJIdea/system
+
+修改后：
+idea.config.path=D:\IntelliJIdea\configidea.system.path=D:\IntelliJIdea\system
+
+
+注意：Idea启动时，依旧会从默认位置中的 idea64.exe.vmoptions 中读配置。其他配置会从上面修改后的指定的路径中去读。所以：默认的路径下要保留 idea64.exe.vmoptions，其他可以删除。
+
+最后重启 idea 即可生效。
+IntelliJ IDEA 修改内存大小找到 idea64.exe.vmoptions 的位置，默认是位于 C:\Program Files\JetBrains\IntelliJ IDEA 2021.1.3\bin\ 目录下，如果修改配置文件的位置，则在 D:\IntelliJIdea\config 目录下会有一份额外的同名配置文件，配置文件主要调整前三个参数，整体参数配置参考如下：
+-Xms1024m # 最小内存-Xmx4096m # 最大内存-XX:ReservedCodeCacheSize=512m # 预留代码缓存的大小-XX:+UseG1GC-XX:SoftRefLRUPolicyMSPerMB=50-XX:CICompilerCount=2-XX:+HeapDumpOnOutOfMemoryError-XX:-OmitStackTraceInFastThrow-ea-Dsun.io.useCanonCaches=false-Djdk.http.auth.tunneling.disabledSchemes=&quot;&quot;-Djdk.attach.allowAttachSelf=true-Djdk.module.illegalAccess.silent=true-Dkotlinx.coroutines.debug=off
+
+控制内存使用显示状态的打开方式参考下图：
+
+
+最后在 idea 中打开 Edit Custom VM Options 配置：
+
+
+配置内容和上面的 idea64.exe.vmoptions 保持一致，重启 idea 即可生效。
+编译 spring-configuration-metadata.json 文件在idea设置中搜索 Annotation Processors，接下来勾住 Enable annonation processing 就完成了。
+我们可以在编译后的文件中看到自动生成的 spring-configuration-metadata.json，配置效果如下：
+
+
+
+
+IDEA 设置 SQL 格式化(关键字大写)设置 settsings(Ctrl+Alt+S) –&gt; Editor –&gt; Code Style –&gt; SQL 将 keywords 设置为大写(To upper)
+如下图所示：
+
+
+设置作者注释File and Code Templates 配置
+点击 File -&gt; Settings -&gt; Editor -&gt; File And Code Templates，在右侧的 File Header 中填入以下信息：
+/** * @description: $&#123;NAME&#125; * @author: yahya * @email: yahya@sf-express.com * @create: $&#123;YEAR&#125;/$&#123;MONTH&#125;/$&#123;DAY&#125; $&#123;HOUR&#125;:$&#123;MINUTE&#125; */
+
+Live Templates 配置
+点击 File -&gt; Settings -&gt; Editor -&gt; Live Templates，点击右侧的 + 号按钮新建一个 Template Group，命名为 Description。
+然后在名为 Description 的 Template Group 上面在新建一个 Live Template，内容填充如下：
+/** * @description: $description$ * @author: $user$ * @email: $email$ * @create: $date$ $time$ */
+
+整体配置效果图如下所示：
+
+
+然后再点击 Edit Variables 按钮，为每个变量设置值，效果如下：
+
+
+常用内置变量定义如下：
+
+${PACKAGE_NAME} - 将在其中创建新类或接口的目标包的名称
+${PROJECT_NAME} - 当前项目的名称
+${FILE_NAME} - 将要创建的文件的名称
+${NAME} - 您在创建文件的过程中，在 “新建文件” 对话框中指定的新文件的名称
+${USER} - 当前用户的登录名
+${DATE} - 当前系统日期
+${TIME} - 当前系统时间
+${YEAR} - 本年度
+${MONTH} - 本月
+${DAY} - 当月的当前日期
+${HOUR} - 当前时间
+${MINUTE} - 当前分钟。
+${PRODUCT_NAME} - 将在其中创建文件的 IDE 的名称。
+${MONTH_NAME_SHORT} - 月份名称的前3个字母。示例：1月，2月等。
+${MONTH_NAME_FULL} - 一个月的全名。示例：1月，2月等
+
+去除 Usage 提示点击 Settings -&gt; Editor -&gt; Inlay Hints，在 Code vision 栏取消 Usages 的勾选项，如下图所示：
+
+
+取消 indexingFile -&gt; Settings 中直接搜索 index
+
+
+然后旁边两个选项都选择 Ask before download
+关闭页面显示的浏览器图标依次点击 File -&gt; Settings -&gt; Tools -&gt; Web Browsers and Preview，将多余的勾选项全部取消勾选，最终效果如下：
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
+        <tag>intellij idea</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA 常见错误</title>
+    <url>/posts/4211b3cd/</url>
+    <content><![CDATA[目录Command line is too long报错内容:
+Error running ‘ServiceStarter’: Command line is too long. Shorten command line for ServiceStarter or also for Application default configuration.
+解法:
+修改项目下 .idea\workspace.xml，找到标签 &lt;component name=&quot;PropertiesComponent&quot;&gt; ， 在标签里加一行 &lt;property name=&quot;dynamic.classpath&quot; value=&quot;true&quot; /&gt;
+中文乱码以及(SpringBoot)yml配置文件中文乱码打开设置并搜索File Encodings,全部改成UTF-8，示图如下：
+
+
+maven 控制台中文乱码打开 File -&gt; Settings -&gt; Build, Execution, Deployment -&gt; Build Tools -&gt; Maven -&gt; Runner 菜单，在 VM Options 选项框里添加以下参数（无需重启）：
+-Dfile.encoding=GB2312
+
+如图所示：
+
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
+        <tag>intell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Visual Studio Code 常用配置</title>
+    <url>/posts/6f59c50b/</url>
+    <content><![CDATA[显示当前文件完整路径信息
+菜单栏：“文件”→“首选项”→“设置”，进入用户配置界面；
+在软件默认的配置界面搜索关键字 “window.title”，将这一行配置复制到右边的用户配置界面中，并将 “activeEditorShort” 修改为 “activeEditorLong”；
+保存后，再编辑文件时，软件窗口的标题栏上就可以看到当前文件的完整路径了。
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Visual Studio Code</category>
+      </categories>
+      <tags>
+        <tag>intellij idea</tag>
+        <tag>vscode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Charles 抓包教程</title>
+    <url>/posts/9ad99481/</url>
+    <content><![CDATA[目录内容清单
+Charles 的简介
+安装 Charles
+Charles 初始化设置
+过滤网络请求
+截取HTTP&#x2F;HTTPS数据
+模拟弱网环境
+修改网络请求
+修改服务器返回内容
+服务器压力测试
+反向代理
+解决与翻墙软件的冲突
+
+Charles 的简介Charles 是目前最主流的网络调试工具（Charles、Fiddler、Wireshark…）之一，对于一个开发者来说与网络打交道是日常需求，因此很多时候我们需要调试参数、返回的数据结构、查看网络请求的各种头信息、协议、响应时间等等。所以了解  Charles 并使用它
+Charles 通过将自己设置为系统的网络访问代理服务器，这样所有的网络请求都会通过它，从而实现了网路请求的截获和分析。
+Chareles 不仅可以分析电脑本机的网络请求（HTTP 和 HTTPS），还可以分析移动端设备的网络请求。
+Charles 是收费软件，作者开发出这样一个方便开发者使用的伟大工具，我们鼓励使用正版软件，但是对于一些囊中羞涩或者学生来说，有破解版的更好，别担心，这些我都准备好了，下一个 section 会讲解如何下载安装。
+安装 Charles
+方式1： Charles 官网地址，根据你的电脑操作系统选择合适的下载方式。此时下载下来的是需要收费的，不差钱的同学当然可以直接购买。购买链接
+方式2:按照方式1的方式去官网下载，然后下载相应 **JAR包**。这里以 MAC 为例，打 Finder，选择应用程序，选中 Charles，右击并选择“显示包内容”，看到 Contents 目录，点击进去选择 Java 文件夹，将下载下来的 JAR包 拖进去替换。至此，完成了 Charles 的破解。
+
+Charles 初始化设置Charles 的工作原理是将自身设置为系统的代理服务器来捕获所有的网络请求。所以使用 Charles ，我们必须设置 Charles 为系统的代理服务器。
+打开 Charles，当第一次启动的时候如果没有购买或者没有破解，会有倒计时，之后会看到软件的主界面，然后会请求你赋予它为系统代理的权限。点击授权会让你输入当前系统用户的密码。当然你也可以忽略或者拒绝该请求，然后等想要抓包的时候将它设置为系统的代理服务器。步骤：选择菜单中的“Proxy” -&gt; “Mac OS X Proxy”。如下图：
+
+
+
+
+之后你的电脑上的任何网络请求都可以在 Charles 的请求面板中看到
+看看 Charles 的主界面
+
+
+
+
+
+
+
+图上红色圈1:这里代表所有网络请求的展示方式。分别名为 “Structure” 和 “Sequence”。
+Structure 将所有的网络请求按照域名划分并展示
+Sequence 将所有的网络请求按照时间排序并展示
+
+
+图上红色圈2：一些的网络请求设置比如 HTTPS 以及端口等信息都在这个菜单栏设置
+图上红色圈3：证书设置都在这里进行
+
+过滤网络请求由于 Charles 可以将电脑或者设置过的手机的所有网络请求捕获到，而且我们分析网络传输应该是针对某个特定的网络下的抓包分析，为了清楚明显地看到我们感兴趣的网络请求通常会用到 Charles 的“过滤网络请求的功能”。
+
+方法1:在 Charles 主面板的左侧所有网络请求的下方可以看到看到一个 ”Filter“ 输入栏，在这里你可以输入关键词来筛选出自己感兴趣的网络请求。比如我想分析的网络请求来自于”www.baidu.com“ 下，你可以在下面输入”baidu”即可。
+
+
+
+
+方法2:在 Charles 菜单栏的顶部会看到 “Proxy” 的选项，点击菜单栏选择 “Proxy” -&gt; “Recording Settings” 。选择 “include”。看到面板上面有一个 “Add” 按钮，点击后在弹出的面板里面设置好我们需要分析的网络请求的协议、主机名、端口、路径、参数，当然你也可以只设置一些主要的信息，比如协议和主机名的组合。
+
+
+
+
+方法3:一般打开 Charles 并设置好配置信息后（比如电脑本机或者设置过代理的手机）所有的网络请求都将在 Charles 的面板上显示，同时我们感兴趣的网络请求如果也在面板上显示的话，“Structure”模式下可以选中需要分析的网络请求，鼠标右击选择“Focus”。“Sequence”模式下可以在面板的网络请求显示面板的右下角看到一个Focus按钮，点击勾选后 Charles 只会显示你感兴趣的网络请求。
+
+
+
+
+
+
+
+
+
+
+截取HTTP&#x2F;HTTPS数据截取 HTTP 请求Charles 的主要目的是抓取捕获网络请求，这里以 iPhone 的抓包为例讲解。
+Charles 的设置要截获 iPhone 的网络请求就需要为 Charles 开启代理功能。在菜单栏选择“Proxy” -&gt;”Proxy Settings”。填写代理的端口号并将“Enable transparent HTTP proxying”勾选上。
+
+
+
+
+iPhone 上的设置在电脑“系统偏好设置”中心打开网络查看本机 IP 地址，打开手机“设置”-&gt;“无线局域网”，进入当前使用的网络，点击进入当前 WIFI 的详情页（可以看到当前 WIFI 的基本信息，包括子网掩码、端口、IP地址、路由器），在最下角可以看到“DNS”和“HTTP代理”2个section。我们点击“配置代理”，设置 HTTP 代理选中“手动”。服务器处填写电脑ip地址，端口写8888。设置好后，我们打开 iPhone 上的任意需要网络请求的应用，就可以看到 Charles 弹出请求的确认菜单，单击”Allow”按钮，即可完成设置。
+
+
+
+
+截取 HTTPS 请求如果你需要捕获 HTTPS 协议的网络请求，那么则需要安装 Charles 的 CA 证书。步骤如下；
+
+首先需要在 MAC 上安装证书。点击 Charles 顶部的菜单栏，选择 **“Help” -&gt; “SSL Proxying” -&gt; “Install Charles Root Certificate”**。
+
+
+
+
+在 keychain 处将新安装的证书设置为永久信任
+
+
+
+
+即使安装了 CA 证书，Charles 默认是不捕获 HTTPS 协议的网络请求，所以我们需要对某个主机下的网络请求抓包分析的话，选中该网络请求右击选中 “SSL Proxying Enabled”。这样就可以看到我们感兴趣的HTTPS 网络请求了。
+
+
+如果你需要捕获移动设备的 HTTPS 网络请求，则需要在移动设备上安装证书并作简单的设置
+
+选择 Charles 顶部菜单栏选择 **“Help” -&gt;”Install Charles Root Certificate on a Mobile Device or Remote Browser”**。然后就可以看到 Charles 弹出的安装说明了。
+
+
+
+
+在手机设置好 Charles 代理的情况下，在手机浏览器输入 “chls.pro&#x2F;ssl”。安装提示下载好CA证书。
+
+验证刚刚安装的 CA证书
+
+
+
+
+iPhone 打开设置 -&gt; 通用 -&gt; 关于本机 -&gt; 证书信任设置 -&gt; 开启开关
+
+
+
+
+在 Charles 菜单栏 Proxy -&gt; SSL Proxying Setting -&gt; 点击 Add 按钮 -&gt; 在弹出的对对话框设置需要监听的 HTTPS 域（*:代表通配符）
+
+
+
+
+设置完毕，尽情抓取你想要的 HTTPS 网络请求吧。
+
+
+
+
+模拟弱网环境在平时开发的时候我们经常需要模拟弱网环境，并作弱网环境下的适配工作。Charles 为我们提供了这个服务。
+在 Charles 菜单栏选择 **“Proxy” -&gt; “Throttle Settings”**。在弹出的面板上设置网络请求的参数（上行，下行带宽、利用率、可靠性等等信息）。如下图所示。
+
+
+
+
+如果你想对指定主机进行弱网环境下的测试，可以点击上图的“Add”按钮，在弹出的面板上设置协议、主机、端口来对指定的主机进行弱网设置。
+
+
+
+
+修改网络请求对于捕获的网络请求，我们经常需要修改网络请求的cookie、Headers、Url等信息。Charles 提供了对网络请求的编辑和重发功能。只需要选中需要修改编辑的网络请求，在对应的右上角看到有一个“钢笔”的按钮，点击后就可以对选中的网络请求进行编辑了，编辑好后可以在右下角看到 Execute 按钮。这样我们编辑后的网络请求就可以被执行了。
+
+
+
+
+修改服务器返回内容很多时候为了方便调试代码，我们会有这种需求，修改接口返回的数据节点或者内容、甚至是状态码。比如数据为空、数据异常、请求失败、多页数据的情况。 Charles 为我们提供了超实用的功能，“Map（Map Local、Map Remote）功能”、Rewrite功能、Breakpoints功能 ，都可以实现修改服务端返回数据的功能。但是有区别和适用场景：
+
+Map 功能适合长期地将某一请求重定向到另一个指定的网络地址或者本地 JSON 文件
+Rewrite 功能适合对网络请求进行一些正则替换
+Breakpoints 功能适合对网络请求进行一些临时性的修改（类似于我们开发的断点作用）
+
+Map 功能Map 功能分为 Map Local（将某个网络请求重定向到本地 JSON 文件） 和 Map Remote 功能（将网络请求重定向到另一个网络接口）。
+在 Charles 菜单栏选择 “Tools” -&gt; “Map Remote” 或 “Map Local” 即可进入相应的功能模块。
+Map Remote 功能适合于切换线上到本地、测试服务到正式服务的场景。比如下图从正式服务切换到测试服务
+
+
+
+
+Map Local 功能我们需要填写重定向的原地址信息和本地目标文件。我们可以先将某个接口的响应内容保存下来（选择对应的网络请求，右击点击 Save Response ）成为 data.json 文件。然后我们编辑里面的 status 、message、data 等信息为我们想要的目标映射文件。
+
+
+
+
+如下所示，我将一个网络请求的内容映射到我本地的一个 JSON 文件。之后这个请求的内容都从网络变为返回我本地的数据了。
+
+
+
+
+Map Local 可能会存在一个小缺陷，其返回的 HTTP Response Header 与正常的网络请求不一样，如果程序设置了校验 Header 信息，此时 Map Local 就会失败，解决办法是同时使用 Rewrite功能将相关的HTTP 头部信息 rewrite 成我们需要的信息
+Rewrite 功能Rewrite 适合对某个网络请求进行正则替换，以达到修改结果的目的。
+假如我的 App 的界面上的显示的功能模块及其点击事件是根据接口来完成的，我想实现替换功能模块的名称的目的。步骤：点击顶部菜单栏的**“Tools” -&gt; “Rewrite”**。在弹出的面板上勾选 “Enable Rewrite”。点击左下角的 Add按钮，在右上角的 Name：处写好本次配置的名称（如果有多个 Rewrite，为了后期容易区分）。
+
+可以针对特定的网络请求进行 Rewrite。可以点击右上角 Location 面板下面的 Add按钮。在弹出的面板上设置网络请求配置信息。注意此时需要同时设置 Protocol、Port、Host、Path信息（我测试加了 Protocol、Host、Port这3个是无效的）
+
+
+
+
+
+
+然后对指定的 Type 和 Action 进行 Rewrite。
+Type 主要有 Add Header、Modify Header、Remove Header、Host、Path等等。
+Where 可以选择 Request 和 Response。指的是下面的修改是针对 Request 还是 Response
+
+
+
+
+完成设置后点击 Apply 按钮，即可生效。下次继续请求该网络，返回的内容就是我们刚刚设置的内容。比如当前的“政策法规”要变成“哈哈哈，我是假的政策法规”。这时候就可以使用 Rewrite 功能
+
+
+Breakpoints 功能Breakpoints 相比于其他几个修改网络请求的特点是只是针对当前的网络请求，Breakpoints 只存在于设置过的当前的网络请求，Charles 关闭后下次打开 Breakpoints 消失了。想要修改网络请求 Breakpoints 步骤最简单，跟我们调试工具里面设置的断点一样方便。
+对于我们设置了 Breakpoints 的网络请求， Charles 会在下次继续访问该请求的时候停止掉，就跟 debug 一样。此时我们可以 Edit Request，修改过 Request 之后点击右下角的 Execute 按钮。然后等到服务端返回的时候继续是断点状态，此时可以 Edit Response。步骤： 选中某个网络请求 -&gt; 右击 -&gt; 点击“Breakpoints”。
+如下图：对该接口设置了 Breakpoints。请求网络后 Edit Response，点击 execute 后服务端返回的结果就是我们编辑的内容了。
+
+
+
+
+
+
+
+
+服务器压力测试我们可以使用 Charles 的 Repeat 功能地对服务器进行并发访问进行压力测试。步骤：选中某个网络请求 -&gt; 右击 -&gt; Repeat Advanced -&gt; 在弹出的面板里面设置总共的迭代次数（Iterations）、并发数（Concurrency） -&gt; 点击“OK” 。开始执行可以看到以设置的并发数的规模，进行总共达设置的总共迭代次数的访问。（专业的压力测试工具：Load Runner）
+
+
+
+
+反向代理Charles 的反向代理功能允许我们将本地指定端口的请求映射到远程的另一个端口上。设置：点击顶部菜单栏 Proxy -&gt; 点击 Reverse Proxies。
+如下所示，我将本地的 8080 端口映射到远程的 80 端口上，点击 OK 生效后，当我继续访问本地的 80 端口，实际返回的就是远程 80 端口的提供的内容了。
+
+
+
+
+解决与翻墙软件的冲突Charles 的工作原理是把自己设置为系统的代理服务器，但是我们开发者经常会利用 VPN 翻墙访问谷歌查找资料（这些翻墙软件的工作原理也是把自己设置成为系统的代理服务器），为了2者和平共处。我们可以在 Charles 的 External Proxy Settings 中将翻墙的代理端口等信息填写。同时我们需要关闭翻墙软件的自动设置，更改为“手动模式”。（使其不主动修改系统代理）
+总结Charles 功能强大、界面简洁，读完这篇文章并做出练习，相信你能很快掌握它，“工欲善其事，必先利其器” ，掌握了它，相信可以为你大大提高开发中调试网络的效率。
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>抓包</category>
+      </categories>
+      <tags>
+        <tag>抓包</tag>
+        <tag>charles</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RPM 常用命令</title>
+    <url>/posts/7cf61fc4/</url>
+    <content><![CDATA[目录安装语法：
+rpm -i &lt;需要安装的包文件名&gt;
+
+举个栗子：
+# 安装 example.rpm 包rpm -i example.rpm# 安装 example.rpm 包并在安装过程中显示正在安装的文件信息rpm -iv example.rpm# 安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度rpm -ivh example.rpm
+
+查看安装完成的软件语法：
+rpm -qa
+
+举个栗子：
+[root@jacky zookeeper]# rpm -qa | grep jdkjava-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.i686java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.i686
+
+卸载软件语法：
+rpm -e --nodeps &lt;要卸载的软件包&gt;
+
+举个栗子：
+root@jacky zookeeper]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.i686
+
+                      
+]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>rpm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Yum 常用命令</title>
+    <url>/posts/500bccb4/</url>
+    <content><![CDATA[yum 生成缓存yum makecache fast
+
+yum 清除缓存yum clean all
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>yum</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 修改 root 密码</title>
+    <url>/posts/1f71be40/</url>
+    <content><![CDATA[目录方式一在启动引导主页上按e进入内核编辑
+
+
+
+找到 Linux16 这一段，在末尾处添加 rd.break，按下组合键 CTRL+X 运行内核程序进入紧急救援模式
+
+
+在这个模式下依次输入以下命令
+mount -o remount,rw /sysrootchroot /sysrootpasswd # 注意：到这里的时候会提示输入两次需要重置的密码，输入完成之后回车即可touch /.autorelabel # 如果已经开启了SElinux，则需要输入此命令reboot
+
+
+
+重新进入系统输入刚刚重置的密码即可登陆root账户
+方式二前面操作和方式一样
+在linux16 这一段的最后添加上 init=/bin/sh
+
+
+
+
+进来上图界面后输入以命令1、挂载根目录
+mount -o remount, rw /
+
+2、选择要修改密码的用户名，这里选择root用户进行修改，可以更换为你要修改的用户passwd3、输入2次一样的新密码，注意输入密码的时候屏幕上不会有字符出现。如果输入的密码太简单，会提示警告（BAD PASSWORD：The password fails the dictionary check - it is too simplistic&#x2F;systematic），可以无视它，继续输入密码，不过建议还是设置比较复杂一些的密码，以保证安全性4、如果已经开启了SElinux，则需要输入以下命令
+touch /.autorelabel
+
+5、最后输入以下命令重启系统即可
+exec /sbin/init# 或exec /sbin/reboot
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 基础知识</title>
+    <url>/posts/70711607/</url>
+    <content><![CDATA[Linux系统的7个运行级别(runlevel)运行级别分为以下6种：
+0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动
+1：单用户工作状态，root权限，用于系统维护，禁止远程登陆
+2：多用户状态(没有NFS)
+3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式
+4：系统未使用，保留
+5：X11控制台，登陆后进入图形GUI模式
+6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动
+
+运行级别的原理：
+
+在目录&#x2F;etc&#x2F;rc.d&#x2F;init.d下有许多服务器脚本程序，一般称为服务(service)
+在&#x2F;etc&#x2F;rc.d下有7个名为rcN.d的目录，对应系统的7个运行级别
+rcN.d目录下都是一些符号链接文件，这些链接文件都指向init.d目录下的service脚本文件，命名规则为K+nn+服务名或S+nn+服务名，其中nn为两位数字。
+系统会根据指定的运行级别进入对应的rcN.d目录，并按照文件名顺序检索目录下的链接文件   对于以K开头的文件，系统将终止对应的服务   对于以S开头的文件，系统将启动对应的服务
+另外 init 0 为关机，init 6 为重启系统
+
+
+查看当前运行级别runlevel
+
+进入其它运行级别init [级别]
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 安装</title>
+    <url>/posts/b23a554b/</url>
+    <content><![CDATA[运行模式查看当前模式systemctl get-default
+
+修改为图形界面systemctl set-default graphical.target
+
+修改为命令行systemctl set-default multi-user.target
+
+
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 常用命令</title>
+    <url>/posts/7fdd7943/</url>
+    <content><![CDATA[目录修改时区查看时间各种状态
+timedatectl
+
+结果输出如下：
+      Local time: 六 2023-01-07 04:41:46 UTC  Universal time: 六 2023-01-07 04:41:46 UTC        RTC time: n/a       Time zone: UTC (UTC, +0000)     NTP enabled: n/aNTP synchronized: yes RTC in local TZ: no      DST active: n/a
+
+列出所有时区
+timedatectl list-timezones
+
+将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+timedatectl set-local-rtc 1
+
+设置系统时区为上海
+timedatectl set-timezone Asia/Shanghai
+
+校准时间yum -y install ntp# 通过阿里云时间服务器校准时间ntpdate ntp1.aliyun.com
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 网络篇</title>
+    <url>/posts/2004b1f1/</url>
+    <content><![CDATA[查看网关&#x2F;路由route -n
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -4530,7 +5858,7 @@ TIP
 隐藏后依然可以通过文章链接访问
 
 如果想把某些文章隐藏起来，不在首页和其他分类里展示，可以在文章开头 Front-matter (opens new window) 中配置 hide: true 属性。
----title: 文章标题index_img: /img/example.jpgdate: 2019-10-10 10:00:00hide: true---以下是文章内容
+---title: 文章标题index_img: /example.jpgdate: 2019-10-10 10:00:00hide: true---以下是文章内容
 
 next
 参考配置：https://blog.csdn.net/as480133937/article/details/100138838
@@ -4813,6 +6141,58 @@ ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数�
       </categories>
       <tags>
         <tag>杂烩</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>研发文档规范</title>
+    <url>/posts/c375a1af/</url>
+    <content><![CDATA[文档类型在项目开发过程中，应该按要求编写好十三种文档，文档编写要求具有针对性、精确性、清晰性、完整性、灵活性、可追溯性。同时依照项目人员的角色划分，完成不同类型的文档。以下排序并未严格按照时间排序。
+
+类型说明可行性分析报告（产品人员）可行性研究报告的编写目的是：说明该软件开发项目的实现在技术、经济和社会条件方面的可行性；评述为了合理达到开发目标而可能选择的各种方案；实施方案的利弊；说明并论证所选定的方案。
+项目开发计划（产品人员）软件项目开发计划即为软件项目实施方案制定出的具体计划。项目开发计划应提前给管理部门，并作为开发阶段评审的基础。编写项目开发计划的目的是用文件的形式，把对于在开发过程中各项工作的负责人员、开发进度、所需经费预算、所需的软硬条件等问题做出的安排记载下来，以便根据本计划开展和检查项目的开发工作。
+软件需求说明书（产品人员）软件需求说明书也称为软件规格说明。该说明书对所开发软件的功能、性能、用户界面及运行环境等做出详细的说明。它是用户与开发人员双方对软件需求取得共同理解基础上达成的协议，也是实施开发工作的基础。软件需求说明书的编写目的就是为了使用户和软件开发者双方对该软件的初需求有一个共同的理解，并使之成为整个开发工作的基础。
+概要设计说明书 （开发人员）概要设计说明书又可称系统设计说明书，这里所说的系统是指程序系统。编写的目的是说明对程序系统的设计考虑，包括程序系统的基本处理。流程、程序系统的组织结构、模块划分、功能分配、接口设计。运行设计、数据结构设计和出错处理设计等，为程序的详细设计提供基础。
+详细设计规格说明书（开发人员）详细设计说明书又可称程序设计说明书。编写目的是说明一个软件系统各个层次中的每一个程序（每人模块或子程序）的设计考虑。如果项目比较简单，层次较少，本文件可以不单独编写，有关内容合并入概要设计说明书。
+用户操作手册（产品人员）用户操作手册的编写是要使用非专门术语的语言，充分地描述该软件系统所具有的功能及基本的使用方法，提供该软件每一个运行的具体过程和有关知识，包括操作方法的细节。使用户（或潜在用户）通过本手册能够了解该软件的用途，并且能够确定在什么情况下，如何使用它。
+测试计划（测试人员）测试计划是软件项目实施计划中的一项重要的内容，应当在软件开发初期、即需求分析阶段制订。测试计划应当定义被测试对象和测试目标，确定测试阶段和测试周期的划分；制订测试人员、软硬件资源和测试进度等方面的计划，规定软件测试方法，测试标准以及支持环境和测试工具。针对子系统在特定的测试阶段所要进行的测试工作制订详细计划，它详细说明规定了测试小组的各项测试任务，测试策略、任务分配和进度安排等。
+测试分析报告（测试人员）测试工作完成以后，应当提交测试计划情况说明书，对测试结果加以分析，并提出测试的结论性意见。
+开发进度月报（开发人员）开发进度月报的编写目的是及时向有关部门汇报项目开发的进度和情况，以便及时发现和处理开发过程中出现的问题，一般，开发进度月报是以项目组单位每月编写的。如果被开发的软件系统规模比较大，整个工程项目被划分给若干个分项目驵承担，开发进度月报将以分项目为单位每月编写。
+项目开发总结报告（产品人员）软件项目开发完成之后，应当与项目实施计划对照，总结实际执行的情况，如进度、成果、资源利用、成本和投入的人力。此外，还需对开发工作做出评价，总结经验和教训。项目开发总结报告的编写是为了总结本项目开发工作的经验，说明实际取得的开发结果以及对整个开发工作的各个方面的评价。
+软件维护手册（开发人员）主要包括软件系统说明、程序模块说明、操作环境、支持软件的说明、维护过程的说明，便于软件的维护。
+软件问题报告（测试人员）指出软件问题的登记情况，如日期、发现人、状态、问题所属模块等，为软件修改提供准备文档。
+软件修改报告（开发人员）软件产品投入运行以后，发现了需对其进行修正、更改等问题，应将存在的问题、修改的考虑以及修改的影响作出详细的描述，提交审批。
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+        <tag>研发文档</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS7 中文乱码</title>
+    <url>/posts/d91b8c97/</url>
+    <content><![CDATA[解决centos7中文乱码查看本地的中文语言包[root@61c1a2f92913 ~]# locale  -aCPOSIXen_US.utf8[root@61c1a2f92913 ~]# locale LANG=LC_CTYPE=&quot;POSIX&quot;LC_NUMERIC=&quot;POSIX&quot;LC_TIME=&quot;POSIX&quot;LC_COLLATE=&quot;POSIX&quot;LC_MONETARY=&quot;POSIX&quot;`在这里插入代码片`LC_MESSAGES=&quot;POSIX&quot;LC_PAPER=&quot;POSIX&quot;LC_NAME=&quot;POSIX&quot;LC_ADDRESS=&quot;POSIX&quot;LC_TELEPHONE=&quot;POSIX&quot;LC_MEASUREMENT=&quot;POSIX&quot;LC_IDENTIFICATION=&quot;POSIX&quot;LC_ALL=
+
+安装中文环境包yum -y install kde-l10n-Chinese
+
+设置环境变量vim  /etc/profileexport LC_ALL=&quot;zh_CN.UTF-8&quot;# 更新环境变量source /etc/profile
+
+此时已经支持中文了
+localeLANG=LC_CTYPE=&quot;zh_CN.UTF-8&quot;LC_NUMERIC=&quot;zh_CN.UTF-8&quot;LC_TIME=&quot;zh_CN.UTF-8&quot;LC_COLLATE=&quot;zh_CN.UTF-8&quot;LC_MONETARY=&quot;zh_CN.UTF-8&quot;LC_MESSAGES=&quot;zh_CN.UTF-8&quot;LC_PAPER=&quot;zh_CN.UTF-8&quot;LC_NAME=&quot;zh_CN.UTF-8&quot;LC_ADDRESS=&quot;zh_CN.UTF-8&quot;LC_TELEPHONE=&quot;zh_CN.UTF-8&quot;LC_MEASUREMENT=&quot;zh_CN.UTF-8&quot;LC_IDENTIFICATION=&quot;zh_CN.UTF-8&quot;
+
+设置locale.confvim /etc/locale.conf LANG=&quot;zh_CN.UTF-8&quot;source /etc/locale.conf 
+
+设置系统语言localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
       </tags>
   </entry>
 </search>
