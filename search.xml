@@ -1622,8 +1622,6 @@ IOC理论提出的观点大体是这样的：借助于“第三方”实现具�
 
 大家看到了吧，由于引进了中间位置的“第三方”，也就是IOC容器，使得A、B、C、D这4个对象没有了耦合关系，齿轮之间的传动全部依靠“第三方”了，全部对象的控制权全部上缴给“第三方”IOC容器，所以，IOC容器成了整个系统的关键核心，它起到了一种类似“粘合剂”的作用，把系统中的所有对象粘合在一起发挥作用，如果没有这个“粘合剂”，对象与对象之间会彼此失去联系，这就是有人把IOC容器比喻成“粘合剂”的由来。
 2、spring 有哪些主要模块？Spring框架至今已集成了20多个模块。这些模块主要被分如下图所示的核心容器、数据访问&#x2F;集成、Web、AOP（面向切面编程）、工具、消息和测试模块。
-
-
 3、spring 常用的注入方式有哪些？Spring通过DI（依赖注入）实现IOC（控制反转），常用的注入方式主要有三种：
 
 构造方法注入
@@ -3574,7 +3572,7 @@ namesilo
 
 
 yahya-yaoyuming
-&#x36;&#x37;&#50;&#53;&#x35;&#52;&#x37;&#x38;&#x34;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;
+&#x36;&#x37;&#50;&#x35;&#x35;&#x34;&#x37;&#x38;&#x34;&#64;&#x71;&#113;&#46;&#x63;&#111;&#x6d;
 Yao88219620ko!
 
 
@@ -3586,7 +3584,7 @@ cloudflare
 
 
 
-&#54;&#55;&#50;&#x35;&#53;&#52;&#x37;&#56;&#x34;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;
+&#x36;&#55;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;
 Yao88219620ko!
 
 
@@ -3607,7 +3605,7 @@ IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;payments
 
 
 
-&#x36;&#x37;&#50;&#x35;&#x35;&#52;&#55;&#56;&#52;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;
+&#x36;&#x37;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;
 Yao88219620ko!
 
 
@@ -3891,7 +3889,9 @@ DISM/Online /Cleanup-image /ScanhealthDISM/Online /Cleanup-image /RestorehealthS
 
 2.左下角搜索栏搜索IIS（iis）3.右键添加FTP站点
 
-4.创建站点名字和目录5.绑定本机IP地址，SSL勾选无SSL4426.身份验证 –&gt;匿名，授权 –&gt; 所有用户，权限 –&gt;读取写入7.控制面板 –&gt; 系统和安全 –&gt; Windows Defender 防火墙 –&gt; 允许应用或功能通过Windows Defender 防火墙 8.更改设置 –&gt; 勾选 FTP 服务器9.设置应用路径（C:\Windows\System32\svchost.exe）10.使用ftp访问（格式为ftp:&#x2F;&#x2F; + 要访问的IP地址）]]></content>
+4.创建站点名字和目录5.绑定本机IP地址，SSL勾选无SSL
+
+6.身份验证 –&gt;匿名，授权 –&gt; 所有用户，权限 –&gt;读取写入7.控制面板 –&gt; 系统和安全 –&gt; Windows Defender 防火墙 –&gt; 允许应用或功能通过Windows Defender 防火墙 8.更改设置 –&gt; 勾选 FTP 服务器9.设置应用路径（C:\Windows\System32\svchost.exe）10.使用ftp访问（格式为ftp:&#x2F;&#x2F; + 要访问的IP地址）]]></content>
       <categories>
         <category>运维</category>
         <category>windows</category>
@@ -4679,12 +4679,14 @@ bin&#x2F;bash
 
 静候安装完成…
 成功后如下所示
-681
+
+
 zsh下载完成
 设置默认shellchsh -s /bin/zsh
 
 请在root用户下切换shell
-1143
+
+
 更换shell
 返回结果如下，表示切换完成（配置完成后需要重启方能生效，我们先下载oh-my-zsh，稍后重启）
 安装git自动和手动安装都需要安装git，执行
@@ -4695,7 +4697,8 @@ yum install -y git
 
 使用curl来安装，wget命令执行后不起作用，暂时不知道怎么回事。
 出现以下界面，显示安装成功。
-2118
+
+
 oh-my-zsh
 手动安装下载源码
 git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
@@ -4704,19 +4707,20 @@ git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
 修改主题ZSH_THEME 字段就是主题，可以从资料里的主题找
-2965
+
+
 主题配置
 完成后，重启生效默认shellreboot
 
 别名配置首先我们看下git的别名
 vi ~/.oh-my-zsh/plugins/git/git.plugin.zsh
 
-3716
-git别名
+
+
+git 别名
 很强大有木有，我们还可以自定义别名，在~/.zshrc中，最下面直接写即可。
-自定义别名
-3921
-自定义别名
+
+
 小技巧1、输入d,就会列出你在这个回话中访问的目录，输入前面的序号，就可以直接跳转 2、可以忽略cd命令, 输入..或者...和当前目录名都可以跳转
 资料
 oh-my-zsh
