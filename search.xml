@@ -1,53 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>nginx SSL 配置</title>
-    <url>/2023/04/14/Nginx/SSL%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[目录编译安装为了给 nginx 增加 ssl 安全证书配置，需要在编译的时候增加以下选项：
---with-http_ssl_module
-
-如果之前的 nginx 编译的时候已经加上上述选项，可以直接跳过，否则可以参考下面命令的基础用法：
-./configure --prefix=&lt;安装位置&gt; --with-http_ssl_module
-
-然后执行下面的命令进行 nginx 的安装
-make &amp;&amp; make install
-
-配置 nginx.confserver &#123;    listen       443 ssl;    server_name  localhost vless.yahyav2rayssr.top;    # ssl证书地址    ssl_certificate     /etc/nginx/cert/cloudflare-ssl.pem;  # pem文件的路径    ssl_certificate_key  /etc/nginx/cert/cloudflare-ssl.key; # key文件的路径    # ssl验证相关配置    ssl_session_timeout  5m;    #缓存有效期    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议    ssl_prefer_server_ciphers on;   #使用服务器端的首选算法    location / &#123;        root   html;        index  index.html index.htm;    &#125;&#125;
-
-将 http 重定向 httpsserver &#123;    listen       80;    server_name  localhost vless.yahyav2rayssr.top;    return 301 https://$server_name$request_uri;&#125;
-
-重启 nginxnginx -s reload
-
-参考链接Nginx 安装 SSL 配置 HTTPS 超详细完整全过程
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx 基本概念</title>
-    <url>/2023/04/14/Nginx/%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[目录$host 和 $http_host 的区别$host 是 core 模块内部的一个变量
-
-当请求头里不存在 Host 属性或者是个空值，$host 则等于 server_name
-如果请求头里有 Host 属性，那么 $host 等于 Host 属性除了端口号的部分，例如 Host 属性是 www.example.com，那么 $host 就是 www.example.com
-
-$http_host 不是一个固定的变量，他其实是 $http_HEADER 通配后的结果。
-$http_HEADER，注意，这里的HEADER是一个通配符，通配的是请求头里的header属性，例如 $http_content_type 表示请求头里 content-type 属性的值，同理，$http_host 指的就是请求头里的 host 属性，也就是说，如果请求头里面 Host 为空，$http_host 取到的值也就是空。
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx 安装 &amp; FTP美化</title>
-    <url>/2023/04/14/Nginx/%E5%AE%89%E8%A3%85&amp;FTP%E7%BE%8E%E5%8C%96/</url>
+    <url>/posts/1b4fede6/</url>
     <content><![CDATA[目录配置 nginx 美化下载 fancyindexgit clone git@github.com:aperezdc/ngx-fancyindex.git ngx-fancyindex-0.5.2# 或者wget https://github.com/aperezdc/ngx-fancyindex/archive/refs/tags/v0.5.2.zipunzip v0.5.2.zip
 
 
@@ -157,8 +112,53 @@ Nginx 文件服务器页面美化，按时间倒叙
       </tags>
   </entry>
   <entry>
+    <title>nginx SSL 配置</title>
+    <url>/posts/6da6896d/</url>
+    <content><![CDATA[目录编译安装为了给 nginx 增加 ssl 安全证书配置，需要在编译的时候增加以下选项：
+--with-http_ssl_module
+
+如果之前的 nginx 编译的时候已经加上上述选项，可以直接跳过，否则可以参考下面命令的基础用法：
+./configure --prefix=&lt;安装位置&gt; --with-http_ssl_module
+
+然后执行下面的命令进行 nginx 的安装
+make &amp;&amp; make install
+
+配置 nginx.confserver &#123;    listen       443 ssl;    server_name  localhost vless.yahyav2rayssr.top;    # ssl证书地址    ssl_certificate     /etc/nginx/cert/cloudflare-ssl.pem;  # pem文件的路径    ssl_certificate_key  /etc/nginx/cert/cloudflare-ssl.key; # key文件的路径    # ssl验证相关配置    ssl_session_timeout  5m;    #缓存有效期    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议    ssl_prefer_server_ciphers on;   #使用服务器端的首选算法    location / &#123;        root   html;        index  index.html index.htm;    &#125;&#125;
+
+将 http 重定向 httpsserver &#123;    listen       80;    server_name  localhost vless.yahyav2rayssr.top;    return 301 https://$server_name$request_uri;&#125;
+
+重启 nginxnginx -s reload
+
+参考链接Nginx 安装 SSL 配置 HTTPS 超详细完整全过程
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx 基本概念</title>
+    <url>/posts/56e587e1/</url>
+    <content><![CDATA[目录$host 和 $http_host 的区别$host 是 core 模块内部的一个变量
+
+当请求头里不存在 Host 属性或者是个空值，$host 则等于 server_name
+如果请求头里有 Host 属性，那么 $host 等于 Host 属性除了端口号的部分，例如 Host 属性是 www.example.com，那么 $host 就是 www.example.com
+
+$http_host 不是一个固定的变量，他其实是 $http_HEADER 通配后的结果。
+$http_HEADER，注意，这里的HEADER是一个通配符，通配的是请求头里的header属性，例如 $http_content_type 表示请求头里 content-type 属性的值，同理，$http_host 指的就是请求头里的 host 属性，也就是说，如果请求头里面 Host 为空，$http_host 取到的值也就是空。
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nginx 常用命令</title>
-    <url>/2023/04/14/Nginx/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <url>/posts/ffa59763/</url>
     <content><![CDATA[测试文件是否正确nginx -t
 
 指定外部配置文件nginx -c &lt;path_to_config&gt;
@@ -177,7 +177,7 @@ Nginx 文件服务器页面美化，按时间倒叙
   </entry>
   <entry>
     <title>nginx 常用配置</title>
-    <url>/2023/04/14/Nginx/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+    <url>/posts/59e56e3a/</url>
     <content><![CDATA[nginx使用非80端口时url带端口号的解决办法
 注意这里$server_port要和浏览器你想显示的端口号保持一致，因为我listen是80所以是80，如果你listen是8080，又想浏览器显示80，这里server_port 就设置成80。
 
@@ -304,7 +304,7 @@ location 配置配置语法Syntax:    location [ = | ~ | ~* | ^~ ] uri &#123; ..
   </entry>
   <entry>
     <title>nginx 常见错误</title>
-    <url>/2023/04/14/Nginx/%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/</url>
+    <url>/posts/516ff0b8/</url>
     <content><![CDATA[目录413错误
 fastcgi_intercept_errors 语法: fastcgi_intercept_errors on|off 默认: fastcgi_intercept_errors off 添加位置: http, server, location 默认情况下，nginx不支持自定义404错误页面，只有这个指令被设置为on，nginx才支持将404错误重定向
 
@@ -381,7 +381,7 @@ server &#123;    listen 80;    server_name www.a.com;    proxy_redirect http://w
   </entry>
   <entry>
     <title>nginx 证书概念</title>
-    <url>/2023/04/14/Nginx/%E8%AF%81%E4%B9%A6%E6%A6%82%E5%BF%B5/</url>
+    <url>/posts/4b23af26/</url>
     <content><![CDATA[目录编码格式X.509 - 这是一种证书标准,主要定义了证书中应该包含哪些内容.其详情可以参考 RFC5280，SSL使用的就是这种证书标准。
 目前有以下两种编码格式。
 PEMPrivacy Enhanced Mail，打开看文本格式，以”—–BEGIN…”开头，”—–END…”结尾，内容是 BASE64 编码。
@@ -441,7 +441,7 @@ CRT 转 DERopenssl x509 -in cloudflare-ssl.crt -outform der -out cloudflare-ssl.
   </entry>
   <entry>
     <title>gitkraken 破解</title>
-    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/gitkraken/</url>
+    <url>/posts/8aace767/</url>
     <content><![CDATA[1. 下载客户端
 gitkraken windows版本 6.5.1下载地址-1
 gitkraken windows版本 6.5.1下载地址-2
@@ -468,7 +468,7 @@ gitkraken linux deb 6.5.1下载地址
   </entry>
   <entry>
     <title>jrebel 破解</title>
-    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/jrebel/</url>
+    <url>/posts/b92b7720/</url>
     <content><![CDATA[1. 生成 GUID 的网址https://www.guidgen.com/
 2. 用这个网址 + 生成的 GUID 激活https://jrebel.qekang.com/
 例如:
@@ -485,7 +485,7 @@ https://jrebel.qekang.com/738b776f-6cc9-4ac5-9574-960a057392db
   </entry>
   <entry>
     <title>typora 优化</title>
-    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/typora%E4%BC%98%E5%8C%96/</url>
+    <url>/posts/1ed812a6/</url>
     <content><![CDATA[插入的图片左对齐p .md-image:only-child&#123;    width: auto;    text-align: inherit;&#125;
 
 右键打开
@@ -553,7 +553,7 @@ Windows Registry Editor Version 5.00[HKEY_CLASSES_ROOT\Folder\shell\Typora]&quot
   </entry>
   <entry>
     <title>有道云笔记去广告</title>
-    <url>/2023/04/14/%E7%A0%B4%E8%A7%A3/%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0/</url>
+    <url>/posts/c1da566d/</url>
     <content><![CDATA[有道云笔记v6.70去除广告去除文章列表底部广告编辑文件C:\Program Files (x86)\Youdao\YoudaoNote\theme\build.xml
 搜索AdWraperMid, 找到如下代码块:
 &lt;AdWraperMid type=&quot;panel&quot; css=&quot;public&quot; dockstyle=&quot;bottom&quot; visible=&quot;false&quot; bounds=&quot;0,0,0,161&quot;&gt;
@@ -579,7 +579,7 @@ Windows Registry Editor Version 5.00[HKEY_CLASSES_ROOT\Folder\shell\Typora]&quot
   </entry>
   <entry>
     <title>mysql 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/MySQL/</url>
+    <url>/posts/34945828/</url>
     <content><![CDATA[1、MySQL 中有哪几种锁？
 表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。
 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。
@@ -854,7 +854,7 @@ count(1)和count(*)的区别count(1) and count(字段)
   </entry>
   <entry>
     <title>mybatis 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/mybatis/</url>
+    <url>/posts/2e4af39/</url>
     <content><![CDATA[1、解析全局配置文件的时候，做了什么？Configuration
 MappedStatement
 2、没有实现类，Mybatis的方法是怎么执行的？动态代理MapperProxy
@@ -885,7 +885,7 @@ MapperFactoryBean
   </entry>
   <entry>
     <title>rabbitmq 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/rabbitmq/</url>
+    <url>/posts/217b8ff8/</url>
     <content><![CDATA[消息堆积一个消费者一秒是 1000 条，一秒 3 个消费者是 3000 条，一分钟就是 18 万条。所以如果你积压了几百万到上千万的数据，即使消费者恢复了，也需要大概 1 小时的时间才能恢复过来。
 一般这个时候，只能临时紧急扩容了，具体操作步骤和思路如下：
 先修复 consumer 的问题，确保其恢复消费速度，然后将现有 consumer 都停掉。新建一个 topic，partition 是原来的 10 倍，临时建立好原先 10 倍的 queue 数量。然后写一个临时的分发数据的 consumer 程序，这个程序部署上去消费积压的数据，消费之后不做耗时的处理，直接均匀轮询写入临时建立好的 10 倍数量的 queue。接着临时征用 10 倍的机器来部署 consumer，每一批 consumer 消费一个临时 queue 的数据。这种做法相当于是临时将 queue 资源和 consumer 资源扩大 10 倍，以正常的 10 倍速度来消费数据。等快速消费完积压数据之后，得恢复原先部署的架构，重新用原先的 consumer 机器来消费消息。 mq 中的消息过期失效了
@@ -912,7 +912,7 @@ package com.rabbitmq.client;import java.io.IOException;/** * Implement this inte
   </entry>
   <entry>
     <title>redis 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/redis/</url>
+    <url>/posts/9657a236/</url>
     <content><![CDATA[1、什么是 Redis?Redis 是完全开源免费的，遵守 BSD 协议，是一个高性能的 key-value 数据库。
 Redis 与其他 key - value 缓存产品有以下三个特点：
 （1）Redis 支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。
@@ -1042,7 +1042,7 @@ Redis 在内存中对数字进行递增或递减的操作实现的非常好。�
   </entry>
   <entry>
     <title>spring cloud 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/springCloud/</url>
+    <url>/posts/238ae934/</url>
     <content><![CDATA[1、什么是 Spring Cloud？Spring cloud 流应用程序启动器是基于 Spring Boot 的 Spring 集成应用程序，提供与外部系统的集成。Spring cloud Task，一个生命周期短暂的微服务框架，用于快速构建执行有限数据处理的应用程序。
 2、使用 Spring Cloud 有什么优势？使用 Spring Boot 开发分布式微服务时，我们面临以下问题
 （1）与分布式系统相关的复杂性：这种开销包括网络问题，延迟开销，带宽问题，安全问题。
@@ -1124,7 +1124,7 @@ dubbo可以和spring无缝集成
   </entry>
   <entry>
     <title>zookeeper 面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/zookeeper/</url>
+    <url>/posts/3647b27d/</url>
     <content><![CDATA[Zookeeper 工作原理Zookeeper 的核心是原子广播，这个机制保证了各个 Server 之间的同步。实现这个机制的协议叫做 Zab 协 议。Zab 协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃 后，Zab 就进入了恢复模式，当领导者被选举出来，且大多数 Server 完成了和 leader 的状态同步以后，恢复模式就结束了。状态同步保证了 leader 和 Server 具有相同的系统状态。
 ]]></content>
       <categories>
@@ -1136,7 +1136,7 @@ dubbo可以和spring无缝集成
   </entry>
   <entry>
     <title>查缺补漏</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/%E6%9F%A5%E7%BC%BA%E8%A1%A5%E6%BC%8F/</url>
+    <url>/posts/d7158ead/</url>
     <content><![CDATA[SpringMVC执行流程:
 用户发送请求至前端控制器DispatcherServlet
 
@@ -1306,7 +1306,7 @@ Token 机制这种方式分成两个阶段：申请 Token 阶段和支付阶段�
   </entry>
   <entry>
     <title>面试单题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E5%8D%95%E9%A2%98/</url>
+    <url>/posts/1f03d757/</url>
     <content><![CDATA[基础1、String str&#x3D;”i”与 String str&#x3D;new String(“i”)一样吗不一样，因为内存的分配方式不一样。String str&#x3D;”i”的方式，java 虚拟机会将其分配到常量池中；而 String str&#x3D;new String(“i”) 则会被分到堆内存中。
 2、抽象类必须要有抽象方法吗？不需要，抽象类不一定非要有抽象方法，以下为示例代码：
 abstract class Cat &#123;    public static void sayHi() &#123;        System.out.println(&quot;hi~&quot;);    &#125;&#125;
@@ -2336,7 +2336,7 @@ d）通过列名来获取结果集，不要使用列的下标来获取。
   </entry>
   <entry>
     <title>面试题</title>
-    <url>/2023/04/15/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <url>/posts/5205ee75/</url>
     <content><![CDATA[redis线程模型
 单线程，NIO，异步事件处理
 
@@ -2470,7 +2470,7 @@ out 输出，但是尽量使用表达式输出
   </entry>
   <entry>
     <title>黑苹果安装教程</title>
-    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <url>/posts/479c48ec/</url>
     <content><![CDATA[目录镜像下载macOS Monterey 12.6.3 (21G419) 正式版 ISO、IPSW、PKG 下载
 BIOS 设置官方建议OpenCore 官方建议的 10 代 CPU 架构的 BISO 调整如下：
 禁用
@@ -2831,7 +2831,7 @@ AsRock-Z490-Steel-Legend-i7-10700
   </entry>
   <entry>
     <title>黑苹果常用配置</title>
-    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+    <url>/posts/4a49b547/</url>
     <content><![CDATA[目录macOS 开启或关闭 SIP
 参考链接：https://sspai.com/post/55066
 
@@ -2879,7 +2879,7 @@ opencore 重置 nvram在 OpenCore 中，重置 NVRAM 的方法有以下几种：
   </entry>
   <entry>
     <title>黑苹果常见错误</title>
-    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/</url>
+    <url>/posts/42c32bc5/</url>
     <content><![CDATA[目录解决 App Store 无法登录打开终端，输入命令：
 sudo nvram -cPassword:nvram: Error clearing firmware variables: (iokit/common) not permitted
 
@@ -2924,7 +2924,7 @@ Kernel -&gt; Quirks -&gt; DisableRtcChecksum
   </entry>
   <entry>
     <title>黑苹果装机配置</title>
-    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E8%A3%85%E6%9C%BA%E9%85%8D%E7%BD%AE/</url>
+    <url>/posts/f0e37cbf/</url>
     <content><![CDATA[目录电脑配置
 
 
@@ -3038,7 +3038,7 @@ i7-10700
   </entry>
   <entry>
     <title>黑苹果驱动下载地址</title>
-    <url>/2023/04/14/%E9%BB%91%E8%8B%B9%E6%9E%9C/%E9%A9%B1%E5%8A%A8%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80/</url>
+    <url>/posts/84c0ab93/</url>
     <content><![CDATA[目录kext其他
 
 
@@ -3267,7 +3267,7 @@ https://github.com/OpenIntelWireless/itlwm/releases
   </entry>
   <entry>
     <title>draw.io 基础教程</title>
-    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/draw.io/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
+    <url>/posts/5e3e9b12/</url>
     <content><![CDATA[1. 网页端使用懒得安装的直接使用下面这个链接直接开始绘图：https://www.draw.io
 2. 桌面端下载在github项目右侧有个release，这里是作者打包生成好的安装文件，比如现在最新的版本是14.5.1点击进去后，可以看到如下图所示的下载页面。根据你自己的系统以及硬件平台选择合适的安装文件。
 
@@ -3412,7 +3412,7 @@ DELETE
   </entry>
   <entry>
     <title>postman 常用配置</title>
-    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/postman/%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+    <url>/posts/51f0c4fa/</url>
     <content><![CDATA[参考链接
 导入 chrome 请求1. 选择 Copy as cURL（bash）
 
@@ -3436,7 +3436,7 @@ Postman Interceptor 使用1. chrome 启用 Interceptor
   </entry>
   <entry>
     <title>v2rayN 配置教程</title>
-    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/v2rayN/%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
+    <url>/posts/4a137bcb/</url>
     <content><![CDATA[4.12 最新 v2rayN windows 进阶版使用教程 | 附PAC模式路由规则 | 多个自定义路由规则在上篇 v2rayN 使用教程中（点击跳转），已经向大家介绍了最新 v2rayN windows 的重大更新内容以及如何快速使用新版 v2rayN 客户端：
 
 比如，删除了常见PAC 模式; 自定义路由规则集和自由切换多个路由规则集；
@@ -3562,7 +3562,7 @@ V2Ray 路由规则文件加强版
   </entry>
   <entry>
     <title>翻墙杂项</title>
-    <url>/2023/04/14/%E5%B7%A5%E5%85%B7/%E7%BF%BB%E5%A2%99/%E6%9D%82%E9%A1%B9/</url>
+    <url>/posts/126dc918/</url>
     <content><![CDATA[目录一级域名yahyav2rayssr.top
 namesilo
 
@@ -3574,7 +3574,7 @@ namesilo
 
 
 yahya-yaoyuming
-&#54;&#55;&#50;&#53;&#x35;&#52;&#55;&#x38;&#x34;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;
+&#54;&#x37;&#50;&#53;&#53;&#52;&#x37;&#56;&#52;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;
 Yao88219620ko!
 
 
@@ -3586,7 +3586,7 @@ cloudflare
 
 
 
-&#x36;&#55;&#50;&#x35;&#x35;&#x34;&#55;&#56;&#52;&#64;&#113;&#113;&#x2e;&#99;&#111;&#109;
+&#x36;&#x37;&#x32;&#53;&#x35;&#x34;&#x37;&#56;&#x34;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;
 Yao88219620ko!
 
 
@@ -3607,7 +3607,7 @@ IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;payments
 
 
 
-&#x36;&#55;&#x32;&#x35;&#53;&#x34;&#55;&#x38;&#x34;&#x40;&#x71;&#x71;&#46;&#99;&#111;&#x6d;
+&#x36;&#x37;&#x32;&#x35;&#x35;&#x34;&#55;&#56;&#x34;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;
 Yao88219620ko!
 
 
@@ -3644,7 +3644,7 @@ bash &lt;(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.
   </entry>
   <entry>
     <title>parsec 账号信息</title>
-    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/parsec/%E8%B4%A6%E5%8F%B7%E4%BF%A1%E6%81%AF/</url>
+    <url>/posts/e7ec76f5/</url>
     <content><![CDATA[账号信息
 
 
@@ -3656,13 +3656,13 @@ bash &lt;(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.
 
 
 主邮箱
-&#54;&#55;&#50;&#x35;&#x35;&#x34;&#55;&#56;&#x34;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;
+&#x36;&#x37;&#50;&#53;&#53;&#x34;&#55;&#x38;&#x34;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;
 13580367153
 Yao8282925ok!
 
 
 辅助邮箱
-&#121;&#97;&#111;&#x79;&#117;&#109;&#105;&#110;&#x67;&#55;&#x35;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;
+&#121;&#97;&#111;&#121;&#x75;&#109;&#105;&#x6e;&#x67;&#x37;&#x35;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#109;
 13580367153
 Yao8282925ok!
 
@@ -3678,7 +3678,7 @@ parsec_backup_codes0485598080400128071890340016600303162744265913638904191523873
   </entry>
   <entry>
     <title>vps 服务器信息</title>
-    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/vps/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF/</url>
+    <url>/posts/c491f2c3/</url>
     <content><![CDATA[目录HostEONS 服务器信息IP：194.33.38.170
 用户名：root
 密码：Yahya88219620ko
@@ -3695,18 +3695,18 @@ Port: 6198
   </entry>
   <entry>
     <title>zoilr 账号信息</title>
-    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/zoilr/%E8%B4%A6%E5%8F%B7%E4%BF%A1%E6%81%AF/</url>
+    <url>/posts/6bf18a3f/</url>
     <content><![CDATA[目录网址https://zoilr.com
 订单查询https://zoilr.com/user/index/query
-账号邮箱：&#54;&#55;&#x32;&#x35;&#53;&#x34;&#55;&#x38;&#x34;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#x6d;
+账号邮箱：&#x36;&#x37;&#50;&#53;&#53;&#x34;&#55;&#x38;&#x34;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;
 查询密码：Yao88219620ko
-网易邮箱邮箱：&#x79;&#97;&#x6f;&#x79;&#x75;&#x6d;&#105;&#110;&#x67;&#56;&#48;&#x40;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#109;
+网易邮箱邮箱：&#x79;&#97;&#x6f;&#x79;&#117;&#109;&#105;&#x6e;&#x67;&#x38;&#x30;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#x6f;&#x6d;
 密码：Yao88219620ko
 苹果账号
 原始账号信息：
-苹果账号【&#x63;&#x6a;&#x65;&#x70;&#120;&#x68;&#x62;&#110;&#x64;&#x40;&#104;&#x6f;&#116;&#109;&#97;&#x69;&#x6c;&#46;&#99;&#111;&#x6d;】苹果密码【Qqz112211】修改资料教程【www.qtao.ink/f519】收到当日必须按教程修改全部资料包括邮箱，否则一切问题自行承担；生日【1983年1月21日】密保问题答案【朋友的名字：A111，理想的工作：B111，父母在哪认识：C111】禁止登陆iCloud（只要不是AppStore里登录都是错误的）【正确登陆教程：www.qtao.ink/ae07】常见问题（密码错误&#x2F;无法登陆&#x2F;无法更新等）解决方法【www.qtao.ink/WXMs】
+苹果账号【&#99;&#106;&#x65;&#x70;&#120;&#104;&#x62;&#x6e;&#100;&#64;&#x68;&#x6f;&#x74;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;】苹果密码【Qqz112211】修改资料教程【www.qtao.ink/f519】收到当日必须按教程修改全部资料包括邮箱，否则一切问题自行承担；生日【1983年1月21日】密保问题答案【朋友的名字：A111，理想的工作：B111，父母在哪认识：C111】禁止登陆iCloud（只要不是AppStore里登录都是错误的）【正确登陆教程：www.qtao.ink/ae07】常见问题（密码错误&#x2F;无法登陆&#x2F;无法更新等）解决方法【www.qtao.ink/WXMs】
 
-用户名：&#121;&#97;&#x6f;&#121;&#x75;&#x6d;&#105;&#110;&#103;&#56;&#48;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;
+用户名：&#121;&#97;&#111;&#121;&#117;&#x6d;&#x69;&#110;&#x67;&#x38;&#x30;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#109;
 密码：Yahya88219620ko
 ]]></content>
       <categories>
@@ -3718,7 +3718,7 @@ Port: 6198
   </entry>
   <entry>
     <title>哔哩哔哩私人信息</title>
-    <url>/2023/04/14/%E7%BD%91%E7%AB%99%E8%B4%A6%E5%8F%B7/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/%E7%A7%81%E4%BA%BA%E4%BF%A1%E6%81%AF/</url>
+    <url>/posts/e79f5c74/</url>
     <content><![CDATA[注册时间参考网址，取里面的jointime字段
 
 https://member.bilibili.com/x2/creative/h5/calendar/card?ts=0
@@ -3740,6 +3740,1167 @@ https://api.bilibili.com/x/space/myinfo
       </categories>
       <tags>
         <tag>bilibili</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vmware 网络配置</title>
+    <url>/posts/da1888d/</url>
+    <content><![CDATA[目录网卡配置桥接模式参考链接Mac VMware fusion10 Centos7网络配置
+如何使VMware ip与本机ip处于同一网段
+CentOS 7 在vmware中的网络设置
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>vmware</category>
+      </categories>
+      <tags>
+        <tag>vmware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gpedit 常用配置</title>
+    <url>/posts/9e487b57/</url>
+    <content><![CDATA[关闭 Antimalware Service Executable
+
+Antimalware Service Executable是什么 如何关闭Antimalware Service Executable进程是微软杀毒软件Windows Defender的相关系统进程,是个正常的系统进程，其工作时经常会出现高CPU、高内存与高磁盘的情况。
+关闭步骤：1、win键+R，输入“gpedit.msc”，打开“本地组策略编辑器”；2、依次选择“计算机配置”-“管理模板”-“Windows组件”-“Windows Defender防病毒程序”；3、找到“关闭Windows Defender防病毒程序”选项，右键“编辑“，选择“已启用”，确定即可；
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>gpedit</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字体替换</title>
+    <url>/posts/7e3491fa/</url>
+    <content><![CDATA[字体替换1. 方式一1. 替换系统字体
+powershell 命令
+
+覆盖文件move-item [源文件] [目标文件] -force
+
+删除文件
+delete-item [文件]
+
+
+
+重启电脑，进入安全模式，然后打开 CMD 命令行窗口，将需要替换的字体放到下 c:\fonts 目录下，然后执行以下命令：
+xcopy C:\fonts C:\Windows\Fonts
+
+2. 方式二（无须进入安全模式，推荐）1. 替换 CMD 默认字体
+如果强制覆盖了 SimSun &amp; NSimSun (TrueType) 和 SimSun-ExtB (TrueType)（原始字体分别对应 simsun.ttc 和 simsunb.ttf），会出现重启之后无法打开 CMD 命令行窗口的情况，所以需要对 CMD 命令行的默认字体做切换。
+
+运行 regedit，然后打开如下的键：HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont，如下图所示：
+
+
+鼠标右键，然后新建字符串值：
+
+
+输入 0 或者 00 或者 000 或者 0000，每增加一个字体，增加一个0，这里增加的 Consolas-with-Yahei 第四个新的字体，因此使用的是0000，然后选中 0000 这一项，修改，在弹出框中输入字体 Consolas-with-Yahei，如下所示：
+
+
+这样子就修改完成了，我们需要进入到 CMD 下，然后在窗口标题栏上右键 -&gt; Options -&gt; 打开字体面板， 发现没有出现注册表中的字体，我们需要回到 CMD 下，输入以下命令：
+chcp 437
+
+然后会切换字体。这时候再来看字体这里，就会出现新的字体，选择我们需要的字体，然后确定就OK了。
+这里附带一个永久修改 Active Code Page 的办法：
+有时候，我们的 CMD 的 codepage 和字体等会变化，比如突然由中文变成英文的 codepage（因为一些sh程序的干扰）
+下面是修正方法：
+进入 HKEY_CURRENT_USER\Console\%SystemRoot%_system32_cmd.exe，编辑 CodePage 项，设置为如下的数值：
+
+数值含义如下：
+
+十六进制 000003a8 或十进制 936，表示 936 (ANSI&#x2F;OEM - 简体中文 GBK)。
+十六进制 000001b5 或十进制 437，表示 437 (OEM - 美国)。
+
+
+效果如下图所示：
+
+
+2. 替换系统字体键盘上 Windows + R，打开运行后输入 regedit。
+找到路径：计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts，如下图所示：
+
+
+
+
+点击后面有默认字样的字体，鼠标右键，修改：Microsoft YaHei &amp; Microsoft YaHei UI (TrueType)，这是系统默认的字体。如下图所示。
+
+
+点击确定后，再找到 Microsoft YaHei Bold &amp; Microsoft YaHei UI Bold (TrueType)，检查是否一致。
+
+
+重启电脑，字体生效。
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>字体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows 常用命令</title>
+    <url>/posts/7101b844/</url>
+    <content><![CDATA[目录转换磁盘convert [driver] /fs:ntfs
+查看局域网所有IParp -a
+CMD临时代理set http_proxy=http://127.0.0.1:1080set https_proxy=http://127.0.0.1:1080
+设置IP、DNS、网关netsh interface ip set address name=&quot;本地连接&quot; source=static addr=192.168.132.5 mask=255.255.255.0netsh interface ip set address name=&quot;本地连接&quot; gateway=192.168.132.1 gwmetric=0netsh interface ip set dns name=&quot;本地连接&quot; source=static addr=192.168.132.1 register=PRIMARYnetsh interface ip set wins name=&quot;本地连接&quot; source=static addr=none
+查看IP、DNS、网关netsh interface ip show address
+清除DNS缓存ipconfig /flushdns
+
+重置Winsock目录netsh winsock reset
+
+tasklist
+&#x2F;S     system           指定连接到的远程系统。  
+&#x2F;U     [domain]user    指定使用哪个用户执行这个命令。  
+&#x2F;P     [password]       为指定的用户指定密码。  
+&#x2F;M     [module]         列出调用指定的 DLL 模块的所有进程。如果没有指定模块名，显示每个进程加载的所有模块。  
+&#x2F;SVC                   显示每个进程中的服务。  
+&#x2F;V                      指定要显示详述信息。  
+&#x2F;FI    filter           显示一系列符合筛选器指定的进程。  
+&#x2F;FO    format           指定输出格式，有效值: “TABLE”、”LIST”、”CSV”。  
+&#x2F;NH                     指定栏标头不应该在输出中显示。只对 “TABLE” 和 “CSV” 格式有效。
+
+taskkill
+TASKKILL [&#x2F;S system [&#x2F;U username [&#x2F;P [password]]]]  
+{ [&#x2F;FI filter] [&#x2F;PID processid | &#x2F;IM imagename] } [&#x2F;F] [&#x2F;T]
+
+端口转发# 执行命令netsh interface portproxy add v4tov4 listenaddress=[LOCAL_HOST]  listenport=[LOCAL_PORT]  connectaddress=[TARGET_HOST] connectport=[TARGET_PORT]# 例netsh interface portproxy add v4tov4 listenaddress=100.120.9.96  listenport=2222  connectaddress=10.206.230.177 connectport=22# 查看现有的配置netsh interface portproxy show all# 删除原有的端口转发netsh interface portproxy delete v4tov4 listenaddress=[LOCAL_HOST]  listenport=[LOCAL_PORT]# 例netsh interface portproxy delete v4tov4 listenaddress=100.120.9.96  listenport=2222
+
+Diskpart 手动创建 EFI、MSR 引导分区用傲梅分区助手将磁盘转换为GPT格式创建 EFI 分区diskpartlist diskselect disk x   (选择需要的硬盘)create partition efi size=100assign letter=bformat quick fs=FAT32
+
+创建 msr 分区create partition msr size=16  (Win 10 默认是16M) 
+
+创建 Recovery 分区 (WindowsRE)create partition primary size=450format quick fs=ntfs label=&quot;Recovery&quot;assign letter=&quot;R&quot;set id=&quot;de94bba4-06d1-4d40-a16a-bfd50179d6ac&quot;gpt attributes=0x8000000000000001      ( 8 和 1之间有14个0)
+
+IP释放、更新、以及清除 DNS
+在桌面上，按Windows键，然后输入CMD。
+右键单击“ 命令提示符”，然后选择“以管理员身份运行”。
+在命令提示符下输入ipconfig / release。
+等待几秒钟可以得到IP地址已释放。
+在命令提示符下输入ipconfig /renew。
+等待几秒钟可以得到已重新建立IP地址。
+在命令提示符下输入ipconfig / flushdns。
+关闭命令窗口并尝试建立连接。
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows 常用配置</title>
+    <url>/posts/d741411d/</url>
+    <content><![CDATA[目录设置U盘插入电脑后自动打开文件夹播放更改媒体或设备的默认设置
+
+
+选择需要的选项即可，如下图所示：
+
+
+修改时区方法一
+使用「Windows 设置」自动设置时区
+
+
+使用 Windows + I 快捷键打开「Windows 设置」
+打开「时间和语言」——「日期和时间」
+启用「自动设置时区」开关
+
+
+
+方法二使用「命令提示符」调整时区，执行以下命令以查看当前时区设置：
+tzutil /g
+
+如果要调整时区设置，可使用以下命令：
+tzutil /s &quot;China Standard Time&quot;
+
+
+
+上述是以中国标准时间为例，如果要列出所有可用时区选项，可用：
+tzutil /l
+
+
+
+方法三
+使用 Powershell 调整时区。
+
+使用 Windows + X 快捷键打开快捷菜单——选择 Windows PowerShell（管理员），执行以下命令查看当前时区设置：
+Get-TimeZone
+
+执行以下命令列出可用时区列表：
+Get-TimeZone -ListAvailable
+
+
+
+使用以下命令调整时区设置：
+Set-TimeZone -Name &quot;China Standard Time&quot;
+
+解决Windows 10下蓝牙设备无法删除的故障在更换了一张无线网卡（蓝牙适配器跟无线网卡是集成在一起的）后，蓝牙设备全失联了，想要重新配对，可是原有设备无法删除。
+
+
+蓝牙设备无法删除，折腾了好久啊，最后突然发现了如下方法，打开“计算机管理”中的“设备管理器”节点，在该节点上右击后点“查看”然后勾选“显示隐藏的设备”如下图：
+
+
+勾选“显示隐藏的设备”， 在右边蓝节节点，找到要删除的蓝牙设备，在其上点右键，选择“卸载设备”。
+
+
+卸载设备，依次把要删除的多个设备全卸载，问题就解决了。
+删除右键菜单 AMD 选项打开 regedit 菜单，进入到 计算机\HKEY_CLASSES_ROOT\Directory\Background\shellex\ContextMenuHandlers\ace 路径，找到默认值，右键删除即可。
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows 常见错误</title>
+    <url>/posts/dfcbdf9f/</url>
+    <content><![CDATA[目录dll 注册for %1 in (%windir%\system32\*.dll) do regsvr32.exe /s %1for %1 in (%windir%\system32\*.dll) do regasm.exe /s %1
+
+模块xxx已加载，但找不到入口点DllRegisterServer
+
+
+
+使用regasm注册.net com组件出现不是有效的.net程序集的解决办法在电脑上装有VS 2008和VS 2010.使用VS 2010编写了一个C# com组件:MyCom（基于.net framework4.0），然后使用VS 2008的命令提示工具运行命令：regasm MyCom，结果提示错误：RegAsm：error RA0000,“MyCOM”不是有效的.net程序集。开始百思不得其解。后来才醒悟到VS 2008的命令提示工具运行的regasm.exe是vs2008版本，它可能注册不了基于.net framework4.0的C# com组件。后来发现确实是这样的。如果一台机子上装有VS 2008和VS 2010，那么它就有两个版本的regasm.exe，分别存放的位置是C:\Windows\Microsoft.NET\Framework\v2.0.50727和C:\Windows\Microsoft.NET\Framework\v4.0.30319.使用VS 2010版本的regasm能注册vs2008编写的C# com组件，但是使用vs2008版本的regasm不能注册基于.net framework4.0的C# com组件。
+程序无法正常启动 0xc0000142 解决方法在命令下执行
+for %1 in (%windir%\system32\*.dll) do regsvr32.exe /s %1 
+完成后重启如果不能解决，继续以管理员身份运行命令提示符中依次执行以下命令
+DISM/Online /Cleanup-image /ScanhealthDISM/Online /Cleanup-image /RestorehealthSfc /scannow]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows 开启 FTP</title>
+    <url>/posts/b7b934f4/</url>
+    <content><![CDATA[WIN10开启FTP1.控制面板 –&gt; 程序–&gt; 启用或关闭windows功能
+
+2.左下角搜索栏搜索IIS（iis）3.右键添加FTP站点
+
+4.创建站点名字和目录5.绑定本机IP地址，SSL勾选无SSL4426.身份验证 –&gt;匿名，授权 –&gt; 所有用户，权限 –&gt;读取写入7.控制面板 –&gt; 系统和安全 –&gt; Windows Defender 防火墙 –&gt; 允许应用或功能通过Windows Defender 防火墙 8.更改设置 –&gt; 勾选 FTP 服务器9.设置应用路径（C:\Windows\System32\svchost.exe）10.使用ftp访问（格式为ftp:&#x2F;&#x2F; + 要访问的IP地址）]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>ftp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>运维常用命令-常用篇</title>
+    <url>/posts/e9ae7850/</url>
+    <content><![CDATA[1. ls 系列
+-F：根据文件、目录等信息在文件名或目录名最后给予附加数据结构
+
+*  代表可执行文件；
+&#x2F;  代表目录
+&#x3D;  代表socket文件
+|  代表FIFO文件
+@  代表连接文件
+
+
+1. 只显示文件类型，排除目录方法一：
+^[^d] 是一个正则表达式，[^d] 表示字符串含有一个不是 d 的字符， ^d 表示以 d 开头，^[^d] 表示不以 d 开头
+
+ls -l | grep ^[^d]
+
+所以只显示文件夹的写法为：
+ls -l | grep ^d
+
+方法二：ls -l | grep -v ^d
+
+如果文件名包含空格，可以用下面命令：
+ls -l | grep -v [/$]
+
+
+2. sed 系列1. 替换字符串sed &#x27;s/old/new/g&#x27;
+
+3. rm 系列1. 删除带有指定字符串的文件方法一：
+注意字符串如果含有特殊字符，必须做转义处理，否则默认会删除当前目录下的所有文件。
+
+rm -f *字符串*
+
+方法二：find -type f -name &#x27;*字符串*&#x27; -delete
+
+4. awk 系列1. 获取某一行中指定字符后的内容比如有个xxx.txt文件，里面有很多行内容，其中有行内容为ro.xxx&#x3D;123，要想获取到123这个值，可以如下处理
+#!/bin/shNAME=`cat xxx.txt | grep &#x27;ro.xxx&#x27; | awk -F &#x27;=&#x27; &#x27;&#123;print $2&#125;&#x27;`echo $NAME
+
+5. $(cd dirname $0;pwd)cd &quot;$(dirname &quot;$0&quot;)&quot;;pwd 等同于 $(dirname $(readlink -f &quot;$0&quot;))
+# 在/home/admin/test/下新建test.sh内容如下：cd `dirname $0`echo `pwd` # 然后返回到/home/admin/执行sh test/test.sh # 运行结果:/home/admin/test
+
+6. basename1. basename打印除上层路径外的基础文件名；当文件名后存在后缀时，除去后面的后缀，如 # basename include&#x2F;stdio.h .h 只会打印出 stdio
+2. basename -s-s参数后面指定要去除的后缀字符，即：# basename -s .h include&#x2F;stdio.h 同 # basename include&#x2F;stdio.h .h 一样只会打印出 stdio
+3. basename -a-a参数可追加执行多个文件路径，取每一个路径的基础文件名并打印。用法如下图：
+
+
+7. pwd1. pwd -L打印出环境变量 $PWD 的值，如果 PWD 赋值为当前工作路径，pwd 默认同 pwd -L
+2. pwd -P打印真实路径，不打印链接的路径，区别如图：
+
+
+8. watch命令参数：
+-n 或 –interval watch 缺省每2秒运行一下程序，可以用 -n 或 -interval 来指定间隔的时间。
+-d 或 –differences 用 -d 或 –differences 选项 watch 会高亮显示变化的区域。 而 -d&#x3D;cumulative 选项会把变动过的地方(不管最近的那次有没有变动)都高亮显示出来。
+-t 或-no-title 会关闭watch命令在顶部的时间间隔,命令，当前时间的输出。
+示例：
+watch -n 1 -d &quot;&lt;command&gt;&quot;
+
+9. grep
+
+
+元字符
+功能
+例子
+匹配什么
+
+
+
+^
+锚定行的开始
+&#x2F;^love&#x2F;
+匹配所有以love开头的行
+
+
+$
+锚定行的结束
+&#x2F;love$&#x2F;
+匹配所有以love 结束的行
+
+
+.
+匹配一个字符
+&#x2F;l..e&#x2F;
+匹配这样的行，这些行包含这样的字符：第一个字符是l,紧跟着两个字符，然后是e
+
+
+*
+代表0个或多个先前字符
+&#x2F;*love&#x2F;
+匹配所有这样的行，有0个或多个空格，空格后跟着love
+
+
+[]
+匹配字符组中的一个字符
+&#x2F;[Ll]ove&#x2F;
+匹配所有包含love或者Love的行
+
+
+[^]
+匹配一个不在范围内的字符
+&#x2F;[^A-Z]ove&#x2F;
+
+
+
+&lt;
+锚定单词的开始
+&lt;love
+匹配所有这样的行，这些行包含以love开头的单词（vi和grep支持这个功能）
+
+
+&gt;
+锚定单词的结束
+Love&gt;
+匹配所有这样的行，这些行包含以love结束的单词（vi和grep支持这个功能）
+
+
+(..)
+标记后面用到的匹配字符
+&#x2F;(love)able1rs&#x2F;
+最多可以使用9个标签。第一个标签是模板最左边的部分。在本例子中，模板love保存的标签为1，后面的1指得就是love；本例子搜索的是这样的行，这些行包含这样的字符，在Loveabel后面跟着lovers
+
+
+x{m}
+M次复制字符x
+
+
+
+
+x{m,}
+至少m次复制字符x
+
+
+
+
+x{m,n}
+至少m次，至多n次复制字x
+
+
+
+
+w
+文字和数字字符，[A-Za-z0-9]
+Lw*e
+匹配一个l字符，紧跟着0个或多个文字或数字字符，然后是e
+
+
+W
+同上
+
+
+
+
+b
+单词分界线
+bloveb
+仅仅匹配单词love
+
+
+递归查找某个文本内容
+R 表示递归，就是在当前目录找不到就去子目录找 
+E 表示把文件名也打印出来 
+n 打印此行在文件中的位置。
+
+示例：
+# 这句可以显示在哪个文件里包含3306grep -Rl &quot;3306&quot;# 可以显现文件名，行数grep -REn &quot;3306&quot;
+
+查找替换内容# sed -i &quot;s/[原字符串]/[新字符串]/g&quot; `grep &#x27;[原字符串]&#x27; -rl /opt/kubernetes`# 示例：替换/opt/kubernetes下所有文件内容为242的换成245sed -i &quot;s/242/245/g&quot; `grep &#x27;242&#x27; -rl /opt/kubernetes`
+
+10. 查看端口占用查看那些程序使用tcp的80端口$fuser -v -n tcp 80$fuser -v 80/tcp  
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用命令</category>
+      </categories>
+      <tags>
+        <tag>命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>运维常用命令-常用配置篇</title>
+    <url>/posts/c3218428/</url>
+    <content><![CDATA[禁止pingLinux默认是允许Ping响应的，系统是否允许Ping由2个因素决定的：A、内核参数，B、防火墙，需要2个因素同时允许才能允许Ping，2个因素有任意一个禁Ping就无法Ping。
+内核参数设置允许PING设置
+临时允许PING操作的命令为：echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+永久允许PING配置方法。
+&#x2F;etc&#x2F;sysctl.conf 中增加一行
+  net.ipv4.icmp_echo_ignore_all=0
+
+如果已经有net.ipv4.icmp_echo_ignore_all这一行了，直接修改&#x3D;号后面的值即可的（0表示允许，1表示禁止）。
+修改完成后执行以下命令，使新配置生效。
+sysctl -p
+
+防火墙设置
+注：此处的方法的前提是内核配置是默认值，也就是没有禁止Ping。
+
+以Iptables防火墙为例
+允许PING设置iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPTiptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+或者也可以临时停止防火墙操作的。
+service iptables stop
+
+禁止PING设置iptables -A INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用命令</category>
+      </categories>
+      <tags>
+        <tag>运维配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>运维常用命令-时间篇</title>
+    <url>/posts/c72fbcb5/</url>
+    <content><![CDATA[linux 查看系统当前时间，修改时间，查看文件时间查看时间和日期date
+
+设置时间和日期例如：将系统日期设定成2018年6月8日的命令
+date -s 06/08/2018
+
+将系统时间设定成下午10点46分03秒的命令
+date -s 10:46:03
+
+查看时区date -R
+
+查询系统当前日期date +&quot;%Y-%m-%d&quot;
+
+查询系统当前时间date +&quot;%H-%M-%S&quot;
+
+查看文件时间ls -l 或者 ll
+
+
+要显示秒（实际更精确），可以用 --full-time 参数
+
+
+要显示更多信息，用 stat 命令：
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用命令</category>
+      </categories>
+      <tags>
+        <tag>运维配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>运维常用命令-系统篇</title>
+    <url>/posts/85b72ed0/</url>
+    <content><![CDATA[设置 hostname
+hostname 存放于 /etc/host/hostname
+
+hostnamectl set-hostname [hostname]
+
+查看用户和用户组查看用户列表cat /etc/passwd
+
+
+
+查看用户组列表cat /etc/group
+
+
+
+查看系统中有哪些用户cut -d : -f 1 /etc/passwd
+
+
+
+查看可以登录系统的用户cat /etc/passwd | grep -v /sbin/nologin | cut -d : -f 1
+
+
+
+查看用户操作w (root权限)
+
+
+
+查看某一用户w &lt;user_name&gt;
+
+
+
+查看登录用户who
+
+
+
+查看用户登录历史记录last
+
+
+
+修改root用户密码passwd
+
+
+
+root用户修改其他用户密码passwd &lt;user_name&gt;
+
+
+
+重启init 6init 6 基于一系列 /etc/inittab 文件，并且每个应用都会有一个相应 shutdown 脚本。init 6 调用一系列 shutdown 脚本(&#x2F;etc&#x2F;rc0.d&#x2F;K*)来使系统优雅关机。
+rebootreboot 并不执行这些过程，reboot更是一个 kernel 级别的命令，不对应用使用 shutdown 脚本。
+综上平常推荐使用 init 6 命令，只有在系统出了问题的时候才比较推荐使用 reboot 命令。
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用命令</category>
+      </categories>
+      <tags>
+        <tag>运维配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gitlab 安装</title>
+    <url>/posts/fc8249c5/</url>
+    <content><![CDATA[目录安装
+gitlab 运行需要较大内存，建议将虚拟机内存设置为 4GB 以上，并保证相关端口不被其他进行占用。
+
+安装相关依赖yum -y install policycoreutils openssh-server openssh-clients postfix
+
+设置 postfix
+设置 postfix 为开机自启动，目的：支持 gitlab 邮件发送。
+
+systemctl enable postfix &amp;&amp; systemctl start postfix
+
+rpm 包安装官方参考链接：https://packages.gitlab.com/gitlab/gitlab-ce/install#bash-rpm
+使用以下命令进行快速安装：
+curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+
+
+EL 是 Red Hat Enterprise Linux 的简写 
+
+EL6 软件包用于在 Red Hat 6.x, CentOS 6.x, and CloudLinux 6.x 的安装。
+EL5 软件包用于在 Red Hat 5.x, CentOS 5.x, CloudLinux 5.x 的安装。
+EL7 软件包用于在 Red Hat 7.x, CentOS 7.x, and CloudLinux 7.x 的安装。
+
+
+所以这里我们采用安装 EL7 的模式，安装命令如下：
+官方参考链接：https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-15.8.5-ce.0.el7.x86_64.rpm
+sudo yum -y install gitlab-ce-15.8.5-ce.0.el7.x86_64
+
+安装完毕后的主体文件都在 /opt/gitlab/ 目录下，可自行翻阅按需修改。
+修改 root 密码官方修改密码：(http://docs.gitlab.com/ce/security/reset_root_password.html)
+在root用户下，执行
+# 老版命令gitlab-rails console production# 新版命令gitlab-rails console -e production
+
+获得用户数据，修改用户密码
+[root@svr34 bin]# gitlab-rails console productionLoading production environment (Rails 4.2.5.2)irb(main):001:0&gt; user = User.where(id: 1).first=&gt; #&lt;User id:1 @root&gt;irb(main):002:0&gt; user.password=&quot;7613302589&quot;=&gt; &quot;12345678&quot;irb(main):003:0&gt; user.password_confirmation=&quot;7613302589&quot;=&gt; &quot;12345678&quot;irb(main):004:0&gt; user.save!=&gt; trueirb(main):005:0&gt; quit
+
+修改访问 URL编辑 gitlab.rb 文件。
+# vim /etc/gitlab/gitlab.rbexternal_url &#x27;http://192.168.50.245:8138&#x27;
+
+
+此处注意别使用已被占用的端口！（如8080）
+
+
+
+重置并启动 Gitlab重置：
+
+注：第一次预计需要几分钟
+
+gitlab-ctl reconfigure
+
+启动：
+gitlab-ctl restart
+
+端口用途一览
+
+
+
+
+端口号
+归类
+用途
+
+
+
+8060
+Nginx
+用途不明
+
+
+8138
+Nginx
+第二个 nginx 的端口，就是 gitlab 实例的主端口，所有外部访问的 http 均通过 gitlab 内置的 nginx 服务器处理，并使用该端口，当然暴露地址为外网0.0.0.0
+
+
+9121
+Redis
+redis_exporter 的 9121，是 gitlab 内置 redis 数据库，只向本机暴露
+
+
+9090
+Prometheus
+向本机暴露，用途应该是创建和管理时间序列事件的触发，如通知那些功能
+
+
+9187
+PostgreSQL
+postgres_expoter 的9187，是 gitlab 内置的 postegres 数据库，向本机暴露
+
+
+9093
+Ruby
+config.ru 的 9093，gitlab 使用 ruby 的 unicorn 作为 app server 运行，管理 worker 等功能，比较重要，默认为 8080，由于 8080 比较受欢迎，这个端口基本上都得改，暴露可自行设定；
+
+
+9168
+Ruby
+用途不明
+
+
+9100
+NodeJS
+node_exporter 的 9100，一个 nodejs 进程，用于实现测量所在的机器的资源状态比如cpu、内存、硬盘等数据的功能
+
+
+9229
+Go
+gitlab-workhors 的 9229，一个是用 go 语言写的组件，是 gitlab 发展途中添加进来的用于优化 git over http 的组件，具体历史可以查看这里了解gitlab-workhors的由来
+
+
+8082
+其他
+sidekiq 的 8082，是一种多线程后台处理系统，用于实现 gitlab 异步运行任务
+
+
+9236
+其他
+gitaly 的9236，是一个能够提供访问 git 仓库的 RPC 远程调用功能的服务，属于 gitlab 的一个托管组件gitlab 的配置文件位于/etc/gitlab/gitlab/gitlab.rb，使用vim等工具可以直接修改，各种参数配置修改可以参考官方文档
+
+
+nginx 代理关闭 selinux
+什么是selinux ？
+SELinux：即安全增强型 Linux（Security-Enhanced Linux）
+它是一个 Linux 内核模块，也是 Linux 的一个安全子系统
+它主要由美国国家安全局开发，主要作用是最大限度地减小系统中服务进程可访问的资源（最小权限原则）
+为什么要关闭 selinux ？
+有的软件对于 selinux 的安全规则支持不够好，就会建议在安装前把 selinux 先关闭，例如 k8s，本次在启动 nginx 的过程中发现 gitlab 会报 502 的错误，经由使用 journalctl -xe  命令发现有 selinux 的相关错误信息，所以需要把 selinux 做一次人工的手动禁用。
+selinux 常用命令：
+# 查看审计日志cat /var/log/audit/audit.log# 分析一个文件sealert -a /var/log/audit/audit.log# 查询系统中的布尔型规则及其状态getsebool -a
+
+selinux的三种运行模式:
+
+enforcing: 强制模式，SELinux 正在运行中，已经在限制 domain&#x2F;type
+permissive: 宽容模式：SELinux 正在运行中，但仅发出警告信息,并不会实际限制 domain&#x2F;type 的存取（permissive模式可以用在测试环境中供调试规则时使用）
+disabled: 关闭，SELinux 没有实际运行。
+
+sestatus -v # 查看当前信息getenforce # 查看当前运行模式
+
+临时关闭# 0: Permissive# 1: Enforcingsetenforce 0
+
+永久关闭# vim /etc/selinux/configSELINUX=disabled
+
+外部 nginx 安装添加 Nginx 到 YUM 源
+sudo rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+
+安装 nginx
+sudo yum install -y nginx
+
+启用 nginx
+sudo systemctl enable nginx.service &amp;&amp; sudo systemctl start nginx.service
+
+Nginx 常用配置目录如下：
+# 资源文件目录/usr/share/nginx/html/├── 50x.html└── index.html# 配置文件主目录/etc/nginx/├── conf.d│   ├── default.conf│   └── gitlab.conf # gitlab 配置文件├── fastcgi_params├── mime.types├── modules├── nginx.conf # nginx 根目录配置文件├── scgi_params└── uwsgi_params
+
+代理 gitlab 内部 nginxgitlab 服务器主体框架如下：
+
+
+nginx 配置文件gitlab.conf 配置文件内容如下：
+# 主访问入口server &#123;  listen 80;  server_name gitlab.yahya.top;  # 入口反向代理  location / &#123;    proxy_set_header Host $host;    proxy_set_header X-Real-IP $remote_addr;    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    proxy_redirect off;    # 配置反向代理地址    proxy_pass http://192.168.50.245:8138;    proxy_http_version 1.1;    # 一定记得要配置 body_size    client_max_body_size 1024m;  &#125;&#125;
+
+修改 gitlab.rb 文件
+
+external_url 的配置直接影响到 gitlab 系统中所有 http 入口的地址，比如 git 仓库的 http 地址，gitlab 访问页面的地址，注册回调的地址，邮件验证的地址等。
+
+编辑 gitlab.rb 文件
+vim /etc/gitlab/gitlab.rb
+
+配置域名external_url &#x27;http://gitlab.yahya.top&#x27;
+
+修改对外主端口nginx[&#x27;listen_port&#x27;] = 8138
+
+max_body_size 配置gitlab 是可以使用 http 和 ssh 两种方式来进行git操作的，当使用 http 时，是通过post请求发送内容，若 nginx 在代理时没有设置 body_size 时将会收到：413 Request Entity Too Large 的错误，push 不了代码，内外部的 nginx 都需要配置，在 gitlab.rb 中添加：
+nginx[&#x27;client_max_body_size&#x27;] = &#x27;1024m&#x27;
+
+认证普通用户
+默认情况下注册的用户是需要进行审批，否则在没有审批的情况下登录会报以下的错误：
+Your account is pending approval from your GitLab administrator and hence bl
+
+登录 root 用户，点击头像这里
+
+
+点击 Overview -&gt; Users -&gt; Pending approval，审批需要注册的用户即可。
+
+
+临时关闭分支保护
+git push 报错 pre-receive hook declined，原因为 master 为受保护分支，无法强推代码到 master 分支上。使用 Owner 以及 Admin 角色账号推送都无法成功。
+
+Settings -&gt; Repository -&gt; Protected Branches 临时 Unprotect master 分支(强推成功后一定要重新添加为受保护的分支)
+
+
+关于 GitLab 访问权限
+访问权限 - Visibility Level：
+这个是在建立项目时就需要选定的，主要用于决定哪些人可以访问此项目，包含 3 种：
+
+Private - 私有，只有属于该项目成员才有看到
+Internal - 内部，用 GitLab 账号的人都看到
+Public - 公开，任何人可以看到
+
+开源项目和组设置的是 Internal。
+行为权限：
+在满足行为权限之前，必须具备访问权限（如果没有访问权限，那就无所谓行为权限了），行为权限是指对该项目进行某些操作，比如提交、创建问题、创建新分支、删除分支、创建标签、删除标签等角色。
+
+官方权限解释文档：https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions
+
+
+Guest - 访客
+可以创建 issue、发表评论，不能读写版本库。
+
+Reporter  - 报告者
+可以理解为测试员、产品经理等，一般负责提交 issue 等 可以克隆代码，不能提交，QA、PM 可以赋予这个权限。
+
+Developer - 开发者
+可以克隆代码、开发、提交、push，RD 可以赋予这个权限。
+
+Master - 主人
+可以创建项目、添加 tag、保护分支、添加项目成员、编辑项目，核心 RD 负责人可以赋予这个权限。
+
+Owner - 拥有者
+可以设置项目访问权限 - Visibility Level、删除项目、迁移项目、管理组成员，开发组 Leader 可以赋予这个权限。
+
+Maintainer - 维护者
+权限与 Owner 差不多，但无删除项目等权限。
+
+
+参见错误502 错误：
+首先保证Gitlab可用运行内存大于 4G，端口未被占用
+再赋予权限：
+chmod -R 755 /var/log/gitlab
+
+再重置重启，访问后仍然可能遇到502，不过我刷新2次就一切ok了。
+参考文章使用Nginx搭建并代理GitLab服务器
+Centos7 搭建Gitlab服务器并配置项目全过程
+gitlab配置域名并https访问
+linux(centos8):禁用selinux(临时关闭&#x2F;永久关闭)
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用安装</category>
+      </categories>
+      <tags>
+        <tag>gitlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo 安装</title>
+    <url>/posts/9d95a809/</url>
+    <content><![CDATA[目录yum 源配置将 yun 源设置成阿里云的，可以大大提高安装速度，推荐使用，所需命令如下。
+rm -rf /etc/yum.repos.d/*  # 删除本地repo文件curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo  ## 下载阿里云centos7镜像源yum clean all; yum makecache # 清理缓存、建立缓存
+
+如果担心中途出其他问题先考虑先把原有 /etc/yum.repos.d 目录下的文件做一次备份方便还原。
+git 安装yum install -y git
+
+nodejs 安装wget https://nodejs.org/dist/v16.14.2/node-v16.14.2-linux-x64.tar.xztar -vxf node-v16.14.2-linux-x64.tar.xz   # 解压node.js软件压缩软件包mv node-v16.14.2-linux-x64 /usr/local/bin # 移动node到/usr/local/bin目录下cd /usr/local/bin/ # 进入/usr/local/binmv node-v16.14.2-linux-x64/ node # 修改node-v16.14.2-linux-x64 名称为 node
+
+然后修改 /etc/profile 文件，增加以下配置：
+export N_PREFIX=/usr/local/bin/node  # 设置node软件家目录的环境变量export PATH=$PATH:$N_PREFIX/bin  # 设置node软件到bin目录下环境变量  实现bin目录下命令的全局使用
+
+最后执行 source /etc/profile 使配置生效，用以下命令验证确认 nodejs 已经安装成功。
+node -vnpm -v
+
+n 安装使用 n 可以对 nodejs 进行多版本管理，推荐使用 n 来切换管理 nodejs 版本，安装命令如下：
+npm install -g n
+
+常用命令如下：
+n stable # 安装最新的稳定版n lts # 安装最新的 LTS 版n &lt;version&gt; # 安装指定的 node 版本
+
+hexo 安装hexo 的安装比较简单，直接按照官网的说明步骤安装即可。首先是基础软件 nodejs 以及 git，这两个都是常用基础软件所以就不介绍细节了，官网直接安装即可。 按照使用了 npm 这个 nodejs 库管理软件，由于默认源在国外经常连接超时，所以首先需要修改成国内的镜像源，这里是改成了淘宝的镜像源。
+npm config set registry https://registry.npm.taobao.org
+
+接下来就是使用 npm 命令安装 hexo，推荐使用 cnpm
+npm install -g cnpm --registry=https://registry.npm.taobao.orgcnpm install -g hexo-cli
+
+关闭防火墙systemctl stop firewalld; systemctl disable firewalld
+
+关闭 selinux临时关闭# 0: Permissive# 1: Enforcingsetenforce 0
+
+永久关闭# vim /etc/selinux/configSELINUX=disabled
+
+hexo 初始化
+
+站点配置文件：站点目录下的_config.yml，路径为&lt;folder&gt;\_config.yml
+主题配置文件：站点目录下的themes文件夹下的，主题文件夹下的_config.yml，路径为&lt;folder&gt;\themes\&lt;主题文件夹&gt;\_config.yml
+
+
+新建一个目录，作为统一存放 markdown 文件的目录，然后进入到该目录下执行以下命令。
+hexo init
+
+markdown 菜单目录生成hexo 文件首部加上 toc: true，就可以在文章左侧生成目录，且可以正常跳转。因此你只用简单的加上toc: true即可，任何其他的操作都是不必要的。
+如果你装了hexo的toc插件，请你删除它，它会影响你目录的跳转！使用下面的语句删除toc插件
+npm remove hexo-toc --save
+
+图片相对路径配置
+hexo-renderer-marked 3.1.0 引入了一个新的选项，其允许你无需使用 asset_img 标签插件就可以在 markdown 中嵌入图片，如需启用，编辑 _config.yml，添加以下配置：
+
+post_asset_folder: truemarked:  prependRoot: true  postAsset: true
+
+安装以下依赖：
+npm install https://github.com/7ym0n/hexo-asset-image --save # 解决 &lt;img /&gt; 图片标签相对路径问题npm install hexo-simple-image --save # 解决 ![]() 图片标签相对路径问题
+
+最终效果如下：
+├── hexo-asset-image@0.0.3 (git+ssh://git@github.com/7ym0n/hexo-asset-image.git#6c88c98214765112d148850a646ddca379fcdcfe)├── hexo-simple-image@1.0.4
+
+这样子以 &lt;img /&gt; 和 ![]() 包裹的相对路径图片都可以正常显示了。
+创建自定义 about 页博客是用的hexo，打算增加一个about页。
+根据文档，当然非常简单，只需要：
+hexo new page &quot;about&quot;
+
+然后修改所用主题目录下的_config.yml文件，将menu中about前的注释去掉。
+menu:  home:  / || home  about:  /about/ || user  tags:  /tags/ || tags  ...
+
+然后修改source/about/目录中的index.md文件即可。
+但是，我想要在页面中显示表格，而且不用markdown格式的表格。
+经谷歌，可以直接在index.md中写html代码，这太好了。
+可是，写好代码，hexo g之后，怪异的现象出现了，about页面中，页顶标题下是许多空白行，表格要下拉到页面最底部才可见。
+又搜索之后，找到了答案，将 index.md 改名为 index.html，修改之后，马上显示正常了。
+主题方案fluid代码高亮主题选择方案：https://highlightjs.org/static/demo/
+使用手册：https://hexo.fluid-dev.com/docs/start/#%E4%B8%BB%E9%A2%98%E7%AE%80%E4%BB%8B
+next
+参考配置：https://blog.csdn.net/as480133937/article/details/100138838
+
+本地搜索NexT 主题自带了一个搜索功能 Local Search，即在编译文件时本地生成一个数据库，放在网站根目录下，用户借助此数据库进行搜索查询。 安装：
+npm install hexo-generator-searchdb --save
+
+在 NexT 的配置文件中打开：
+local_search:  enable: true
+
+图片懒加载# Vanilla JavaScript plugin for lazyloading images.# For more information: https://github.com/ApoorvSaxena/lozad.jslazyload: true
+
+yilia-plus
+参考配置：https://gitee.com/nate-lin/yilia-plus
+
+远程发布github免密关联ssh-keygen
+
+然后将生成的 id_rsa.pub 文件内容关联到 github 的 SSH and GPG Keys 菜单的下的 ssh key 列表
+
+
+新建仓库仓库名称格式 &lt;你的 GitHub 用户名&gt;.github.io ，站点会通过这个名称实现域名访问
+
+注意：仓库的访问权限需要设置为 public，否则无法通过 .github.io 域名的形式进行访问。
+
+
+
+github page 暴露
+参考链接：https://docs.github.com/en/pages/quickstart
+
+默认情况下新建的仓库在 github page 是不关联任何分支的，即为 None，所以需要调整 Pages 配置为以下图示效果：
+
+
+cloudflare 加速经实测 githubpage 在国内很容易被墙，所以决定在现有的 cloudflare 网站上做一层 CNAME 域名重定向访问到 github page 上，解决国内无法直接访问 github page 的问题，操作步骤如下：
+创建 CNAME DNS 解析记录，最终访问域名为 https://blog.yahyav2rayssr.top，cloudflare 配置如下：
+
+
+另外还需要在 github 上面设置自定义域名，填写位置如下：
+
+
+hexo 远程仓库配置安装发布插件cnpm install hexo-deployer-git --save
+
+修改 hexo 配置增加 github 相关配置，内容如下：
+# Deployment## Docs: https://hexo.io/docs/one-command-deploymentdeploy:  type: git  repo: git@github.com:yaoyuming/yaoyuming.github.io.git  branch: master
+
+文件压缩hexo-neat
+hexo-neat 主要用来压缩 html，css 以及 js 文件。
+
+安装 hexo-neat在站点根目录下
+npm install hexo-neat --save
+
+添加相关配置在站点配置文件 _config.yml 添加相关配置，直接添加到站点配置文件的末尾就可以。可以安装自己的需求去自定义配置，配置内容如下：
+# hexo-neat# 博文压缩neat_enable: true# 压缩htmlneat_html:  enable: true  exclude:# 压缩css  neat_css:  enable: true  exclude:    - &#x27;**/*.min.css&#x27;# 压缩jsneat_js:  enable: true  mangle: true  output:  compress:  exclude:    - &#x27;**/*.min.js&#x27;    - &#x27;**/jquery.fancybox.pack.js&#x27;    - &#x27;**/index.js&#x27;  
+
+hexo-neat 插件注意事项在使用hexo-neat插件时，可以在命令窗口中看到各个文件的压缩率，于是可以通过跳过一些文件让效率更高。
+跳过压缩文件的正确配置方式
+
+压缩 html 时不要跳过 .md 文件和 .swig 文件
+.md 文件就是 markdown 文件，如果跳过压缩 .md 文件，而又刚好在文章中使用到了 tab 标签，那么当 hexo 在生成静态页面时就会发生解析错误。这会导致使用到了 tab 标签的页面生成失败而无法访问。
+.swig 文件是模板引擎文件，也就是 hexo 可以通过这些文件来生成对应的页面。如果跳过这些文件，所有页面完全没有起到压缩的效果，页面源代码里依然存在着一大堆空白。
+
+如果按照官方插件的文档说明来配置exclude，会发现完全不起作用。这是因为配置的文件路径不对，压缩时找不到你配置的文件，自然也就无法跳过了。于是需要给这些文件指定正确的路径，万能的配置方式如下：
+neat_css:  enable: true  exclude:    - &#x27;**/*.min.css&#x27;
+
+gulp
+gulp 主要用来压缩图片。
+
+安装 gulpgulp 全局安装：
+npm install --global gulp-cli
+
+gulp 局部安装：
+npm install gulp --savenpm install gulp-babel babel-preset-env babel-preset-mobx --savenpm install -D @babel/core @babel/preset-react @babel/preset-env --save
+
+图片压缩安装：
+npm install gulp-imagemin --save
+
+最终生成的 package.json 新增内容如下：
+&#123;  &quot;scripts&quot;: &#123;    &quot;compile&quot;: &quot;hexo clean &amp;&amp; hexo generate &amp;&amp; gulp minify-images&quot;  &#125;,  &quot;dependencies&quot;: &#123;    &quot;babel-preset-env&quot;: &quot;^1.7.0&quot;,    &quot;babel-preset-mobx&quot;: &quot;^2.0.0&quot;,    &quot;gulp&quot;: &quot;^4.0.2&quot;,    &quot;gulp-babel&quot;: &quot;^8.0.0&quot;,    &quot;gulp-imagemin&quot;: &quot;^7.1.0&quot;,  &#125;,  &quot;devDependencies&quot;: &#123;    &quot;@babel/core&quot;: &quot;^7.8.4&quot;,    &quot;@babel/preset-env&quot;: &quot;^7.8.4&quot;,    &quot;@babel/preset-react&quot;: &quot;^7.8.3&quot;  &#125;&#125;
+
+gulpfile.js 配置新增 gulpfile.js，内容如下：
+// 引入需要的模块var gulp = require(&#x27;gulp&#x27;);var imagemin = require(&#x27;gulp-imagemin&#x27;);// 压缩图片gulp.task(&#x27;minify-images&#x27;, function () &#123;    return gulp.src([&#x27;./public/**/*.png&#x27;, &#x27;./public/**/*.jpg&#x27;, &#x27;./public/**/*.gif&#x27;])        .pipe(imagemin(            [imagemin.gifsicle(&#123; &#x27;optimizationLevel&#x27;: 3 &#125;),            imagemin.mozjpeg(&#123; &#x27;progressive&#x27;: true &#125;),            imagemin.optipng(&#123; &#x27;optimizationLevel&#x27;: 5 &#125;),            imagemin.svgo()],            &#123; &#x27;verbose&#x27;: true &#125;))        .pipe(gulp.dest(&#x27;./public&#x27;))&#125;);
+
+制作永久链接hexo 预设永久连结是依照日期，但是这个很容易改动，又不希望永久连结内使用文章标题（因为是中文也有可能改动），所以有必要对链接路径做自定义配置。
+安装 abbrlinknpm install hexo-abbrlink --save
+
+设定预设设定hexo的站点配置文件(_config.yml)中
+使用 permalink: :year/:month/:day/:title/ 当作永久连结的设定
+也就是说文章的永久连接最后会是 年/月/日/标题 这样的格式，详情可以看 hexo永久连结文档
+而稍微底下一点有
+permalink_defaults:
+
+这个是可以设定自己的参数的。
+自定义设定我使用 hexo-abbrlink 对每篇文章生出一个编号
+设定 hexo-abbrlink在主题配置文件加上
+abbrlink:  alg: crc32  # support crc16(default) and crc32    rep: hex    # support dec(default) and hex  # crc16/crc32: 差别在于编号个数的极限，crc16可以生出65535个  # dec/hex:     差别在于编号生出来是十进制还是十六进制
+
+自定义永久连结格式我想要以作者名字为主，再加上编号来形成永久连结
+permalink_defaults:  author_name: yahya   # 新增一个作者名字的参数permalink: :author_name/:abbrlink/    # 结果是：网域/作者名字/abbrlink生成编号
+
+私人文章隐藏当一篇文章被设置为「隐藏」时，它不会出现在任何列表中（包括首页、存档、分类页面、标签页面、Feed、站点地图等），也不会被搜索引擎索引（前提是搜索引擎遵守 noindex 标签）。
+只有知道文章链接的人才可以访问被隐藏的文章。
+Github 地址：https://github.com/printempw/hexo-hide-posts
+安装在站点根目录下执行
+npm install hexo-hide-posts --save
+
+配置在站点目录下的_config.yml中如下配置：
+# hexo-hide-postshide_posts:  # 可以改成其他你喜欢的名字  filter: hidden  # 指定你想要传递隐藏文章的位置，比如让所有隐藏文章在存档页面可见  # 常见的位置有：index, tag, category, archive, sitemap, feed, etc.  # 留空则默认全部隐藏  public_generators: []  # 为隐藏的文章添加 noindex meta 标签，阻止搜索引擎收录  noindex: true
+
+举个栗子：设置 filter: secret 之后，你就可以在 front-matter 中使用 secret: true 来隐藏文章了。
+使用在文章的属性中定义 hidden: true 即可隐藏文章。
+---title: &#x27;Hidden Post&#x27;date: &#x27;2021/03/05 21:45:14&#x27;hidden: true---
+
+虽然首页上被隐藏了，但你仍然可以通过 https://hexo.test/lorem-ipsum/ 链接访问它。
+你可以在命令行运行 hexo hidden:list 来获取当前所有的已隐藏文章列表。
+插件也在 Local Variables 中添加了 all_posts 和 hidden_posts 变量，供自定义主题使用。
+推荐主题hexo-theme-fluid
+hexo-theme-next
+hexo-theme-pure
+hexo-theme-yilia-plus
+hexo-theme-3-hexo
+参考链接Hexo 博客 NexT 主题的安装使用
+centos7系统部署hexo博客新手入门
+使用cloudflare免费加速github page
+Hexo使用Gulp压缩静态资源
+使用Gulp压缩Hexo博客静态资源
+node.js版本管理工具n无效的原理和解决方法
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用安装</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zsh 安装</title>
+    <url>/posts/a1ba4b4f/</url>
+    <content><![CDATA[安装zsh配置oh-my-zsh安装了虚拟机，玩了几天，发现自带的shell不太好用。本着折腾的优良作风，配置了oh-my-zsh，本文记录下安装步骤。
+查看当前shellecho $SHELL
+
+返回结果:
+
+bin&#x2F;bash
+
+安装zshyum install -y zsh
+
+静候安装完成…
+成功后如下所示
+681
+zsh下载完成
+设置默认shellchsh -s /bin/zsh
+
+请在root用户下切换shell
+1143
+更换shell
+返回结果如下，表示切换完成（配置完成后需要重启方能生效，我们先下载oh-my-zsh，稍后重启）
+安装git自动和手动安装都需要安装git，执行
+yum install -y git
+
+静候安装完成,完成后选择一种oh-my-zsh的安装方式。
+安装oh-my-zsh（自动）sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+
+使用curl来安装，wget命令执行后不起作用，暂时不知道怎么回事。
+出现以下界面，显示安装成功。
+2118
+oh-my-zsh
+手动安装下载源码
+git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+复制配置
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+修改主题ZSH_THEME 字段就是主题，可以从资料里的主题找
+2965
+主题配置
+完成后，重启生效默认shellreboot
+
+别名配置首先我们看下git的别名
+vi ~/.oh-my-zsh/plugins/git/git.plugin.zsh
+
+3716
+git别名
+很强大有木有，我们还可以自定义别名，在~/.zshrc中，最下面直接写即可。
+自定义别名
+3921
+自定义别名
+小技巧1、输入d,就会列出你在这个回话中访问的目录，输入前面的序号，就可以直接跳转 2、可以忽略cd命令, 输入..或者...和当前目录名都可以跳转
+资料
+oh-my-zsh
+oh-my-zsh主题一览
+oh-my-zsh配置你的zsh提高shell逼格终极选择
+
+主题修改进入themes的目录
+cd ~/.oh-my-zsh/themesll #查看主题 默认主题是 ZSH_THEME=&quot;robbyrussell&quot;
+
+在.zshrc中修改主题vi ~&#x2F;.zshrc
+
+推荐主题：jonathan 或者 rkj-repos
+
+vi ~/.zshrc # 找到ZSH_THEME 修改为你想要的主题即可
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常用安装</category>
+      </categories>
+      <tags>
+        <tag>zsh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见错误</title>
+    <url>/posts/c10f304f/</url>
+    <content><![CDATA[目录[解决]&#x2F;bin&#x2F;bash^M: bad interpreter: No such file or directory执行一个脚本full_build.sh 时, 一直是提示我:-bash: .&#x2F;full_build.sh: &#x2F;bin&#x2F;bash^M: bad interpreter: No such file or directory
+开始是说我权限不够, 不能执行, 接着我就把权限给改了,  就一直报上面问题.记得几个月前, 就遇到过类似的问题, 当时是在编译Android Framework, 后来打开出错的.xml文件, 很直接的看到很多的^M的标识,  由于负责编译的同事帮忙解决了, 就没有去问为什么, 今天再次遇到, 就上网搜了搜, 才明白了原因.  
+出现上面错误的原因之一是脚本文件是DOS格式的, 即每一行的行尾以\r\n来标识, 使用vim编辑器打开脚本, 运行::set ff?可以看到DOS或UNIX的字样. 使用set ff&#x3D;unix把它强制为unix格式的, 然后存盘退出, 即可.
+网上也有很多的其他方法, 比如: 执行dos2unix 命令转换编码,  命令为: #dos2unix full_build.sh,  但我没有dos2unix的安装包, 所以就跳过了.  
+也有说造成这种问题的原因是在使用vim时不小心按了个: Ctrl+v,  脚本是我从服务器上下的, 不清楚到底怎么会变成了DOS格式的了. 总之解决了就行啦.                      
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>常见错误</category>
+      </categories>
+      <tags>
+        <tag>常见错误</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>杂烩</title>
+    <url>/posts/c10d2cc/</url>
+    <content><![CDATA[刷新DNS缓存现在很多Linux发行版都没有内置DNS本地缓存，Linux不像Windows那样可以使用ipconfig &#x2F;flushdns来刷新，在Linux下无需刷新，因为本身没有缓存；
+当然，如果非要缓存刷新，可以安装nscd，然后刷新这个守护进程。
+Ubuntu：
+apt-get install -y nscd
+
+CentOS:
+yum install -y nscd
+
+使用：
+service nscd restart
+
+查看DNS信息[deployer@CBSS-DMZ-19 ~]$ nslookup mall.10010.comServer:         202.106.0.20                                           　　 #这个域名是通过202.106.0.20这个DNS服务器进行解析的.Address:        202.106.0.20#53                                         　　#DNS服务器使用的IP地址和端口号Non-authoritative answer:mall.10010.com  canonical name = mall.10010.com.cdn.dnsv1.com.          　　#mall.10010.com对应的另外的域名mall.10010.com.cdn.dnsv1.commall.10010.com.cdn.dnsv1.com    canonical name = lt.p23.tc.cdntip.com. 　　 #mall.10010.com.cdn.dnsv1.com对应的另外的域名lt.p23.tc.cdntip.comName:   lt.p23.tc.cdntip.comAddress: 123.125.46.202      　　 #域名对应的第1个IP地址Name:   lt.p23.tc.cdntip.comAddress: 121.29.54.199       　　 #域名对应的第2个IP地址Name:   lt.p23.tc.cdntip.comAddress: 121.29.54.195       　　 #域名对应的第3个IP地址[deployer@CBSS-DMZ-19 ~]$ cat /etc/resolv.conf    　　 #LINUX主机在本地配置的域名服务器nameserver 202.106.0.20
+
+防火墙开放端口#查看防火墙某个端口是否开放firewall-cmd --query-port=3306/tcp#开放防火墙端口3306firewall-cmd --zone=public --add-port=3306/tcp --permanent#查看防火墙状态systemctl status firewalld#关闭防火墙systemctl stop firewalld#打开防火墙systemctl start firewalld#开放一段端口firewall-cmd --zone=public --add-port=40000-45000/tcp --permanent#查看开放的端口列表firewall-cmd --zone=public --list-ports
+
+解决SSH连接Linux超时自动断开1. $TMOUT 系统环境变量用以下命令判断是否是否设置了该参数
+echo $TMOUT
+
+如果输出空或0表示不超时，大于0的数字n表示n秒没有收入则超时
+修改方法：
+vi /etc/profile# 将以下900修改为0就是设置不超时export TMOUT=900# 让配置立即生效source /etc/profile
+
+2. sshd 服务配置
+
+ClientAliveInterval指定了服务器端向客户端请求消息的时间间隔, 默认是0, 不发送。设置60表示每分钟发送一次, 然后客户端响应, 这样就保持长连接了。
+ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数达到一定值, 就自动断开。正常情况下, 客户端不会不响应，使用默认值3即可。
+
+
+1. 查看现有配置cd /etc/ssh# 查看sshd_config中关于客户端活动状态的配置grep ClientAlive sshd_config
+
+默认输出如下：
+# ----------------------------# ClientAliveInterval 0# ClientAliveCountMax 3# ----------------------------
+
+3. 修改sshd配置# 启用客户端活动检查，每60秒检查一次，3次不活动断开连接sed -i &quot;s/#ClientAliveInterval 0/ClientAliveInterval 60/g&quot; sshd_configsed -i &quot;s/#ClientAliveCountMax 3/ClientAliveCountMax 3/g&quot; sshd_config
+
+4. 重新加载service sshd reload
+
+5. 确认修改情况# 备份原配置文件cp sshd_config sshd_config.bak# 确认修改grep ClientAlive sshd_config# 比较配置文件差异diff sshd_config sshd_config.bak
+
+3. xshell简易配置方式
+
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>杂烩</category>
+      </categories>
+      <tags>
+        <tag>杂烩</tag>
       </tags>
   </entry>
 </search>
