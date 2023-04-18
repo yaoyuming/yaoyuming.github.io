@@ -6,7 +6,7 @@
   <link href="https://blog.yahyav2rayssr.top/atom.xml" rel="self"/>
   
   <link href="https://blog.yahyav2rayssr.top/"/>
-  <updated>2023-04-18T15:31:33.478Z</updated>
+  <updated>2023-04-18T17:07:37.120Z</updated>
   <id>https://blog.yahyav2rayssr.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>苹果关闭动画特效</title>
+    <link href="https://blog.yahyav2rayssr.top/posts/71eea9a3/"/>
+    <id>https://blog.yahyav2rayssr.top/posts/71eea9a3/</id>
+    <published>2023-04-18T17:07:37.120Z</published>
+    <updated>2023-04-18T17:07:37.120Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>不带任何动画效果不是更好吗？就像过去那样清清爽爽也不错。接下来将介绍如何在OS X操作系统里关闭大部分的视觉动画效果。</p><h2 id="1、关闭窗口和对话框弹出的动画特效"><a href="#1、关闭窗口和对话框弹出的动画特效" class="headerlink" title="1、关闭窗口和对话框弹出的动画特效"></a>1、关闭窗口和对话框弹出的动画特效</h2><p>打开终端窗口（Finder-应用程序-实用工具-终端）并运行下面的命令，就能取消对话框和窗口在屏幕中央位置弹出的效果：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write -g NSAutomaticWindowAnimationEnabled -bool FALSE<br></code></pre></td></tr></table></figure><p>然后注销并重新登录系统使更改生效。<br>如果想恢复这个特效的话，可以打开终端窗口并运行下面的命令。同样地，需要注销并重新登录使更改生效：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete -g NSAutomaticWindowAnimationEnabled<br></code></pre></td></tr></table></figure><h2 id="2、关闭快速查看的动画特效"><a href="#2、关闭快速查看的动画特效" class="headerlink" title="2、关闭快速查看的动画特效"></a>2、关闭快速查看的动画特效</h2><p>当你选中某个文件并敲下《Space》键时会弹出快速查看窗口。它显示文件内容的预览画面。你可以在终端窗口里运行下面的命令，停用“快速查看”窗口从当前文件位置向外扩张的动画效果（这样做也会同时停用快速查看窗口缩回当前文件位置时的动画效果）：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.finder QLPanelAnimationDuration -int 0;killall Finder<br></code></pre></td></tr></table></figure><p>命令运行后立即生效。如果想恢复这个动态效果，请打开终端窗口并运行以下命令（同理，这个更改也是立即生效）：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete com.apple.finder QLPanelAnimationDuration;killall Finder<br></code></pre></td></tr></table></figure><h2 id="3、关闭Mission-Control的动画特效"><a href="#3、关闭Mission-Control的动画特效" class="headerlink" title="3、关闭Mission Control的动画特效"></a>3、关闭Mission Control的动画特效</h2><p>在终端窗口里运行下面的命令，可以关闭当用户使用或退出Mission Control功能时所出现的动画缩放效果：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.dock expose-animation -duration -int 0;killall Dock<br></code></pre></td></tr></table></figure><p>更改在命令运行后立即生效。要注意这样也会关闭在使用“显示桌面”（Show Desktop）特效时，窗口向四周急速分散的动画效果。“显示桌面”特效通常是在触控板上用多个手指同时张开的手势来启用的。<br>如果想要恢复Mission Control功能的默认动画效果，可以打开终端窗口并运行以下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete com.apple.dock expose-animation -duration;killall Dock<br></code></pre></td></tr></table></figure><h2 id="4、关闭文件保存和打印对话框的动画效果"><a href="#4、关闭文件保存和打印对话框的动画效果" class="headerlink" title="4、关闭文件保存和打印对话框的动画效果"></a>4、关闭文件保存和打印对话框的动画效果</h2><p>每当保存或打印文件时，程序的标题栏位置会向下滑出对话框。要关闭这一动画效果，可打开终端窗口并运行下面的命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write -g NSWindowResizeTime -float 0.01<br></code></pre></td></tr></table></figure><p>你需要注销后再登录系统来使更改生效。<br>如果你希望再次看到这个视觉特效的话，可以运行下面的命令，之后同样要注销再登录系统使更改生效：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete -g NSWindowResizeTime<br></code></pre></td></tr></table></figure><h2 id="5、关闭Launchpad界面动画效果"><a href="#5、关闭Launchpad界面动画效果" class="headerlink" title="5、关闭Launchpad界面动画效果"></a>5、关闭Launchpad界面动画效果</h2><p>更改一个隐藏的设置就可以使Launchpad界面立刻出现或消失。打开终端窗口并键入下面两行命令，再按下《Return》键就可以了：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.dock springboard-show-duration -int 0 defaults write com.apple.dock springboard-hide-duration -int 0;killall Dock<br></code></pre></td></tr></table></figure><p>更改会立即生效。如果你要恢复之前的动画效果，可以再次打开终端窗口并运行下面的两行命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete com.apple.dock springboard-show-duration defaults delete com.apple.dock springboard-hide-duration;killall Dock<br></code></pre></td></tr></table></figure><p>在Launchpad界面里的应用程序页面划动时，如果你想立刻切换到下一页面而不带动画过渡从而减少页面切换所需的时间，那么可以打开终端窗口并键入下面的命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.dock springboard-page-duration -int 0;killall Dock<br></code></pre></td></tr></table></figure><p>运行后更改会立即生效。如果需要恢复默认状态，请打开终端窗口并键入以下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults delete com.apple.dock springboard-page-duration;killall Dock<br></code></pre></td></tr></table></figure><h2 id="6、关闭Dock栏的动画效果"><a href="#6、关闭Dock栏的动画效果" class="headerlink" title="6、关闭Dock栏的动画效果"></a>6、关闭Dock栏的动画效果</h2><p>Dock栏可以启动隐藏功能，以便在它用不到的时候会自动滑出屏幕。这样可以为屏幕腾出一些空间。把鼠标移到Dock栏平常所在的位置的边缘时可以让它重新进入屏幕中。右击Dock栏上的应用程序图标和栈之间的虚线，然后就可以选择是否启动隐藏功能。<br>如果想让Dock栏在需要用到的时候立刻跳入到屏幕里，而不是滑进屏幕，可以在打开的终端窗口里输入以下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.dock autohide-time-moidifier -int 0;killall Dock<br></code></pre></td></tr></table></figure><p>如果想要恢复默认的滑动效果，可以打开终端窗口并运行以下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">defaults write com.apple.dock autohide-time-moidifier -int 0;killall Dock<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h1&gt;&lt;p&gt;不带任何动画效果不是更好吗？就像过去那样清清爽爽也不错。接下来将介绍如何在OS X操作系统里关闭大部分的视觉动画效果。&lt;/p&gt;
+&lt;h2 id</summary>
+      
+    
+    
+    
+    <category term="黑苹果" scheme="https://blog.yahyav2rayssr.top/categories/%E9%BB%91%E8%8B%B9%E6%9E%9C/"/>
+    
+    
+    <category term="黑苹果" scheme="https://blog.yahyav2rayssr.top/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>CentOS7 基础知识</title>
@@ -517,34 +542,6 @@
     
     
     <category term="黑苹果" scheme="https://blog.yahyav2rayssr.top/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Intellij IDEA maven 配置</title>
-    <link href="https://blog.yahyav2rayssr.top/posts/a3c558a3/"/>
-    <id>https://blog.yahyav2rayssr.top/posts/a3c558a3/</id>
-    <published>2023-04-18T15:31:32.339Z</published>
-    <updated>2023-04-18T15:31:32.340Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="idea配置maven依赖优先从指定本地仓库获取"><a href="#idea配置maven依赖优先从指定本地仓库获取" class="headerlink" title="idea配置maven依赖优先从指定本地仓库获取"></a>idea配置maven依赖优先从指定本地仓库获取</h1><p>在设置中搜索 Runner ,在VM Option中设置参数 <code>-DarchetypeCatalog=internal</code></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">-DarchetypeCatalog=internal<br></code></pre></td></tr></table></figure><img src="/posts/a3c558a3/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlc2h1bmNoZW5n,size_16,color_FFFFFF,t_70.png" alt="在这里插入图片描述" style="zoom: 33%;"><h1 id="maven离线模式及设置"><a href="#maven离线模式及设置" class="headerlink" title="maven离线模式及设置"></a>maven离线模式及设置</h1><h2 id="下载maven依赖"><a href="#下载maven依赖" class="headerlink" title="下载maven依赖"></a>下载maven依赖</h2><p>通过idea创建maven项目，maven插件会自动将maven依赖下载到本地仓库。</p><h2 id="复制本地仓库"><a href="#复制本地仓库" class="headerlink" title="复制本地仓库"></a>复制本地仓库</h2><p>先要找到maven的本地仓库，可以通过 <code>file-&gt;settings-&gt;maven</code> 流程查看到maven本地仓库的位置，然后直接复制，粘贴到生产环境下。</p><h2 id="修改maven配置"><a href="#修改maven配置" class="headerlink" title="修改maven配置"></a>修改maven配置</h2><p>这里指修改生产环境（即不能联网）下的maven的settings.xml文件</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">settings</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;</span></span><br><span class="hljs-tag">          <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">          <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;</span>&gt;</span><br> <br><span class="hljs-comment">&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">localRepository</span>&gt;</span>D:\Apache\apache-maven-3.6.3<span class="hljs-tag">&lt;/<span class="hljs-name">localRepository</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">mirrors</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">mirror</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>central<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>central<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>file://D:\Apache\apache-maven-3.6.3<span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">mirrorOf</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">mirrorOf</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">mirror</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">mirrors</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">settings</span>&gt;</span><br></code></pre></td></tr></table></figure><h2 id="步骤四，设置idea"><a href="#步骤四，设置idea" class="headerlink" title="步骤四，设置idea"></a>步骤四，设置idea</h2><p>通过 <code>file-&gt;settings-&gt;maven</code> 流程，勾选 work offline 选项，并填写上 maven 本地仓库和修改过的 settings.xml 的位置</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;idea配置maven依赖优先从指定本地仓库获取&quot;&gt;&lt;a href=&quot;#idea配置maven依赖优先从指定本地仓库获取&quot; class=&quot;headerlink&quot; title=&quot;idea配置maven依赖优先从指定本地仓库获取&quot;&gt;&lt;/a&gt;idea配置maven依赖优</summary>
-      
-    
-    
-    
-    <category term="研发工具" scheme="https://blog.yahyav2rayssr.top/categories/%E7%A0%94%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="Intellij IDEA" scheme="https://blog.yahyav2rayssr.top/categories/%E7%A0%94%E5%8F%91%E5%B7%A5%E5%85%B7/Intellij-IDEA/"/>
-    
-    
-    <category term="maven" scheme="https://blog.yahyav2rayssr.top/tags/maven/"/>
-    
-    <category term="intellij idea" scheme="https://blog.yahyav2rayssr.top/tags/intellij-idea/"/>
     
   </entry>
   
