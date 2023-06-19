@@ -1036,6 +1036,27 @@ UDP的包头结构：
       </tags>
   </entry>
   <entry>
+    <title>HTTP 常见错误</title>
+    <url>/posts/449ba82d/</url>
+    <content><![CDATA[目录浏览器请求设置 Accept-Encoding 为 gzip,deflate，返回乱码
+设置 Accept-Encoding 为 gzip,deflate，返回的网页是乱码，取消掉即可正常显示。普通浏览器访问网页，之所以添加：”Accept-Encoding” &#x3D; “gzip,deflate” 那是因为，浏览器对于从服务器中返回的对应的gzip压缩的网页，会自动解压缩，所以，其 request 的时候，添加对应的头，表明自己接受压缩后的数据。 而此代码中，如果也添加此头信息，结果就是，返回的压缩后的数据，没有解码，而将压缩后的数据当做普通的html文本来处理，当前显示出来的内容，是乱码了。
+
+想要获得正确网页内容，而非乱码的话，有以下两种方式：
+
+不要设置 Accept-Encoding 的 Header
+
+设置 Accept-Encoding 的 Header，同时设置对应的自动解压缩的模式
+req.Headers[&quot;Accept-Encoding&quot;] = &quot;gzip,deflate&quot;;req.AutomaticDecompression = DecompressionMethods.GZip;
+
+]]></content>
+      <categories>
+        <category>网络通讯</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTP 状态码</title>
     <url>/posts/e1434ae1/</url>
     <content><![CDATA[HTTP 状态码一览状态信息：1xx代表请求已被接受，需要继续处理。这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束。
@@ -3205,6 +3226,47 @@ out 输出，但是尽量使用表达式输出
       </tags>
   </entry>
   <entry>
+    <title>mac 系统配置</title>
+    <url>/posts/bf58dadb/</url>
+    <content><![CDATA[目录因为它来自身份不明的开发者，不显示允许任何来源打开时提示”已损坏，打不开。您应该将它移到废纸篓”或身份验证，因为它来自身份不明的开发者,和不显示允许任何来源，图片解锁和应用程序问题（如图片 &#x2F;application 应用程序损坏，文件不能打开）。这个原因你可能是你的电脑完全禁用 Gatekeeper 检查。
+打开终端，输入
+sudo spctl --master-disable
+
+关闭【终端】，重新打开 【系统偏好设置】 – 【安全性与隐私】 – 【通用】中就会出现且选中 【允许任何来源】，这样设置后就可以安装受限制的”来自身份不明开发者”的程序。
+
+
+按住 control 按键，鼠标左键点击锁图标，选择打开
+重启终端后 bash_profile 配置失效自己在 ~&#x2F;.bash_profile 中配置环境变量, 可是每次重启终端后配置的不生效，需要重新执行 : $source ~/.bash_profile
+发现 zsh 加载的是 ~&#x2F;.zshrc 文件，而 ‘.zshrc’ 文件中并没有定义任务环境变量。
+解决办法
+在 ~&#x2F;.zshrc 文件最后，增加一行：
+source ~/.bash_profile
+
+安装 ll、la、l命令cd ~vim .bash_profile# 将以下代码添加到.bash_profile文件中alias ll=&#x27;ls -alF&#x27;alias la=&#x27;ls -A&#x27;alias l=&#x27;ls -CF&#x27;# 保存:wqsource .bash_profile
+
+终端 oh-my-zsh 主题美化powerlevel10k 很香，启动终端后会有引导帮助你配置，不仅好看，而且启动速度还快
+不多说， 自己装装感受下吧：
+首先：
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git $&#123;ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom&#125;/themes/powerlevel10kvim
+
+然后在.zshrc中设置：
+ZSH_THEME=&quot;powerlevel10k/powerlevel10k&quot;
+
+禁止 .DS_store 生成.DS_Store (英文全称 Desktop Services Store) 是一种由苹果公司的 Mac OS X 操作系统所创造的隐藏文件，目的在于存储目录的自定义属性，例如文件的图标位置或者是背景色的选择。相当于 Windows 下的 desktop.ini。
+禁止.DS_store生成：
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+
+恢复.DS_store生成：恢复.DS_store生成：
+defaults delete com.apple.desktopservices DSDontWriteNetworkStores
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>苹果关闭动画特效</title>
     <url>/posts/71eea9a3/</url>
     <content><![CDATA[目录不带任何动画效果不是更好吗？就像过去那样清清爽爽也不错。接下来将介绍如何在OS X操作系统里关闭大部分的视觉动画效果。
@@ -3310,6 +3372,17 @@ sudo defaults delete com.apple.dock expose-animation-duration; killall Dock;
 字体粗细调整可以根据自己的需要，自行在 -int 后面选择不同的数字来调整字体的粗细，0 是最细，1 是中等，2 是恢复原始的粗细。
 输入完成后，关掉终端并退出登录，再次回到桌面后即可生效。
 defaults -currentHost write -g AppleFontSmoothing -int 0
+
+只显示当前运行的应用
+打开终端（Terminal.app）
+输入下列指令后，按回车键运行，Dock栏只显示当前运行中的应用程序：
+
+defaults write com.apple.dock static-only -bool TRUE; killall Dock;
+
+
+想恢复原来状态，输入下列指令，按回车键运行即可：
+
+defaults write com.apple.dock static-only -bool FALSE; killall Dock;
 
 ]]></content>
       <categories>
@@ -3725,6 +3798,22 @@ opencore 重置 nvram在 OpenCore 中，重置 NVRAM 的方法有以下几种：
  UEFI -&gt; APFS -&gt; JumpstartHotPlug
 
 
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac 常用快捷键</title>
+    <url>/posts/3e8d1a22/</url>
+    <content><![CDATA[目录任务管理器option + command + esc
+快速复制文件或文件夹路径macOS 下没有 Windows 那样的地址栏，无法直观的复制文件的链接，有时候为了获取文件或文件夹的路径变成一件很棘手的事情，以下为快速复制路径方法：
+快捷键 option + command + C
+在 Finder 中选择文件或是文件夹，然后按下快捷键 option + command + C，即可复制文件的全路径。
+重命名文件 &#x2F; 文件夹选中需要重命名的文件，按下 return 键即可。
 ]]></content>
       <categories>
         <category>黑苹果</category>
@@ -4173,7 +4262,7 @@ yum install docker-ce-&lt;VERSION STRING&gt;
   <entry>
     <title>kubernete 常用命令</title>
     <url>/posts/e1b46314/</url>
-    <content><![CDATA[更新镜像1. set-image 方式kubectl set image -n [NAMESPACE] deploy [DEPLOY_NAME] [CONTAINER_NAME]=[IMAGE]
+    <content><![CDATA[目录更新镜像1. set-image 方式kubectl set image -n [NAMESPACE] deploy [DEPLOY_NAME] [CONTAINER_NAME]=[IMAGE]
 
 2. edit deploy 方式kubectl edit deploy -n [NAMESPACE] [DEPLOY_NAME]
 
@@ -4186,6 +4275,10 @@ yum install docker-ce-&lt;VERSION STRING&gt;
 集群信息获取集群信息kubectl config get-contexts
 
 切换集群kubectl config use-context [集群名称]
+
+文件拷贝将 pod 里的文件拷贝到主机kubectl cp -n &lt;分区名&gt; -c &lt;容器名&gt; &lt;pod名&gt;:&lt;文件绝对路径&gt; &lt;文件目标位置&gt;// 举个栗子：kubectl cp -n namespace -c container_name example-745db984f4-9b57g:/data/test.sql ./test.sqlkubectl cp saas/saas-rmds-resource-745db984f4-9b57g:/root/dump/dump.hprof /home/appdeploy/rmds-dump.hprof
+
+将主机文件拷贝到 podkubectl cp &lt;主机文件路径&gt; -n &lt;分区&gt; -c &lt;容器&gt; &lt;pod名&gt;:&lt;容器内绝对路径&gt;// 举个栗子：kubectl cp -n namespace -c container_name ./test.sql example-745db984f4-9b57g:/data/test.sql 
 
 ]]></content>
       <categories>
@@ -4410,6 +4503,23 @@ apollo.bootstrap.eagerLoad.enabled ： 将 Apollo 加载提到初始化日志系
       </categories>
       <tags>
         <tag>apollo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM 基本概念</title>
+    <url>/posts/62787a65/</url>
+    <content><![CDATA[目录常用参数自动 dump 堆快照-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=&lt;绝对文件路径&gt;
+
+为了方便复现问题，可以把堆内存的参数调小些，示例命令如下：
+-Xms10m -Xmx20m -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=F:\hporf
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -6463,417 +6573,6 @@ import com.fasterxml.jackson.core.JsonGenerator;import com.fasterxml.jackson.cor
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven mvnw 详解</title>
-    <url>/posts/25549297/</url>
-    <content><![CDATA[mvnw 详解我们使用Maven时，基本上只会用到mvn这一个命令。有些童鞋可能听说过mvnw，这个是啥？
-mvnw是 Maven Wrapper 的缩写。因为我们安装 Maven 时，默认情况下，系统所有项目都会使用全局安装的这个 Maven 版本。但是，对于某些项目来说，它可能必须使用某个特定的Maven 版本，这个时候，就可以使用 Maven Wrapper，它可以负责给这个特定的项目安装指定版本的Maven，而其他项目不受影响。
-简单地说，Maven Wrapper 就是给一个项目提供一个独立的，指定版本的 Maven 给它使用。
-安装Maven Wrapper安装Maven Wrapper最简单的方式是在项目的根目录（即pom.xml所在的目录）下运行安装命令：
-mvn -N io.takari:maven:0.7.6:wrapper
-
-它会自动使用最新版本的Maven。注意0.7.6是 Maven Wrapper 的版本。最新的 Maven Wrapper 版本可以去官方网站查看。
-如果要指定使用的Maven版本，使用下面的安装命令指定版本，例如3.6.3：
-mvn -N io.takari:maven:0.7.6:wrapper -Dmaven=3.6.3
-
-安装后，查看项目结构：
-my-project├── .mvn│   └── wrapper│       ├── MavenWrapperDownloader.java│       ├── maven-wrapper.jar│       └── maven-wrapper.properties├── mvnw├── mvnw.cmd├── pom.xml└── src    ├── main    │   ├── java    │   └── resources    └── test        ├── java        └── resources
-
-发现多了mvnw、mvnw.cmd和.mvn目录，我们只需要把mvn命令改成mvnw就可以使用跟项目关联的Maven。例如：
-mvnw clean package
-
-在Linux或macOS下运行时需要加上./：
-./mvnw clean package
-
-Maven Wrapper的另一个作用是把项目的mvnw、mvnw.cmd和.mvn提交到版本库中，可以使所有开发人员使用统一的Maven版本。
-以下为官方参考信息：
-
-这使您可以运行Maven项目，而无需安装Maven并将其显示在路径上。如果找不到正确的Maven版本（就我所知，默认情况下在你的用户主目录中），它会下载它。
-该mvnw文件适用于Linux（bash），mvnw.cmd适用于Windows环境。
-要创建或更新所有必需的Maven Wrapper文件，请执行以下命令：
-mvn -N io.takari:maven:wrapper
-
-要使用不同版本的maven，可以按如下方式指定版本：
-mvn -N io.takari:maven:wrapper -Dmaven=3.6.3
-
-PATH如果你的项目中已经有了mvnw，你可以使用这两个命令，./mvnw而不是mvn在命令中。
-Command mvnw使用默认情况下~/.m2/wrapper在第一次使用时下载的Maven 。
-Maven的URL在每个项目中指定.mvn/wrapper/maven-wrapper.properties：
-distributionUrl=https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.6.3/apache-maven-3.6.3-bin.zip
-
-要更新或更改Maven版本，请调用以下内容（记住关于--non-recursive多模块项目）：
-./mvnw io.takari:maven:wrapper -Dmaven=3.6.3 
-
-或者只是.mvn/wrapper/maven-wrapper.properties手动修改。
-使用 Maven 从头开始生成包装器（您需要在PATH运行时使用它)：
-mvn io.takari:maven:wrapper -Dmaven=3.6.3 
-
-参考链接.mvn目录&amp;mvnw和mvnw.cmd文件说明
-                      
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 基本安装（windows）</title>
-    <url>/posts/5c907e7a/</url>
-    <content><![CDATA[Windows环境下maven 安装与环境变量配置一、下载 Maven
-请访问Maven的下载页面：http://maven.apache.org/download.html，其中包含针对不同平台的各种版本的Maven下载文件，然后解压到指定目录。
-二、配置maven 的环境变量
-右键“计算机”，选择“属性”，之后点击“高级系统设置”，点击“环境变量”，来设置环境变量，有以下系统变量需要配置：
-新建系统变量 MAVEN_HOME 变量值：C:\Apache\apache-maven-3.6.1
-编辑系统变量 Path 添加变量值：;%MAVEN_HOME%\bin
-
-
-
-
-注意：注意多个值之间需要有分号隔开，然后点击确定。
-三、检测是否安装成功。
-或是输入：echo %M2_HOME%
-查看版本：mvn -v
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 基础概念</title>
-    <url>/posts/6ff6dc3c/</url>
-    <content><![CDATA[基础概念scope 作用域一览图如下：
-
-
-
-作用域
-测试
-编译
-运行
-打包
-
-
-
-test
-√
-
-
-
-
-
-compile
-√
-√
-√
-√
-
-
-runtime
-√
-
-√
-
-
-
-provided
-√
-√
-
-
-
-
-system
-√
-√
-
-
-
-
-testtest 范围指的是测试范围有效，在编译和打包时都不会使用这个依赖
-compilecompile 范围指的是编译范围有效，在编译和打包时都会将依赖存储进去
-runtimeruntime 在运行的时候依赖，在编译的时候不依赖 
-providedprovided 依赖：在编译和测试的过程有效，最后生成 war 包时不会加入，诸如：servlet-api，因为servlet-api，tomcat等web服务器已经存在了，如果再打包会冲突
-system（不推荐）这种类型跟provided类似，唯一不同的就是这种类型的依赖我们要自己提供jar包，这需要与另一个元素systemPath来结合使用。systemPath将指向我们系统上的jar包的路径，而且必须是给定的绝对路径。
-
-systemPath：上面已经说过了这个元素是在scope的值为system的时候用于指定依赖的jar包在系统上的位置的，而且是绝对路径。该元素必须在依赖的 jar包的scope为system时才能使用，否则Maven将报错。
-
-optional 标签
-optional标签加在pom依赖上可以防止其依赖的dependency在打包的时候被加载进来
-
-对于我们公司内部开发的jar包,我们都加上&lt;optional&gt;true&lt;/optional&gt;，这样可以使引用这些jar的项目不会产生传递依赖。
-属性获取在pom.xml文件中我们可以使用${propertyName}的形式引用属性。是值的占位符，类似EL，类似ant的属性，比如${X}，可用于pom文件任何赋值的位置。有以下分类：
-
-env.propertyName：这种形式表示引用的是环境变量，比如我们需要引用当前系统的环境变量PATH的时候，就可以使用${env.PATH}。
-
-project.propertyName：这种形式表示引用的是当前这个pom.xml中project根元素下面的子元素的值。比如我们需要引用当前project下面的version的时候，就可以使用${project.version}。
-
-settings.propertyName：这种形式引用的是Maven本地配置文件settings.xml或本地Maven安装目录下的settings.xml文件根元素settings下的元素。比如我们需要引用settings下的本地仓库localRepository元素的值时，我们可以用${settings.localRepository}
-
-Java System Properties：java的系统属性，所有在java中使用java.lang.System.getProperties()能够获取到的属性都可以在pom.xml中引用，比如${java.home}。
-
-自定义：pom.xml中properties元素下面的子元素作为属性。假如在pom.xml中有如下一段代码:
-&lt;properties&gt;    &lt;hello.world&gt;helloWorld&lt;/hello.world&gt;&lt;/properties&gt;
-
-那么我们就可以使用${hello.world}引用到对应的helloWorld。
-
-
--maven.test.skip 和 skipTests 的区别
--DskipTests：不执行测试用例，但编译测试用例类生成相应的class文件至target&#x2F;test-classes下。
--Dmaven.test.skip=true：不执行测试用例，也不编译测试用例类。
-
-modelVersion 标签modelVersion 这个标签必须存在，而且它的值必须是 4.0.0，这标志着使用的是 maven2。
-spring-boot 查找 main 文件的流程
-首先查看&lt;mainClass&gt;是否有值，如果有，直接拿标签内的类名作为入口
-
-&lt;properties&gt;    &lt;start-class&gt;com.example.Application&lt;/start-class&gt;&lt;/properties&gt;
-
-
-如果没找到&lt;start-class&gt;标签，会遍历所有文件，找到注解了@SpringBootApplication并含有main方法的类，将其作为入口。
-实践证明，如果没有定义&lt;start-class&gt;，查找入口类的方法也是非常快的。
-在实际开发中，推荐手动定义&lt;start-class&gt;。这样在一个项目工程中可以有多个@SpringBootApplication注解的类，修改一下pom里的配置就能灵活切换入口了。
-
-
-spring-boot-maven-plugin 和 maven-jar-plugin 的区别 spring-boot-maven-plugin:
-
-将应用程序及其依赖jar一起打包到一个独立的jar中,打出来的是fat jar,可以直接启动
-
-&lt;plugin&gt;     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;     &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;     &lt;executions&gt;         &lt;execution&gt;             &lt;goals&gt;                 &lt;goal&gt;repackage&lt;/goal&gt;             &lt;/goals&gt;         &lt;/execution&gt;     &lt;/executions&gt; &lt;/plugin&gt;
-
-maven打成jar包插件:
-
-只包括当前模块的jar,不包含依赖jar,无法直接启动
-
- &lt;plugin&gt;    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;&lt;/plugin&gt;
-
-仓库优先级
-
-
-根据官方描述，mirrorOf 相同的情况下，仅会选择靠前的镜像，当 jar 包下载失败后，是不会去第2个镜像下载的。
-
-本地仓库(localRepositories) &gt; profile 中的 repositories 仓库（私服） &gt; POM &gt; mirrors 全局仓库 &gt; 中央仓库 （central）
-以上关系可以简化为：
-本地仓库 &gt; 私服（profile）&gt; 远程仓库（repository）
-mirror 标签maven默认内置了如下一个仓库，这个默认仓库的 id 为 central，当我们把 mirrorOf 设置为 &lt;mirrorOf&gt;central&lt;/mirrorOf&gt; 时，maven 就会查找有没有 id 为 central 的仓库，然后把 id为 central 的仓库地址换成我们 &lt;mirror&gt; 标签配置的那个 url，这样我们配置的 mirror 才会起作用。当然我们也可以把 mirrorOf 设置为 &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;，表示所有仓库都使用我们配置的这个 mirror 作为 jar 包下载地址，即当 repository 中的 id 与 mirrorOf 一致时，mirrorOf 中的 url 就会覆盖 repository 中的 url 地址。
-maven-metadata.xml 文件举个栗子：
-maven-metadata-local.xml 文件内容如下：
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;metadata&gt;  &lt;groupId&gt;com.sf.saas&lt;/groupId&gt;  &lt;artifactId&gt;saas-sws-prophet&lt;/artifactId&gt;  &lt;versioning&gt;    &lt;versions&gt;      &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;/versions&gt;    &lt;lastUpdated&gt;20220119074601&lt;/lastUpdated&gt;  &lt;/versioning&gt;&lt;/metadata&gt;
-
-其中 lastUpdated 是最中要的一个属性，Maven 更新工程的 jar包时，会比较 lastUpdated 时间戳值，哪个值更大，就以哪个文件为准。
-接下来我们看下 Maven 为我们生成了那些文件，我们可以看到 maven-metadata.xml 一共有三个：
-
-maven-metadata-local.xml 本地的元数据, Maven install 的时候就会生成。
-maven-metadata-snapshots.xml Maven deploy 时会生成
-maven-metadata-localhost.xml 远程仓库获取的时候生成 (repository 的 id &#x3D; localhost)
-
-以上的文件其实都是 Maven 的过渡文件而已
-
-例如 maven-metadata-snapshots 就是 Maven deploy 先从远程仓库对应包的 maven-metadata.xml 下载下来，然后修改快照信息后在上传到远程仓库上。
-例如 maven-metadata-localhost 的作用是在 Maven 在拉取包的时候，会先跟本地 maven-metadata-local 比较下 lastUpdated 时间戳值，值大用哪个。如果是 Maven 强制更新 的时候(没有强制更新是不会) 会下载远程的 maven-metadata.xml 比较远程，本地，和之前远程保存下来的 maven-metadata 文件。
-
-所以有时候 maven 库上的 jar 包已经更新，而我们总是拉取不到 maven 的包原因就是本地的 maven-metadata-local 的 lastUpdated 比较大导致的。
-参考连接Maven中optional和scope元素的使用，你弄明白了？
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 常用命令</title>
-    <url>/posts/c718cdb9/</url>
-    <content><![CDATA[目录查看依赖树mvn dependency:tree
-
-重定向到文件
-mvn dependency:tree &gt; tree.txt
-
-使用verbose参数可以看冲突和重复的具体情况：
-mvn dependency:tree -Dverbose &gt;tree.txt
-
-全是全了，但显示出来的东西太多，头晕目眩，有没有好法呢？当然有了，加上 Dincludes 或者 Dexcludes 说出你喜欢或讨厌，dependency:tree 就会帮你过滤出来，例如：
-方式一：
-# 语法mvn dependency:tree -Dverbose -Dincludes=&lt;groudId&gt;:&lt;artifactId&gt;# 示例mvn dependency:tree -Dverbose -Dincludes=com.alipay.common:tracer
-
-方式二：
-也可以用这种方式来输入命令排查，会保留历史记录，下次排查直接使用历史命令即可
-
-
-检测那些声明了但是没被使用的依赖mvn dependency:analyze-only
-
-分析重复定义的依赖mvn dependency:analyze-duplicate
-
-下载指定依赖 jar 包命令格式：
-mvn dependency:get -Dartifact=groupId:artifactId:version:jar:sources
-
-示例:
-
-下载jar包
-mvn dependency:get -Dartifact=junit:junit:4.12:jar
-
-下载源码
-mvn dependency:get -Dartifact=junit:junit:4.12:jar:sources
-
-指定配置文件命令格式：
-mvn install --settings &lt;SETTINGS_FILE_LOCATION&gt;
-
-示例:
-mvn install --settings D:\Apache\apache-maven-3.6.3\conf\settings.xml
-
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 常用配置</title>
-    <url>/posts/615834e0/</url>
-    <content><![CDATA[常用配置profile配置实现动态切换环境1. 更改 spring.profiles.activespring.profiles.active=@env@
-
-2. pom.xml 配置&lt;project&gt;    ... 其他代码略 ...    &lt;profiles&gt;        &lt;!-- 开发环境 --&gt;        &lt;profile&gt;            &lt;id&gt;dev&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;dev&lt;/env&gt;&lt;!-- 之前写的@env@就是通过这里的配置切换环境 --&gt;            &lt;/properties&gt;            &lt;activation&gt;                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;&lt;!-- 指定缺省环境 --&gt;            &lt;/activation&gt;        &lt;/profile&gt;        &lt;!-- 测试环境 --&gt;        &lt;profile&gt;            &lt;id&gt;test&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;test&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;        &lt;!-- 生产环境 --&gt;        &lt;profile&gt;            &lt;id&gt;prod&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;prod&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;    &lt;/profiles&gt;&lt;/project&gt;
-
-
-
-maven-assembly-plugin配置1. pom.xml 配置    &lt;plugin&gt;        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;        &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;        &lt;configuration&gt;            &lt;appendAssemblyId&gt;false&lt;/appendAssemblyId&gt;        &lt;/configuration&gt;        &lt;executions&gt;            &lt;execution&gt;                &lt;id&gt;make-assembly&lt;/id&gt;                &lt;phase&gt;package&lt;/phase&gt;                &lt;goals&gt;                    &lt;goal&gt;single&lt;/goal&gt;                &lt;/goals&gt;                &lt;configuration&gt;                    &lt;skipAssembly&gt;false&lt;/skipAssembly&gt;                    &lt;descriptors&gt;                        &lt;descriptor&gt;src/main/assembly/$&#123;env.devMode&#125;/assembly.xml&lt;/descriptor&gt;                    &lt;/descriptors&gt;                    &lt;finalName&gt;$&#123;artifactId&#125;&lt;/finalName&gt;                &lt;/configuration&gt;            &lt;/execution&gt;        &lt;/executions&gt;    &lt;/plugin&gt;&lt;profile&gt;    &lt;id&gt;dev&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;dev&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;false&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;true&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;true&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;&lt;profile&gt;    &lt;id&gt;sit&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;sit&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;true&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;false&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;true&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;&lt;profile&gt;    &lt;id&gt;prod&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;prod&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;true&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;true&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;false&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;
-
-2. assembly.xml 配置&lt;assembly&gt;	&lt;id&gt;assembly&lt;/id&gt;	&lt;formats&gt;		&lt;format&gt;tar.gz&lt;/format&gt;	&lt;/formats&gt;	&lt;includeBaseDirectory&gt;false&lt;/includeBaseDirectory&gt;	&lt;fileSets&gt;		&lt;fileSet&gt;			&lt;directory&gt;src/main/assembly/bin&lt;/directory&gt;			&lt;outputDirectory&gt;bin&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0755&lt;/directoryMode&gt;			&lt;fileMode&gt;0755&lt;/fileMode&gt;		&lt;/fileSet&gt;		&lt;fileSet&gt;			&lt;directory&gt;src/main/assembly/sit/conf&lt;/directory&gt;			&lt;outputDirectory&gt;conf&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0744&lt;/directoryMode&gt;			&lt;fileMode&gt;0644&lt;/fileMode&gt;		&lt;/fileSet&gt;		&lt;fileSet&gt;			&lt;directory&gt;target&lt;/directory&gt;			&lt;includes&gt;				&lt;include&gt;*.jar&lt;/include&gt;			&lt;/includes&gt;			&lt;outputDirectory&gt;lib&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0744&lt;/directoryMode&gt;			&lt;fileMode&gt;0644&lt;/fileMode&gt;		&lt;/fileSet&gt;	&lt;/fileSets&gt;&lt;/assembly&gt;
-
-maven-source-plugin配置maven-source-plugin可以实现自动将源码打包并发布
-
-注意：在多项目构建中，将source-plugin置于顶层或parent的pom中并不会发挥作用，必须置于具体项目的pom中。
-jar-no-fork 和 jar 的区别jar目标是从命令行（ mvn source:jar ）运行， jar-no-fork意味着绑定到生命周期
-如果将POM配置为运行source:jar目标作为生命周期的一部分，Maven将重新运行绑定到generate-sources及其前身的所有目标。 如果你有很多插件目标绑定到验证或初始化阶段，那么所有这些目标都将运行两次，从而延长了构建时间。
-相比之下， jar-no-fork是你附加到构建生命周期的东西，因为它期望在generate-sources之后的某个地方绑定到某个阶段，并且不会再次运行绑定目标。
-可以通过mvn source:jar -X 进行验证查看，-X 为debug模式
-
-&lt;build&gt;    &lt;plugins&gt;        ...        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;            &lt;executions&gt;                &lt;execution&gt;                    &lt;id&gt;attach-sources&lt;/id&gt;                    &lt;phase&gt;package&lt;/phase&gt;                    &lt;goals&gt;                        &lt;goal&gt;jar-no-fork&lt;/goal&gt;                    &lt;/goals&gt;                &lt;/execution&gt;            &lt;/executions&gt;        &lt;/plugin&gt;        ...    &lt;/plugins&gt;&lt;/build&gt;
-
-执行 mvn install，maven会自动将source install到repository 。 
-执行 mvn deploy，maven会自动将source deploy到remote-repository 。 
-执行 mvn source:jar，单独打包源码。 
-手动安装MAVEN安装source代码到本地库:
-mvn install:install-file -Dfile=E:/common-base-0.0.1-sources.jar -DgroupId=net.spy \-DartifactId=spymemcached -Dversion=2.10.3 -Dpackaging=jar -Dclassifier=sources
-
-spring-boot-maven-plugin配置
-这是非 assembly 打包的方式。
-
-spring-boot-maven-plugin包含如下几个goal:
-
-
-
-goal
-解释
-
-
-
-repackage
-build 一个可执行的 jar 或者 war 包
-
-
-run
-运行 springboot 应用
-
-
-start ，stop
-这两个配合在一起，绑定在 integration-test 这个 phase，可以运行测试前后启动停止 spring boot 应用
-
-
-&lt;build&gt;    &lt;plugins&gt;        ...        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;configuration&gt;                &lt;!-- 指定该Main Class为全局的唯一入口 --&gt;                &lt;mainClass&gt;com.demo.design.DesignPatternApplication&lt;/mainClass&gt;                &lt;!-- 原始包的后缀将变成.exec --&gt;                &lt;classifier&gt;exec&lt;/classifier&gt;            &lt;/configuration&gt;            &lt;executions&gt;                &lt;execution&gt;                    &lt;goals&gt;                        &lt;goal&gt;repackage&lt;/goal&gt;                    &lt;/goals&gt;                &lt;/execution&gt;            &lt;/executions&gt;        &lt;/plugin&gt;        ...        ...        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;            &lt;configuration&gt;                &lt;excludes&gt;                    &lt;exclude&gt;**/application.yml&lt;/exclude&gt;                    &lt;exclude&gt;**/logback-spring.yml&lt;/exclude&gt;                &lt;/excludes&gt;            &lt;/configuration&gt;        &lt;/plugin&gt;        ...    &lt;/plugins&gt;&lt;/build&gt;
-
-mvn spring-boot:run
-在命令行运行mvn spring-boot:run可以启动spring boot应用，并且可以通过如下配置给启动的jvm传递参数
-&lt;plugin&gt;    ...    &lt;configuration&gt;              &lt;jvmArguments&gt;                -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005              &lt;/jvmArguments&gt;    &lt;/configuration&gt;    ...&lt;/plugin&gt;
-
-spring-boot-devtools
-spring boot 1.3之后引入了dev-tools可以让你方便开发应用，在spring boot应用启动后，它监听资源文件的改变，或者重新编译生成class，有变化之后自动刷新（repackage是不会把dev-tools打进包的，所以生产环境dev-tool是不会起作用的）。
-可以通过设置spring.devtools.remote.restart.enabled=false这个java系统属性，是的dev-tools只在静态资源改变时才刷新。
-&lt;dependencies&gt;... &lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;    &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;    &lt;!--指定optional为true可以避免被repackage打war时devtools也被打进war包--&gt;    &lt;optional&gt;true&lt;/optional&gt;  &lt;/dependency&gt;...&lt;/dependencies&gt;
-
-引入lib下的第三方jar包并打包进去场景如果需要引用的jar包在Maven中央仓库下没有，那么怎么在项目中引入。
-首先在工程目录下新建libs目录
-将需要引入的jar包放在此目录下
- 
-
-实现在添加依赖的地方
-&lt;dependency&gt;    &lt;groupId&gt;mobileimsdk4j_tcp&lt;/groupId&gt;    &lt;artifactId&gt;mobileimsdk4j_tcp&lt;/artifactId&gt;    &lt;version&gt;1.0&lt;/version&gt;    &lt;scope&gt;system&lt;/scope&gt;    &lt;systemPath&gt;$&#123;basedir&#125;/libs/mobileimsdk4j_tcp.jar&lt;/systemPath&gt;&lt;/dependency&gt;
-注意这里的坐标和版本号随意，但是 scope 要写 system，然后 systemPath 就是上面 jar 包的路径
-然后这样用的话，在将项目进行打包时，需要将这些jar包也打包进去。
-然后需要借助于打包插件
-&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;            &lt;version&gt;3.6.0&lt;/version&gt;            &lt;configuration&gt;                &lt;source&gt;1.8&lt;/source&gt;                &lt;target&gt;1.8&lt;/target&gt;                &lt;encoding&gt;UTF-8&lt;/encoding&gt;                &lt;compilerArguments&gt;                    &lt;extdirs&gt;$&#123;project.basedir&#125;/libs&lt;/extdirs&gt;                &lt;/compilerArguments&gt;            &lt;/configuration&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
-注意这里的extdirs的路径，这里是项目根目录下的libs目录
-
-
-实时拉取 SNAOSHOT 最新依赖打开 File -&gt; Settings -&gt; Build,Execution,Deployment -&gt; Build Tools -&gt; Maven，勾选 Always update snaphosts 即可。
-
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven 常见问题</title>
-    <url>/posts/4f5fa1df/</url>
-    <content><![CDATA[常见问题1、Maven 多模块打包时提示 找不到符号子模块使用 pom 打包方式即可解决
-&lt;packaging&gt;pom&lt;/packaging&gt;
-
-如果还未能解决，在公共模块或者当前模块下加入打包工具
-&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;    			 &lt;!-- 加入此配置start --&gt;            &lt;configuration&gt;                &lt;classifier&gt;exec&lt;/classifier&gt;            &lt;/configuration&gt;		    	 &lt;!-- 加入此配置end --&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
-
-2、Could not find artifact XXXX in aliyun-springMaven在下载依赖时会先在本地仓库查找，如若未找到，则会去内网私服查找，如若仍未找到，再去远程仓库查找。
-所以只要把jar包打包到本地缓存仓库即可，如下图所示：
-
-
-3、Failed to execute goal org.apache.maven.plugins:maven-clean-plugin解除提示对应的文件占用即可
-4、org&#x2F;apache&#x2F;maven&#x2F;shared&#x2F;artifact&#x2F;filter&#x2F;collection&#x2F;ArtifactsFilter原来是没有在仓库中找到对应的插件，指定一个找得到的版本号即可解决
-&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
-
-5、打包后丢失xml文件&lt;resources&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/java&lt;/directory&gt;        &lt;includes&gt;            &lt;include&gt;**/*.properties&lt;/include&gt;            &lt;include&gt;**/*.xml&lt;/include&gt;        &lt;/includes&gt;        &lt;!-- 是否替换资源中的属性 --&gt;        &lt;filtering&gt;false&lt;/filtering&gt;    &lt;/resource&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/resources&lt;/directory&gt;    &lt;/resource&gt;&lt;/resources&gt;
-
-6、resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced项目jar包是放在nexus上的，这是由于私服的更新策略导致的，nexus上的依赖库在更新库版本号打包时并没有更新，导致项目打包找不到依赖。
-解决方法：
-方法一修改nexus的依赖库更新策略，添加 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-updatePolicy 该元素指定更新发生的频率。Maven会比较本地 POM 和远程 POM 的时间戳。这里的选项是：
-
-always（一直）
-daily（默认，每日）
-interval:X（这里X是以分钟为单位的时间间隔）
-never（从不）
-
-&lt;profile&gt;    &lt;id&gt;zang-nexus&lt;/id&gt;    &lt;repositories&gt;        &lt;repository&gt;            &lt;id&gt;zang-nexus&lt;/id&gt;            &lt;url&gt;http://10.253.40.2XX:6XXX/nexus/content/groups/public&lt;/url&gt;            &lt;releases&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/releases&gt;            &lt;snapshots&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/snapshots&gt;        &lt;/repository&gt;    &lt;/repositories&gt;    &lt;pluginRepositories&gt;        &lt;pluginRepository&gt;            &lt;id&gt;zang-nexus&lt;/id&gt;            &lt;url&gt;http://10.253.40.2XX:6XXX/nexus/content/groups/public&lt;/url&gt;            &lt;releases&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/releases&gt;            &lt;snapshots&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/snapshots&gt;        &lt;/pluginRepository&gt;    &lt;/pluginRepositories&gt;&lt;/profile&gt;
-
-方法二删除未下载成功的文件，重新编译
-maven默认会使用本地缓存的库来编译工程，对于上次下载失败的库，maven会在 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下创建 xxx.lastUpdated 文件，一旦这个文件存在，那么在直到下一次nexus更新之前都不会更新这个依赖库，所以可以根据报错信息，删除 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下的 *.lastUpdated 文件，然后再次运行 mvn compile 编译工程。
-7、Maven传递依赖无法引入解决办法使用 mvn install -X 命令查看完整编译过程，发现有文件提示使用了未经检查或不安全的操作，在提示警告的文件类上增加以下注解：
-@SuppressWarnings(&quot;unchecked&quot;)
-
-问题解决。
-8、[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent在 pom.xml 文件中增加一个配置项：
-&lt;properties&gt;    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;&lt;/properties&gt;
-
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>maven</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -13175,7 +12874,7 @@ namesilo
 
 
 yahya-yaoyuming
-&#x36;&#x37;&#50;&#x35;&#53;&#x34;&#55;&#56;&#x34;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#109;
+&#x36;&#55;&#x32;&#53;&#53;&#x34;&#x37;&#x38;&#52;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;
 Yao88219620ko!
 
 
@@ -13187,7 +12886,7 @@ cloudflare
 
 
 
-&#x36;&#55;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;
+&#54;&#x37;&#50;&#53;&#x35;&#x34;&#x37;&#x38;&#x34;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;
 Yao88219620ko!
 
 
@@ -13196,6 +12895,14 @@ Yao88219620ko!
 全局API KEY:
 66f6f58b393232b878e6a855ab40944431724
 
+DNS 缓存清除
+DNS 解析 CloudFlare 1.1.1.1、1.0.0.1 的类型：
+
+​	https://cloudflare-dns.com/purge-cache/
+
+DNS 解析为 Google 8.8.8.8、8.8.4.4 的类型：
+
+​	https://developers.google.com/speed/public-dns/cache?hl=zh-cn
 hosteONS
 VPS 服务器信息。
 IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;paymentsuccess=true
@@ -13208,7 +12915,7 @@ IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;payments
 
 
 
-&#x36;&#x37;&#50;&#53;&#x35;&#52;&#55;&#x38;&#52;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;
+&#x36;&#x37;&#50;&#53;&#x35;&#52;&#x37;&#x38;&#x34;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;
 Yao88219620ko!
 
 
@@ -13234,6 +12941,110 @@ yum -y install crontabsyum -y install openssl openssl-develcurl https://get.acme
 
 x-ui 面板安装：
 bash &lt;(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh) 
+
+vmess&#x2F;vless 地址转换https://sub-zh.vercel.app/
+DNS 配置参考链接：https://limbopro.com/archives/DoH.html#DNS-over-HTTPS/TLS_(DoH/DoT)%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F&amp;gsc.tab=0
+可用的DNS服务器列表（支持DoT）
+
+
+
+DNS服务器（支持DoT）
+服务商
+备注
+
+
+
+223.5.5.5 &#x2F; 223.6.6.6 &#x2F; 2400:3200::1 &#x2F; 2400:3200:baba::1
+Alidns
+参阅
+
+
+119.29.29.29 or 182.254.116.116 &#x2F; 2402:4e00:: &#x2F; 1.12.12.12 &#x2F; 120.53.53.53
+Tencent&#x2F;DNSPOD
+参阅
+
+
+8.8.8.8 or 8.8.4.4 2001:4860:4860::8888 or 2001:4860:4860::8844
+Google
+参阅
+
+
+1.1.1.1 or 1.0.0.1 2606:4700:4700::1111 or 2606:4700:4700::1001
+Cloudflare
+参阅
+
+
+94.140.14.14 or 94.140.15.15 for “Default”;
+Adguard
+参阅
+
+
+94.140.14.15 or 94.140.15.16 for “Family protection”.
+Adguard
+参阅
+
+
+可用的DNS服务器列表（支持DoH）
+可用的 DNS-over-HTTPS (DoH) 解析服务完整参阅：传送门；
+
+
+
+DoH服务器（URL）
+服务商
+备注
+
+
+
+https://dns.alidns.com/dns-query
+Alidns
+参阅
+
+
+https://cloudflare-dns.com/dns-query
+Cloudflare
+参阅
+
+
+https://mozilla.cloudflare-dns.com/dns-query
+Cloudflare
+参阅
+
+
+https://dns.google/dns-query
+Google
+参阅
+
+
+https://dns.adguard.com/dns-query
+Adguard
+参阅
+
+
+https://dns-family.adguard.com/dns-query
+Adguard
+参阅
+
+
+建议日常使用 DNS 如下：
+
+
+
+DNS
+说明
+
+
+
+223.5.5.5、223.6.6.6
+阿里云的 DNS 服务器
+
+
+119.29.29.29
+腾讯云的 DNS 服务器
+
+
+114.114.114.114
+国内移动、电信、联通的通用的 DNS，因为存在污染问题，优先级放到最低
+
 
 ]]></content>
       <categories>
@@ -13263,7 +13074,28 @@ maven离线模式及设置下载maven依赖通过idea创建maven项目，maven�
         <category>Intellij IDEA</category>
       </categories>
       <tags>
+        <tag>intellij idea</tag>
         <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA 主题推荐</title>
+    <url>/posts/1d1b4eb4/</url>
+    <content><![CDATA[目录暗色系
+Twitch Dark Theme
+Vuesion Theme
+Visual Studio Code Dark Plus Theme
+
+亮色系
+shirotelin
+KDE Breeze Theme
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
         <tag>intellij idea</tag>
       </tags>
   </entry>
@@ -13272,26 +13104,45 @@ maven离线模式及设置下载maven依赖通过idea创建maven项目，maven�
     <url>/posts/be77417b/</url>
     <content><![CDATA[目录列表已使用
 Key Promoter X
+
 Alibaba Java Coding GuideLines
+
 CamelCase
+
 Convert YAML and Properties File
+
 GenerateAllSetter
+
 GenerateSerialVersionUID
+
 Git Commit Message Helper
+
 Grep Console
+
 GsonFormatPlus
+
 Json Parser
+
 HighlightBracketPair
+
 Java Bean to Json
+
 JRebel and XRebel
+
 JRebel mybatisPlus extension
+
 MybatisPlus
+
 Kafkalytic
+
 Maven Helper
+
 RestfulToolkit-fix
+
 SequenceDiagram
+
 Translation
-Convert YAML and Properties File
+
 
 未使用
 String Manipulation
@@ -13422,6 +13273,28 @@ ${MONTH_NAME_FULL} - 一个月的全名。示例：1月，2月等
 
 设置默认换行符依次展开 File -&gt; Settings -&gt; Editor -&gt; Code Style，可以看到，默认是 System-Dependent，这个其实还是很牛叉的，根据系统自动配置，但是你是 windows 系统，默认是 CRLF，服务器是 Linux，默认效果如下图所示：
 
+
+远程调试
+要求：双方代码一致，否则远程调试无法启动。
+
+IDEA 中指定 Debug 服务器点击主窗口菜单 Run &#x2F; Edit Configurations，打开“Run&#x2F;Debug Configurations”窗口；
+点击工具栏上的“+”按钮，下拉菜单中选择“Remote”；
+设置 Host 为远程服务器的域名或IP，保持 Port&#x3D;5005 无需调整；
+复制命令行参数，形如 -agentlib:jdwp&#x3D;transport&#x3D;dt_socket,server&#x3D;y,suspend&#x3D;n,address&#x3D;5005
+
+
+远程服务中开启 Debug 服务对于 SpringBoot
+命令行添加选项，并重启：
+注意新参数必须在 -jar 之前
+jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar test.jar
+
+对于 Tomcat
+启动脚本中添加选项，并重启：
+# sudo vim $CATALINA_HOME/bin/catalina.shJAVA_OPTS=&quot;$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005&quot;
+
+远程服务器防火墙端口放行
+# sudo vim /etc/sysconfig/iptables-A INPUT -m state --state NEW -m tcp -p tcp --dport 5005 -j ACCEPT# 重启生效sudo systemctl restart iptables
+
 ]]></content>
       <categories>
         <category>研发工具</category>
@@ -13454,6 +13327,21 @@ maven 控制台中文乱码打开 File -&gt; Settings -&gt; Build, Execution, De
       </categories>
       <tags>
         <tag>intell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Intellij IDEA 破解教程</title>
+    <url>/posts/4c296ea9/</url>
+    <content><![CDATA[目录参考链接https://www.exception.site/article/63
+https://zhile.io/jetbrains-paid-plugins-license
+https://www.haah.net/jetbrains
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>Intellij IDEA</category>
+      </categories>
+      <tags>
+        <tag>intellij idea</tag>
       </tags>
   </entry>
   <entry>
@@ -13945,6 +13833,19 @@ Antimalware Service Executable是什么 如何关闭Antimalware Service Executab
       </tags>
   </entry>
   <entry>
+    <title>windows 三方工具包</title>
+    <url>/posts/e27c3e8b/</url>
+    <content><![CDATA[目录语言包Windows 7 SP1 多国语言包(MUI language packs)官方下载（32位和64位）
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>字体替换</title>
     <url>/posts/7e3491fa/</url>
     <content><![CDATA[字体替换1. 方式一1. 替换系统字体
@@ -14341,7 +14242,59 @@ n 打印此行在文件中的位置。
 
 查找替换内容# sed -i &quot;s/[原字符串]/[新字符串]/g&quot; `grep &#x27;[原字符串]&#x27; -rl /opt/kubernetes`# 示例：替换/opt/kubernetes下所有文件内容为242的换成245sed -i &quot;s/242/245/g&quot; `grep &#x27;242&#x27; -rl /opt/kubernetes`
 
-10. 查看端口占用查看那些程序使用tcp的80端口$fuser -v -n tcp 80$fuser -v 80/tcp  
+10. 查看端口占用查看那些程序使用tcp的80端口fuser -v -n tcp 80fuser -v 80/tcp  
+
+11. find 查找命令
+find 基本语法如下：
+find [PATH] [Option] [action]
+
+-type TYPE: 查找文件类型为 TYPE 的，类型主要有：
+
+一般正规文件(f)
+
+设备文件 (b,c)
+
+目录 (d)
+
+连接文件 (l)
+
+socket (s)
+
+FIFO (p)
+
+
+12. unzip 压缩&#x2F;解压缩命令
+unzip 命令参数一览：
+
+-x “文件列表” 解压文件，但不包含文件列表中指定的文件
+-t 测试压缩文件有无损坏，并不解压
+-v 查看压缩文件的详细信息，具体包括压缩文件中包含的文件大小、文件名和压缩比等，并不解压
+-n 解压时不覆盖已经存在的文件
+-o 解压时覆盖已经存在的文件，并且不要求用户确认
+-d 目录名 把压缩文件解压到指定目录下
+
+zip 命令参数一览：
+
+-r 递归压缩，将指定目录下的所有文件以及子目录全部压缩
+-d 从压缩文件内删除指定的文件
+-i “文件列表” 只压缩文件列表中的文件
+-x “文件列表” 压缩时排除文件列表中指定的文件
+-u 更新文件到压缩文件中
+-m 将文件加入压缩文件压缩后，删除原始文件，即把文件移到压缩文件中
+-F 尝试修复损坏的压缩文件
+-T 检查压缩文件内的每个文件是否正确无误
+- 压缩级别 压缩级别是一个1～9的数字
+
+
+下面举一些例子：
+把一个文件 1.txt 和一个目录 dir1 压缩成为 yasuo.zip
+zip -r example.zip 1.txt dir1
+
+查看压缩包内容
+unzip -v example.zip
+
+验证压缩文件是否下载完全
+unzip -t example.zip
 
 ]]></content>
       <categories>
@@ -15092,6 +15045,21 @@ ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数�
       </tags>
   </entry>
   <entry>
+    <title>苹果软件 alfred 使用教程</title>
+    <url>/posts/28aa3ae1/</url>
+    <content><![CDATA[目录参考链接从零开始学习 Alfred：基础功能及设置
+Mac Everything 文件搜索工具，效率神器推荐
+视频教程【macOS究极强化】全网最简单！Alfred快速上手
+FAQmac使用Alfred搜索外接移动硬盘失败的解决方法
+]]></content>
+      <categories>
+        <category>黑苹果</category>
+      </categories>
+      <tags>
+        <tag>黑苹果</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/posts/0/</url>
     <content><![CDATA[目录image-syncer 下载下载地址：https://github.com/AliyunContainerService/image-syncer/releases/tag/v1.3.1
@@ -15140,6 +15108,700 @@ Copy#查看环境变量是否添加成功consul#启动consul agent -dev#浏览�
       </categories>
       <tags>
         <tag>consul</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gradle 基础概念</title>
+    <url>/posts/884ca42/</url>
+    <content><![CDATA[目录文件说明
+
+解析 gradle&#x2F;wrapper&#x2F;gradle-wrapper.properties 文件，获取项目需要的 gradle 版本下载地址
+
+判断本地用户目录下的 .&#x2F;gradle 目录下是否存在该版本，不存在该版本，走第3点，存在走第4点
+
+下载 gradle-wrapper.properties 指定版本，并解压到用户目录的下 .&#x2F;gradle 文件下
+
+利用 .&#x2F;gradle 目录下对应的版本的 gradle 进行相应自动编译操作
+
+
+
+
+
+
+文件名
+说明
+类型
+是否必须
+
+
+
+.gradle
+gradle 项目产生文件（自动编译工具产生的文件）
+目录
+-
+
+
+build
+自动构建时生成文件的地方
+目录
+-
+
+
+gradle
+自动完成gradle环境支持文件夹
+目录
+否
+
+
+gradlew
+自动完成 gradle 环境的linux mac 脚本，配合 gradle 文件夹使用代替 gradle 命令实现自动完成 gradle 环境搭建，配合 gradle 文件夹的内容进行使用
+文件
+否
+
+
+gradlew.bat
+自动完成 gradle 环境的 windows 脚本，配合 gradle 文件夹使用
+文件
+否
+
+
+build.gradle
+gradle 项目自动编译的配置文件
+文件
+是
+
+
+gradle.properties
+gradle 运行环境配置文件
+文件
+是
+
+
+setting.gradle
+gradle 项目的子项目包含文件，多模块构建用
+文件
+是
+
+
+依赖范围
+
+
+名称
+说明
+
+
+
+compileOnly
+gradle 2.12 之后版本新添加的，2.12 版本时期曾短暂的叫 provided，后续版本已经改成了compileOnly，由 java 插件提供,适用于编译期需要而不需要打包的情况。
+
+
+providedCompile
+war 插件提供的范围类型：与 compile 作用类似，但不会被添加到最终的war包中这是由于编译、测试阶段代码需要依赖此类 jar 包，而运行阶段容器已经提供了相应的支持，所以无需将这些文件打入到 war 包中了；例如 Servlet API 就是一个很明显的例子。
+
+
+providedRuntime
+同 proiveCompile 类似。
+
+
+implementation
+3.4 以后由 java-library 提供，当其他模块依赖此模块时，此模块使用 implementation 声明的依赖包只限于模块内部使用，不允许其他模块使用。
+
+
+api
+3.4 以后由 java-library 提供，当其他模块依赖于此模块时，此模块使用 api 声明的依赖包是可以被其他模块使用，等同于 compile。
+
+
+compile
+编译范围依赖在所有的 classpath 中可用，同时它们也会被打包。
+
+
+runtime
+runtime 依赖在运行和测试系统的时候需要，但在编译的时候不需要。比如，你可能在编译的时候只需要 JDBC API JAR，而只有在运行的时候才需要 JDBC 驱动实现。
+
+
+testCompile
+测试期编译需要的附加依赖。
+
+
+testRuntime
+测试运行期需要。
+
+
+archives
+-
+
+
+default
+配置默认依赖范围。
+
+
+基础语法依赖项目依赖此类依赖多见于多模块项目，书写方式如下，其中:是基于跟项目的相对路径描述符。
+compile project(&#x27;:project-foo&#x27;)
+
+文件依赖依赖存在于本地文件系统中，举个栗子，如 oracle 的 OJDBC 驱动，中央仓库中没有又没有自建私服此时需要放到项目 lib 下进行手工加载那么便可采用此种方式，可以通过FileCollection接口及其子接口提供的方法加载这些依赖(支持文件通配符)
+dependencies &#123;   // 指定多个依赖   compile files(&#x27;hibernate.jar&#x27;, &#x27;libs/spring.jar&#x27;)   // 读取lib文件夹下的全部文件作为项目依赖   compile fileTree(&#x27;libs&#x27;)   // 根据指定基准目录\包含\排除条件加载依赖   compile fileTree(dir:&#x27;libs&#x27;, include:&#x27;spring*.jar&#x27;, exclude:&#x27;hibernate*.jar&#x27;)&#125;
+
+传递依赖传递依赖特性可以轻松地通过transitive参数进行开启或关闭，如果要忽略com.android.support-v4的传递性依赖可以采用指定 transitive &#x3D; false 的方式来关闭依赖传递特性，也可以采用添加 @jar 的方式忽略该依赖的所有传递性依赖。
+compile(&#x27;com.android.support:support-v4:23.1.1&#x27;) &#123; transitive = false &#125; compile &#x27;com.android.support:support-v4:23.1.1&#x27;@jar
+
+当然,你也可以全局性的关闭依赖的传递特性。
+configurations.all &#123; transitive = false &#125;
+
+或者，部分排除一些依赖，通过 exclude 的形式，举个例子：
+compile(&#x27;com.github.nanchen2251:CompressHelper:1.0.5&#x27;) &#123;	exclude group: &#x27;com.android.support&#x27;//排除组织依赖	exclude module: &#x27;appcompat-v7&#x27;//排除模块依赖&#125;
+
+强制使用指定版本当然，有时候你可能仅仅是需要强制使用某个统一的依赖版本，而不是排除他们，那么此时force就该登场了。指定force &#x3D; true属性可以冲突时优先使用该版本进行解决。
+compile(&#x27;com.github.nanchen2251:CompressHelper:1.0.5&#x27;) &#123; force = true &#125;
+
+全局配置强制使用某个版本的依赖来解决依赖冲突中出现的依赖，有两种方式：
+方式一：
+configurations.all &#123;   resolutionStrategy &#123;       force &#x27;com.github.nanchen2251:CompressHelper:1.0.5&#x27;   &#125;&#125;
+
+方式二：
+// 解决冲突 同一版本configurations.all &#123;    resolutionStrategy.eachDependency &#123; DependencyResolveDetails details -&gt;        def requested = details.requested        if (requested.group == &#x27;com.android.support&#x27;) &#123;            if (requested.name.startsWith(&quot;support-&quot;)||                    requested.name.startsWith(&quot;animated&quot;)||                    requested.name.startsWith(&quot;cardview&quot;)||                    requested.name.startsWith(&quot;design&quot;)||                    requested.name.startsWith(&quot;gridlayout&quot;)||                    requested.name.startsWith(&quot;recyclerview&quot;)||                    requested.name.startsWith(&quot;transition&quot;)||                    requested.name.startsWith(&quot;appcompat&quot;)) &#123;                details.useVersion &#x27;25.0.0&#x27;            &#125;        &#125;    &#125;&#125;
+
+动态版本如果你想让你的工程始终采用最新依赖，那么 Gradle 提供了一种方式可以始终保证采用依赖的最新版本而无需每次手工检查修改版本。
+使用加号+,可以让Gradle在每次执行构建时检查远程仓库是否存在该依赖的新版本，如果存在新版本则下载选用最新版本。当然也可以指定依赖某个大版本下的最新子版本，1.+表示始终采用该依赖最新的1.x版本的最新依赖。
+compile &#x27;com.android.support:support-v4:+&#x27; // 下载最新compile &#x27;com.android.support:support-v4:23+&#x27; // 基于23这个版本最新
+
+强制更新依赖在执行 build、compile 等任务时会解析项目配置的依赖并按照配置的仓库去搜寻下载这些依赖。默认情况下，Gradle 会依照 Gradle 缓存 -&gt; 你配置的仓库的顺序依次搜寻这些依赖，并且一旦找到就会停止搜索。如果想要忽略本地缓存每次都进行远程检索可以通过在执行命令时添加 --refresh-dependencies 参数来强制刷新依赖。
+gradle build --refresh-dependencies
+
+当远程仓库上传了相同版本依赖时，有时需要为缓存指定一个时效去检查远程仓库的依赖笨版本，Gradle 提供了 cacheChangingModulesFor(int, java.util.concurrent.TimeUnit) , cacheDynamicVersionsFor(int, java.util.concurrent.TimeUnit) 两个方法来设置缓存的时效
+configurations.all &#123;    // 每隔24小时检查远程依赖是否存在更新    resolutionStrategy.cacheChangingModulesFor 24, &#x27;hours&#x27;    // 每隔10分钟..    // resolutionStrategy.cacheChangingModulesFor 10, &#x27;minutes&#x27;    // 采用动态版本声明的依赖缓存10分钟    resolutionStrategy.cacheDynamicVersionsFor 10*60, &#x27;seconds&#x27;&#125;dependencies &#123;    // 添加changing: true    compile group: &quot;group&quot;, name: &quot;module&quot;, version: &quot;1.1-SNAPSHOT&quot;, changing: true    // 简写方式    // compile(&#x27;group:module:1.1-SNAPSHOT&#x27;) &#123; changing = true &#125;&#125;
+
+内置依赖跟随 Gradle 发行包或者基于 Gradle API 的一些依赖，通常在插件开发时使用，当前提供了如下三种:
+ dependencies &#123;   // 加载Gradle自带的groovy作为依赖   compile localGroovy()   // 使用Gradle API作为依赖   compile gradleApi()   // 使用 Gradle test-kit API 作为依赖   testCompile gradleTestKit()&#125;
+
+ext在 Gradle 领域模型中所有被增强的对象能够拥有自己定义的属性. 这包括，但不仅限于 projects, tasks, 还有 sourceSets .Project 对象可以添加，读取，更改扩展的属性. 另外，使用 ext 扩展块可以一次添加多个属性。
+举个例子，以 build.gradle 为例：
+ext &#123;    springVersion = &quot;3.1.0.RELEASE&quot;    emailNotification = &quot;build@master.org&quot;&#125;
+
+applyapply(options: Map&lt;String, ?&gt;) 我们通过该方法使用插件或者是其他脚本，options里主要选项有：
+
+from： 使用其他脚本，值可以为 Project.uri(Object) 支持的路径plugin：使用其他插件，值可以为插件 id 或者是插件的具体实现类
+
+举个例子：
+apply plugin: &#x27;com.android.application&#x27;// 使用插件，MyPluginImpl 就是一个Plugin接口的实现类apply plugin: MyPluginImpl// 引用其他gradle脚本，push.gradle就是另外一个gradle脚本文件apply from: &#x27;./push.gradle&#x27;
+
+sourceSetsarchivesBaseName配置生成包的名称
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>gradle</category>
+      </categories>
+      <tags>
+        <tag>gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gradle 安装配置</title>
+    <url>/posts/398308f9/</url>
+    <content><![CDATA[目录官网地址https://gradle.org/releases
+JDK 版本兼容性一览参考链接：https://docs.gradle.org/current/userguide/compatibility.html#compatibility
+
+
+
+Java version
+First Gradle version to support it
+
+
+
+8
+2.0
+
+
+9
+4.3
+
+
+10
+4.7
+
+
+11
+5.0
+
+
+12
+5.4
+
+
+13
+6.0
+
+
+14
+6.3
+
+
+15
+6.7
+
+
+16
+7.0
+
+
+17
+7.3
+
+
+18
+7.5
+
+
+19
+7.6
+
+
+20
+8.1 ⚠
+
+
+⚠: Indicates that the Java version can be used for compilation and tests, but not yet running Gradle itself.
+windows 安装linux 安装]]></content>
+      <categories>
+        <category>Java</category>
+        <category>gradle</category>
+      </categories>
+      <tags>
+        <tag>gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/posts/0/</url>
+    <content><![CDATA[后端工程前端工程]]></content>
+  </entry>
+  <entry>
+    <title>Gradle 常用配置</title>
+    <url>/posts/62a229e/</url>
+    <content><![CDATA[目录intellij ideaGradle 工具窗口说明
+
+源文件]]></content>
+      <categories>
+        <category>Java</category>
+        <category>gradle</category>
+      </categories>
+      <tags>
+        <tag>gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven mvnw 详解</title>
+    <url>/posts/25549297/</url>
+    <content><![CDATA[mvnw 详解我们使用Maven时，基本上只会用到mvn这一个命令。有些童鞋可能听说过mvnw，这个是啥？
+mvnw是 Maven Wrapper 的缩写。因为我们安装 Maven 时，默认情况下，系统所有项目都会使用全局安装的这个 Maven 版本。但是，对于某些项目来说，它可能必须使用某个特定的Maven 版本，这个时候，就可以使用 Maven Wrapper，它可以负责给这个特定的项目安装指定版本的Maven，而其他项目不受影响。
+简单地说，Maven Wrapper 就是给一个项目提供一个独立的，指定版本的 Maven 给它使用。
+安装Maven Wrapper安装Maven Wrapper最简单的方式是在项目的根目录（即pom.xml所在的目录）下运行安装命令：
+mvn -N io.takari:maven:0.7.6:wrapper
+
+它会自动使用最新版本的Maven。注意0.7.6是 Maven Wrapper 的版本。最新的 Maven Wrapper 版本可以去官方网站查看。
+如果要指定使用的Maven版本，使用下面的安装命令指定版本，例如3.6.3：
+mvn -N io.takari:maven:0.7.6:wrapper -Dmaven=3.6.3
+
+安装后，查看项目结构：
+my-project├── .mvn│   └── wrapper│       ├── MavenWrapperDownloader.java│       ├── maven-wrapper.jar│       └── maven-wrapper.properties├── mvnw├── mvnw.cmd├── pom.xml└── src    ├── main    │   ├── java    │   └── resources    └── test        ├── java        └── resources
+
+发现多了mvnw、mvnw.cmd和.mvn目录，我们只需要把mvn命令改成mvnw就可以使用跟项目关联的Maven。例如：
+mvnw clean package
+
+在Linux或macOS下运行时需要加上./：
+./mvnw clean package
+
+Maven Wrapper的另一个作用是把项目的mvnw、mvnw.cmd和.mvn提交到版本库中，可以使所有开发人员使用统一的Maven版本。
+以下为官方参考信息：
+
+这使您可以运行Maven项目，而无需安装Maven并将其显示在路径上。如果找不到正确的Maven版本（就我所知，默认情况下在你的用户主目录中），它会下载它。
+该mvnw文件适用于Linux（bash），mvnw.cmd适用于Windows环境。
+要创建或更新所有必需的Maven Wrapper文件，请执行以下命令：
+mvn -N io.takari:maven:wrapper
+
+要使用不同版本的maven，可以按如下方式指定版本：
+mvn -N io.takari:maven:wrapper -Dmaven=3.6.3
+
+PATH如果你的项目中已经有了mvnw，你可以使用这两个命令，./mvnw而不是mvn在命令中。
+Command mvnw使用默认情况下~/.m2/wrapper在第一次使用时下载的Maven 。
+Maven的URL在每个项目中指定.mvn/wrapper/maven-wrapper.properties：
+distributionUrl=https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.6.3/apache-maven-3.6.3-bin.zip
+
+要更新或更改Maven版本，请调用以下内容（记住关于--non-recursive多模块项目）：
+./mvnw io.takari:maven:wrapper -Dmaven=3.6.3 
+
+或者只是.mvn/wrapper/maven-wrapper.properties手动修改。
+使用 Maven 从头开始生成包装器（您需要在PATH运行时使用它)：
+mvn io.takari:maven:wrapper -Dmaven=3.6.3 
+
+参考链接.mvn目录&amp;mvnw和mvnw.cmd文件说明
+                      
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 基本安装（windows）</title>
+    <url>/posts/5c907e7a/</url>
+    <content><![CDATA[Windows环境下maven 安装与环境变量配置一、下载 Maven
+请访问Maven的下载页面：http://maven.apache.org/download.html，其中包含针对不同平台的各种版本的Maven下载文件，然后解压到指定目录。
+二、配置maven 的环境变量
+右键“计算机”，选择“属性”，之后点击“高级系统设置”，点击“环境变量”，来设置环境变量，有以下系统变量需要配置：
+新建系统变量 MAVEN_HOME 变量值：C:\Apache\apache-maven-3.6.1
+编辑系统变量 Path 添加变量值：;%MAVEN_HOME%\bin
+
+
+
+
+注意：注意多个值之间需要有分号隔开，然后点击确定。
+三、检测是否安装成功。
+或是输入：echo %M2_HOME%
+查看版本：mvn -v
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 基础概念</title>
+    <url>/posts/6ff6dc3c/</url>
+    <content><![CDATA[基础概念scope 作用域一览图如下：
+
+
+
+作用域
+测试
+编译
+运行
+打包
+
+
+
+test
+√
+
+
+
+
+
+compile
+√
+√
+√
+√
+
+
+runtime
+√
+
+√
+
+
+
+provided
+√
+√
+
+
+
+
+system
+√
+√
+
+
+
+
+testtest 范围指的是测试范围有效，在编译和打包时都不会使用这个依赖
+compilecompile 范围指的是编译范围有效，在编译和打包时都会将依赖存储进去
+runtimeruntime 在运行的时候依赖，在编译的时候不依赖 
+providedprovided 依赖：在编译和测试的过程有效，最后生成 war 包时不会加入，诸如：servlet-api，因为servlet-api，tomcat等web服务器已经存在了，如果再打包会冲突
+system（不推荐）这种类型跟provided类似，唯一不同的就是这种类型的依赖我们要自己提供jar包，这需要与另一个元素systemPath来结合使用。systemPath将指向我们系统上的jar包的路径，而且必须是给定的绝对路径。
+
+systemPath：上面已经说过了这个元素是在scope的值为system的时候用于指定依赖的jar包在系统上的位置的，而且是绝对路径。该元素必须在依赖的 jar包的scope为system时才能使用，否则Maven将报错。
+
+optional 标签
+optional标签加在pom依赖上可以防止其依赖的dependency在打包的时候被加载进来
+
+对于我们公司内部开发的jar包,我们都加上&lt;optional&gt;true&lt;/optional&gt;，这样可以使引用这些jar的项目不会产生传递依赖。
+属性获取在pom.xml文件中我们可以使用${propertyName}的形式引用属性。是值的占位符，类似EL，类似ant的属性，比如${X}，可用于pom文件任何赋值的位置。有以下分类：
+
+env.propertyName：这种形式表示引用的是环境变量，比如我们需要引用当前系统的环境变量PATH的时候，就可以使用${env.PATH}。
+
+project.propertyName：这种形式表示引用的是当前这个pom.xml中project根元素下面的子元素的值。比如我们需要引用当前project下面的version的时候，就可以使用${project.version}。
+
+settings.propertyName：这种形式引用的是Maven本地配置文件settings.xml或本地Maven安装目录下的settings.xml文件根元素settings下的元素。比如我们需要引用settings下的本地仓库localRepository元素的值时，我们可以用${settings.localRepository}
+
+Java System Properties：java的系统属性，所有在java中使用java.lang.System.getProperties()能够获取到的属性都可以在pom.xml中引用，比如${java.home}。
+
+自定义：pom.xml中properties元素下面的子元素作为属性。假如在pom.xml中有如下一段代码:
+&lt;properties&gt;    &lt;hello.world&gt;helloWorld&lt;/hello.world&gt;&lt;/properties&gt;
+
+那么我们就可以使用${hello.world}引用到对应的helloWorld。
+
+
+-maven.test.skip 和 skipTests 的区别
+-DskipTests：不执行测试用例，但编译测试用例类生成相应的class文件至target&#x2F;test-classes下。
+-Dmaven.test.skip=true：不执行测试用例，也不编译测试用例类。
+
+modelVersion 标签modelVersion 这个标签必须存在，而且它的值必须是 4.0.0，这标志着使用的是 maven2。
+spring-boot 查找 main 文件的流程
+首先查看&lt;mainClass&gt;是否有值，如果有，直接拿标签内的类名作为入口
+
+&lt;properties&gt;    &lt;start-class&gt;com.example.Application&lt;/start-class&gt;&lt;/properties&gt;
+
+
+如果没找到&lt;start-class&gt;标签，会遍历所有文件，找到注解了@SpringBootApplication并含有main方法的类，将其作为入口。
+实践证明，如果没有定义&lt;start-class&gt;，查找入口类的方法也是非常快的。
+在实际开发中，推荐手动定义&lt;start-class&gt;。这样在一个项目工程中可以有多个@SpringBootApplication注解的类，修改一下pom里的配置就能灵活切换入口了。
+
+
+spring-boot-maven-plugin 和 maven-jar-plugin 的区别 spring-boot-maven-plugin:
+
+将应用程序及其依赖jar一起打包到一个独立的jar中,打出来的是fat jar,可以直接启动
+
+&lt;plugin&gt;     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;     &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;     &lt;executions&gt;         &lt;execution&gt;             &lt;goals&gt;                 &lt;goal&gt;repackage&lt;/goal&gt;             &lt;/goals&gt;         &lt;/execution&gt;     &lt;/executions&gt; &lt;/plugin&gt;
+
+maven打成jar包插件:
+
+只包括当前模块的jar,不包含依赖jar,无法直接启动
+
+ &lt;plugin&gt;    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;&lt;/plugin&gt;
+
+仓库优先级
+
+
+根据官方描述，mirrorOf 相同的情况下，仅会选择靠前的镜像，当 jar 包下载失败后，是不会去第2个镜像下载的。
+
+本地仓库(localRepositories) &gt; profile 中的 repositories 仓库（私服） &gt; POM &gt; mirrors 全局仓库 &gt; 中央仓库 （central）
+以上关系可以简化为：
+本地仓库 &gt; 私服（profile）&gt; 远程仓库（repository）
+mirror 标签maven默认内置了如下一个仓库，这个默认仓库的 id 为 central，当我们把 mirrorOf 设置为 &lt;mirrorOf&gt;central&lt;/mirrorOf&gt; 时，maven 就会查找有没有 id 为 central 的仓库，然后把 id为 central 的仓库地址换成我们 &lt;mirror&gt; 标签配置的那个 url，这样我们配置的 mirror 才会起作用。当然我们也可以把 mirrorOf 设置为 &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;，表示所有仓库都使用我们配置的这个 mirror 作为 jar 包下载地址，即当 repository 中的 id 与 mirrorOf 一致时，mirrorOf 中的 url 就会覆盖 repository 中的 url 地址。
+maven-metadata.xml 文件举个栗子：
+maven-metadata-local.xml 文件内容如下：
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;metadata&gt;  &lt;groupId&gt;com.sf.saas&lt;/groupId&gt;  &lt;artifactId&gt;saas-sws-prophet&lt;/artifactId&gt;  &lt;versioning&gt;    &lt;versions&gt;      &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;/versions&gt;    &lt;lastUpdated&gt;20220119074601&lt;/lastUpdated&gt;  &lt;/versioning&gt;&lt;/metadata&gt;
+
+其中 lastUpdated 是最中要的一个属性，Maven 更新工程的 jar包时，会比较 lastUpdated 时间戳值，哪个值更大，就以哪个文件为准。
+接下来我们看下 Maven 为我们生成了那些文件，我们可以看到 maven-metadata.xml 一共有三个：
+
+maven-metadata-local.xml 本地的元数据, Maven install 的时候就会生成。
+maven-metadata-snapshots.xml Maven deploy 时会生成
+maven-metadata-localhost.xml 远程仓库获取的时候生成 (repository 的 id &#x3D; localhost)
+
+以上的文件其实都是 Maven 的过渡文件而已
+
+例如 maven-metadata-snapshots 就是 Maven deploy 先从远程仓库对应包的 maven-metadata.xml 下载下来，然后修改快照信息后在上传到远程仓库上。
+例如 maven-metadata-localhost 的作用是在 Maven 在拉取包的时候，会先跟本地 maven-metadata-local 比较下 lastUpdated 时间戳值，值大用哪个。如果是 Maven 强制更新 的时候(没有强制更新是不会) 会下载远程的 maven-metadata.xml 比较远程，本地，和之前远程保存下来的 maven-metadata 文件。
+
+所以有时候 maven 库上的 jar 包已经更新，而我们总是拉取不到 maven 的包原因就是本地的 maven-metadata-local 的 lastUpdated 比较大导致的。
+参考连接Maven中optional和scope元素的使用，你弄明白了？
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 常用命令</title>
+    <url>/posts/c718cdb9/</url>
+    <content><![CDATA[目录查看依赖树mvn dependency:tree
+
+重定向到文件
+mvn dependency:tree &gt; tree.txt
+
+使用verbose参数可以看冲突和重复的具体情况：
+mvn dependency:tree -Dverbose &gt;tree.txt
+
+全是全了，但显示出来的东西太多，头晕目眩，有没有好法呢？当然有了，加上 Dincludes 或者 Dexcludes 说出你喜欢或讨厌，dependency:tree 就会帮你过滤出来，例如：
+方式一：
+# 语法mvn dependency:tree -Dverbose -Dincludes=&lt;groudId&gt;:&lt;artifactId&gt;# 示例mvn dependency:tree -Dverbose -Dincludes=com.alipay.common:tracer
+
+方式二：
+也可以用这种方式来输入命令排查，会保留历史记录，下次排查直接使用历史命令即可
+
+
+检测那些声明了但是没被使用的依赖mvn dependency:analyze-only
+
+分析重复定义的依赖mvn dependency:analyze-duplicate
+
+下载指定依赖 jar 包命令格式：
+mvn dependency:get -Dartifact=groupId:artifactId:version:jar:sources
+
+示例:
+
+下载jar包
+mvn dependency:get -Dartifact=junit:junit:4.12:jar
+
+下载源码
+mvn dependency:get -Dartifact=junit:junit:4.12:jar:sources
+
+指定配置文件命令格式：
+mvn install --settings &lt;SETTINGS_FILE_LOCATION&gt;
+
+示例:
+mvn install --settings D:\Apache\apache-maven-3.6.3\conf\settings.xml
+
+查看当前Maven环境启用的文件
+配置优先级从高到低：pom.xml&gt; user settings &gt; global settings
+
+mvn help:effective-settings
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 常用配置</title>
+    <url>/posts/615834e0/</url>
+    <content><![CDATA[常用配置profile配置实现动态切换环境1. 更改 spring.profiles.activespring.profiles.active=@env@
+
+2. pom.xml 配置&lt;project&gt;    ... 其他代码略 ...    &lt;profiles&gt;        &lt;!-- 开发环境 --&gt;        &lt;profile&gt;            &lt;id&gt;dev&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;dev&lt;/env&gt;&lt;!-- 之前写的@env@就是通过这里的配置切换环境 --&gt;            &lt;/properties&gt;            &lt;activation&gt;                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;&lt;!-- 指定缺省环境 --&gt;            &lt;/activation&gt;        &lt;/profile&gt;        &lt;!-- 测试环境 --&gt;        &lt;profile&gt;            &lt;id&gt;test&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;test&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;        &lt;!-- 生产环境 --&gt;        &lt;profile&gt;            &lt;id&gt;prod&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;prod&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;    &lt;/profiles&gt;&lt;/project&gt;
+
+
+
+maven-assembly-plugin配置1. pom.xml 配置    &lt;plugin&gt;        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;        &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;        &lt;configuration&gt;            &lt;appendAssemblyId&gt;false&lt;/appendAssemblyId&gt;        &lt;/configuration&gt;        &lt;executions&gt;            &lt;execution&gt;                &lt;id&gt;make-assembly&lt;/id&gt;                &lt;phase&gt;package&lt;/phase&gt;                &lt;goals&gt;                    &lt;goal&gt;single&lt;/goal&gt;                &lt;/goals&gt;                &lt;configuration&gt;                    &lt;skipAssembly&gt;false&lt;/skipAssembly&gt;                    &lt;descriptors&gt;                        &lt;descriptor&gt;src/main/assembly/$&#123;env.devMode&#125;/assembly.xml&lt;/descriptor&gt;                    &lt;/descriptors&gt;                    &lt;finalName&gt;$&#123;artifactId&#125;&lt;/finalName&gt;                &lt;/configuration&gt;            &lt;/execution&gt;        &lt;/executions&gt;    &lt;/plugin&gt;&lt;profile&gt;    &lt;id&gt;dev&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;dev&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;false&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;true&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;true&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;&lt;profile&gt;    &lt;id&gt;sit&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;sit&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;true&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;false&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;true&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;&lt;profile&gt;    &lt;id&gt;prod&lt;/id&gt;    &lt;activation&gt;        &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;    &lt;/activation&gt;    &lt;properties&gt;        &lt;env.devMode&gt;prod&lt;/env.devMode&gt;        &lt;skipAssemblyDEV&gt;true&lt;/skipAssemblyDEV&gt;        &lt;skipAssemblySIT&gt;true&lt;/skipAssemblySIT&gt;        &lt;skipAssemblyPROD&gt;false&lt;/skipAssemblyPROD&gt;    &lt;/properties&gt;&lt;/profile&gt;
+
+2. assembly.xml 配置&lt;assembly&gt;	&lt;id&gt;assembly&lt;/id&gt;	&lt;formats&gt;		&lt;format&gt;tar.gz&lt;/format&gt;	&lt;/formats&gt;	&lt;includeBaseDirectory&gt;false&lt;/includeBaseDirectory&gt;	&lt;fileSets&gt;		&lt;fileSet&gt;			&lt;directory&gt;src/main/assembly/bin&lt;/directory&gt;			&lt;outputDirectory&gt;bin&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0755&lt;/directoryMode&gt;			&lt;fileMode&gt;0755&lt;/fileMode&gt;		&lt;/fileSet&gt;		&lt;fileSet&gt;			&lt;directory&gt;src/main/assembly/sit/conf&lt;/directory&gt;			&lt;outputDirectory&gt;conf&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0744&lt;/directoryMode&gt;			&lt;fileMode&gt;0644&lt;/fileMode&gt;		&lt;/fileSet&gt;		&lt;fileSet&gt;			&lt;directory&gt;target&lt;/directory&gt;			&lt;includes&gt;				&lt;include&gt;*.jar&lt;/include&gt;			&lt;/includes&gt;			&lt;outputDirectory&gt;lib&lt;/outputDirectory&gt;			&lt;directoryMode&gt;0744&lt;/directoryMode&gt;			&lt;fileMode&gt;0644&lt;/fileMode&gt;		&lt;/fileSet&gt;	&lt;/fileSets&gt;&lt;/assembly&gt;
+
+maven-source-plugin配置maven-source-plugin可以实现自动将源码打包并发布
+
+注意：在多项目构建中，将source-plugin置于顶层或parent的pom中并不会发挥作用，必须置于具体项目的pom中。
+jar-no-fork 和 jar 的区别jar目标是从命令行（ mvn source:jar ）运行， jar-no-fork意味着绑定到生命周期
+如果将POM配置为运行source:jar目标作为生命周期的一部分，Maven将重新运行绑定到generate-sources及其前身的所有目标。 如果你有很多插件目标绑定到验证或初始化阶段，那么所有这些目标都将运行两次，从而延长了构建时间。
+相比之下， jar-no-fork是你附加到构建生命周期的东西，因为它期望在generate-sources之后的某个地方绑定到某个阶段，并且不会再次运行绑定目标。
+可以通过mvn source:jar -X 进行验证查看，-X 为debug模式
+
+&lt;build&gt;    &lt;plugins&gt;        ...        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;            &lt;executions&gt;                &lt;execution&gt;                    &lt;id&gt;attach-sources&lt;/id&gt;                    &lt;phase&gt;package&lt;/phase&gt;                    &lt;goals&gt;                        &lt;goal&gt;jar-no-fork&lt;/goal&gt;                    &lt;/goals&gt;                &lt;/execution&gt;            &lt;/executions&gt;        &lt;/plugin&gt;        ...    &lt;/plugins&gt;&lt;/build&gt;
+
+执行 mvn install，maven会自动将source install到repository 。 
+执行 mvn deploy，maven会自动将source deploy到remote-repository 。 
+执行 mvn source:jar，单独打包源码。 
+手动安装MAVEN安装source代码到本地库:
+mvn install:install-file -Dfile=E:/common-base-0.0.1-sources.jar -DgroupId=net.spy \-DartifactId=spymemcached -Dversion=2.10.3 -Dpackaging=jar -Dclassifier=sources
+
+spring-boot-maven-plugin配置
+这是非 assembly 打包的方式。
+
+spring-boot-maven-plugin包含如下几个goal:
+
+
+
+goal
+解释
+
+
+
+repackage
+build 一个可执行的 jar 或者 war 包
+
+
+run
+运行 springboot 应用
+
+
+start ，stop
+这两个配合在一起，绑定在 integration-test 这个 phase，可以运行测试前后启动停止 spring boot 应用
+
+
+&lt;build&gt;    &lt;plugins&gt;        ...        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;configuration&gt;                &lt;!-- 指定该Main Class为全局的唯一入口 --&gt;                &lt;mainClass&gt;com.demo.design.DesignPatternApplication&lt;/mainClass&gt;                &lt;!-- 原始包的后缀将变成.exec --&gt;                &lt;classifier&gt;exec&lt;/classifier&gt;            &lt;/configuration&gt;            &lt;executions&gt;                &lt;execution&gt;                    &lt;goals&gt;                        &lt;goal&gt;repackage&lt;/goal&gt;                    &lt;/goals&gt;                &lt;/execution&gt;            &lt;/executions&gt;        &lt;/plugin&gt;        ...        ...        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;            &lt;configuration&gt;                &lt;excludes&gt;                    &lt;exclude&gt;**/application.yml&lt;/exclude&gt;                    &lt;exclude&gt;**/logback-spring.yml&lt;/exclude&gt;                &lt;/excludes&gt;            &lt;/configuration&gt;        &lt;/plugin&gt;        ...    &lt;/plugins&gt;&lt;/build&gt;
+
+mvn spring-boot:run
+在命令行运行mvn spring-boot:run可以启动spring boot应用，并且可以通过如下配置给启动的jvm传递参数
+&lt;plugin&gt;    ...    &lt;configuration&gt;              &lt;jvmArguments&gt;                -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005              &lt;/jvmArguments&gt;    &lt;/configuration&gt;    ...&lt;/plugin&gt;
+
+spring-boot-devtools
+spring boot 1.3之后引入了dev-tools可以让你方便开发应用，在spring boot应用启动后，它监听资源文件的改变，或者重新编译生成class，有变化之后自动刷新（repackage是不会把dev-tools打进包的，所以生产环境dev-tool是不会起作用的）。
+可以通过设置spring.devtools.remote.restart.enabled=false这个java系统属性，是的dev-tools只在静态资源改变时才刷新。
+&lt;dependencies&gt;... &lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;    &lt;version&gt;1.5.4.RELEASE&lt;/version&gt;    &lt;!--指定optional为true可以避免被repackage打war时devtools也被打进war包--&gt;    &lt;optional&gt;true&lt;/optional&gt;  &lt;/dependency&gt;...&lt;/dependencies&gt;
+
+引入lib下的第三方jar包并打包进去场景如果需要引用的jar包在Maven中央仓库下没有，那么怎么在项目中引入。
+首先在工程目录下新建libs目录
+将需要引入的jar包放在此目录下
+ 
+
+实现在添加依赖的地方
+&lt;dependency&gt;    &lt;groupId&gt;mobileimsdk4j_tcp&lt;/groupId&gt;    &lt;artifactId&gt;mobileimsdk4j_tcp&lt;/artifactId&gt;    &lt;version&gt;1.0&lt;/version&gt;    &lt;scope&gt;system&lt;/scope&gt;    &lt;systemPath&gt;$&#123;basedir&#125;/libs/mobileimsdk4j_tcp.jar&lt;/systemPath&gt;&lt;/dependency&gt;
+注意这里的坐标和版本号随意，但是 scope 要写 system，然后 systemPath 就是上面 jar 包的路径
+然后这样用的话，在将项目进行打包时，需要将这些jar包也打包进去。
+然后需要借助于打包插件
+&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;            &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;            &lt;version&gt;3.6.0&lt;/version&gt;            &lt;configuration&gt;                &lt;source&gt;1.8&lt;/source&gt;                &lt;target&gt;1.8&lt;/target&gt;                &lt;encoding&gt;UTF-8&lt;/encoding&gt;                &lt;compilerArguments&gt;                    &lt;extdirs&gt;$&#123;project.basedir&#125;/libs&lt;/extdirs&gt;                &lt;/compilerArguments&gt;            &lt;/configuration&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
+注意这里的extdirs的路径，这里是项目根目录下的libs目录
+
+
+实时拉取 SNAOSHOT 最新依赖打开 File -&gt; Settings -&gt; Build,Execution,Deployment -&gt; Build Tools -&gt; Maven，勾选 Always update snaphosts 即可。
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 常见问题</title>
+    <url>/posts/4f5fa1df/</url>
+    <content><![CDATA[常见问题1、Maven 多模块打包时提示 找不到符号子模块使用 pom 打包方式即可解决
+&lt;packaging&gt;pom&lt;/packaging&gt;
+
+如果还未能解决，在公共模块或者当前模块下加入打包工具
+&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;    			 &lt;!-- 加入此配置start --&gt;            &lt;configuration&gt;                &lt;classifier&gt;exec&lt;/classifier&gt;            &lt;/configuration&gt;		    	 &lt;!-- 加入此配置end --&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
+
+2、Could not find artifact XXXX in aliyun-springMaven在下载依赖时会先在本地仓库查找，如若未找到，则会去内网私服查找，如若仍未找到，再去远程仓库查找。
+所以只要把jar包打包到本地缓存仓库即可，如下图所示：
+
+
+3、Failed to execute goal org.apache.maven.plugins:maven-clean-plugin解除提示对应的文件占用即可
+4、org&#x2F;apache&#x2F;maven&#x2F;shared&#x2F;artifact&#x2F;filter&#x2F;collection&#x2F;ArtifactsFilter原来是没有在仓库中找到对应的插件，指定一个找得到的版本号即可解决
+&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
+
+5、打包后丢失xml文件&lt;resources&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/java&lt;/directory&gt;        &lt;includes&gt;            &lt;include&gt;**/*.properties&lt;/include&gt;            &lt;include&gt;**/*.xml&lt;/include&gt;        &lt;/includes&gt;        &lt;!-- 是否替换资源中的属性 --&gt;        &lt;filtering&gt;false&lt;/filtering&gt;    &lt;/resource&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/resources&lt;/directory&gt;    &lt;/resource&gt;&lt;/resources&gt;
+
+6、resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced项目jar包是放在nexus上的，这是由于私服的更新策略导致的，nexus上的依赖库在更新库版本号打包时并没有更新，导致项目打包找不到依赖。
+解决方法：
+方法一修改nexus的依赖库更新策略，添加 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+updatePolicy 该元素指定更新发生的频率。Maven会比较本地 POM 和远程 POM 的时间戳。这里的选项是：
+
+always（一直）
+daily（默认，每日）
+interval:X（这里X是以分钟为单位的时间间隔）
+never（从不）
+
+&lt;profile&gt;    &lt;id&gt;zang-nexus&lt;/id&gt;    &lt;repositories&gt;        &lt;repository&gt;            &lt;id&gt;zang-nexus&lt;/id&gt;            &lt;url&gt;http://10.253.40.2XX:6XXX/nexus/content/groups/public&lt;/url&gt;            &lt;releases&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/releases&gt;            &lt;snapshots&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/snapshots&gt;        &lt;/repository&gt;    &lt;/repositories&gt;    &lt;pluginRepositories&gt;        &lt;pluginRepository&gt;            &lt;id&gt;zang-nexus&lt;/id&gt;            &lt;url&gt;http://10.253.40.2XX:6XXX/nexus/content/groups/public&lt;/url&gt;            &lt;releases&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/releases&gt;            &lt;snapshots&gt;                &lt;enabled&gt;true&lt;/enabled&gt;　　　　　　　　　 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;            &lt;/snapshots&gt;        &lt;/pluginRepository&gt;    &lt;/pluginRepositories&gt;&lt;/profile&gt;
+
+方法二删除未下载成功的文件，重新编译
+maven默认会使用本地缓存的库来编译工程，对于上次下载失败的库，maven会在 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下创建 xxx.lastUpdated 文件，一旦这个文件存在，那么在直到下一次nexus更新之前都不会更新这个依赖库，所以可以根据报错信息，删除 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下的 *.lastUpdated 文件，然后再次运行 mvn compile 编译工程。
+7、Maven传递依赖无法引入解决办法使用 mvn install -X 命令查看完整编译过程，发现有文件提示使用了未经检查或不安全的操作，在提示警告的文件类上增加以下注解：
+@SuppressWarnings(&quot;unchecked&quot;)
+
+问题解决。
+8、[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent在 pom.xml 文件中增加一个配置项：
+&lt;properties&gt;    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;&lt;/properties&gt;
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -15635,6 +16297,113 @@ Java 8日期与数据库日期的映射关系
       </tags>
   </entry>
   <entry>
+    <title>Jetty 基础概念</title>
+    <url>/posts/849606ff/</url>
+    <content><![CDATA[目录
+
+
+目录名称
+是否在用
+用途
+
+
+
+bin
+是
+存放 Windows 和 linux 等系统中使用的 Jetty 启动脚本和相关文件
+
+
+contexts
+
+存放应用程序发布描述文件，里面有Jetty自带的示例文件
+
+
+distribution
+
+关于发行构建的代码，正式环境可删除
+
+
+etc
+是
+Jetty 配置文件
+
+
+examples
+
+Jetty 示例程序源代码，正式环境可删除
+
+
+extras
+
+Jetty 相关程序源代码，正式环境可删除
+
+
+javadoc
+
+Jetty 核心代码的API文档，正式环境可删除
+
+
+jxr
+
+Jetty 其他相关程序API文档，正式环境可删除
+
+
+LICENSES
+
+发行协议说明
+
+
+logs
+是
+日志目录
+
+
+modules
+是
+Jetty 相关模块程序源代码，正式环境可删除
+
+
+patches
+
+jdk5 的补丁文件描述，正式环境可删除
+
+
+project-website
+
+maven 产生的项目站点文档目录
+
+
+resources
+是
+如果存在该目录，jetty 启动时会将该目录加入类路径，默认存放 log4j 配置文件
+
+
+webapps
+是
+存放 web 应用程序，默认情况下该目录下面的文件夹或者 war 文件将在 jetty 启动的时候被运行
+
+
+start.jar
+
+启动 Jetty 引导 java 程序，可以在各个操作系统中使用它启动 jetty 服务
+
+
+start.ini
+是
+启动时被解析成命令行参数，jetty 必备配置文件
+
+
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>容器</category>
+        <category>Jetty</category>
+      </categories>
+      <tags>
+        <tag>jetty</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RabbitMQ 详解</title>
     <url>/posts/8e078847/</url>
     <content><![CDATA[RabbitMQ详解RabbitMQ的优点：
@@ -15998,26 +16767,6 @@ YARN_RESOURCEMANAGER_USER=rootHADOOP_SECURE_DN_USER=yarnYARN_NODEMANAGER_USER=ro
       </tags>
   </entry>
   <entry>
-    <title>大数据常见错误：Hadoop启动成功，但50070端口无法访问</title>
-    <url>/posts/aa689eab/</url>
-    <content><![CDATA[目录Hadoop启动成功，但50070端口无法访问先查看自己的hadoop版本
-我的 hadoop 是 3.2.3 版本的，hadoop-3.2.3 是我的 hadoop 目录
-/app/hadoop-3.2.3
-
-2.x.x 版本的 hadoop 默认端口为 http://IP:50070
-但是新出的 3.x.x 版本的默认端口为 http://IP:9870
-如果不是这个原因，那就去从机的 hadoop 的根目录下的 log 目录查看 log 文件，看看报的什么错误。再根据错误，查找相应的解决方法。
-]]></content>
-      <categories>
-        <category>大数据</category>
-        <category>安装部署</category>
-        <category>常见错误</category>
-      </categories>
-      <tags>
-        <tag>大数据</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>大数据常见错误：HDFS报错解决：Operation category JOURNAL is not supported in state standby</title>
     <url>/posts/d8e7a818/</url>
     <content><![CDATA[目录HDFS报错解决：Operation category JOURNAL is not supported in state standby现象org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.ipc.StandbyException): Operation category JOURNAL is not supported in state standby. Visit https://s.apache.org/sbnn-error	at org.apache.hadoop.hdfs.server.namenode.ha.StandbyState.checkOperation(StandbyState.java:88)	at org.apache.hadoop.hdfs.server.namenode.NameNode$NameNodeHAContext.checkOperation(NameNode.java:1954)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkOperation(FSNamesystem.java:1442)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.rollEditLog(FSNamesystem.java:4716)	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.rollEditLog(NameNodeRpcServer.java:1293)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolServerSideTranslatorPB.rollEditLog(NamenodeProtocolServerSideTranslatorPB.java:148)	at org.apache.hadoop.hdfs.protocol.proto.NamenodeProtocolProtos$NamenodeProtocolService$2.callBlockingMethod(NamenodeProtocolProtos.java:14726)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:524)	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1025)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:876)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:822)	at java.security.AccessController.doPrivileged(Native Method)	at javax.security.auth.Subject.doAs(Subject.java:422)	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2682) 	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1511)	at org.apache.hadoop.ipc.Client.call(Client.java:1457)	at org.apache.hadoop.ipc.Client.call(Client.java:1367)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:228)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:116)	at com.sun.proxy.$Proxy16.rollEditLog(Unknown Source)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolTranslatorPB.rollEditLog(NamenodeProtocolTranslatorPB.java:152)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:365)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:362)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$MultipleNameNodeProxy.call(EditLogTailer.java:504)	at java.util.concurrent.FutureTask.run(FutureTask.java:266)	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	at java.lang.Thread.run(Thread.java:748)2019-06-28 03:27:27,782 WARN org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer: Exception from remote name node RemoteNameNodeInfo [nnId=nns, ipcAddress=nns/192.168.56.14:8020, httpAddress=http://nns:50070], try next.org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.ipc.StandbyException): Operation category JOURNAL is not supported in state standby. Visit https://s.apache.org/sbnn-error	at org.apache.hadoop.hdfs.server.namenode.ha.StandbyState.checkOperation(StandbyState.java:88)	at org.apache.hadoop.hdfs.server.namenode.NameNode$NameNodeHAContext.checkOperation(NameNode.java:1954)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkOperation(FSNamesystem.java:1442)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.rollEditLog(FSNamesystem.java:4716)	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.rollEditLog(NameNodeRpcServer.java:1293)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolServerSideTranslatorPB.rollEditLog(NamenodeProtocolServerSideTranslatorPB.java:148)	at org.apache.hadoop.hdfs.protocol.proto.NamenodeProtocolProtos$NamenodeProtocolService$2.callBlockingMethod(NamenodeProtocolProtos.java:14726)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:524)	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1025)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:876)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:822)	at java.security.AccessController.doPrivileged(Native Method)	at javax.security.auth.Subject.doAs(Subject.java:422)	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2682) 	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1511)	at org.apache.hadoop.ipc.Client.call(Client.java:1457)	at org.apache.hadoop.ipc.Client.call(Client.java:1367)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:228)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:116)	at com.sun.proxy.$Proxy16.rollEditLog(Unknown Source)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolTranslatorPB.rollEditLog(NamenodeProtocolTranslatorPB.java:152)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:365)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:362)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$MultipleNameNodeProxy.call(EditLogTailer.java:504)	at java.util.concurrent.FutureTask.run(FutureTask.java:266)	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	at java.lang.Thread.run(Thread.java:748)2019-06-28 03:27:27,829 WARN org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer: Exception from remote name node RemoteNameNodeInfo [nnId=nns, ipcAddress=nns/192.168.56.14:8020, httpAddress=http://nns:50070], try next.org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.ipc.StandbyException): Operation category JOURNAL is not supported in state standby. Visit https://s.apache.org/sbnn-error	at org.apache.hadoop.hdfs.server.namenode.ha.StandbyState.checkOperation(StandbyState.java:88)	at org.apache.hadoop.hdfs.server.namenode.NameNode$NameNodeHAContext.checkOperation(NameNode.java:1954)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkOperation(FSNamesystem.java:1442)	at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.rollEditLog(FSNamesystem.java:4716)	at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.rollEditLog(NameNodeRpcServer.java:1293)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolServerSideTranslatorPB.rollEditLog(NamenodeProtocolServerSideTranslatorPB.java:148)	at org.apache.hadoop.hdfs.protocol.proto.NamenodeProtocolProtos$NamenodeProtocolService$2.callBlockingMethod(NamenodeProtocolProtos.java:14726)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:524)	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1025)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:876)	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:822)	at java.security.AccessController.doPrivileged(Native Method)	at javax.security.auth.Subject.doAs(Subject.java:422)	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2682) 	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1511)	at org.apache.hadoop.ipc.Client.call(Client.java:1457)	at org.apache.hadoop.ipc.Client.call(Client.java:1367)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:228)	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:116)	at com.sun.proxy.$Proxy16.rollEditLog(Unknown Source)	at org.apache.hadoop.hdfs.protocolPB.NamenodeProtocolTranslatorPB.rollEditLog(NamenodeProtocolTranslatorPB.java:152)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:365)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$2.doWork(EditLogTailer.java:362)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$MultipleNameNodeProxy.call(EditLogTailer.java:504)	at java.util.concurrent.FutureTask.run(FutureTask.java:266)	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	at java.lang.Thread.run(Thread.java:748)2019-06-28 03:27:27,830 WARN org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer: Unable to trigger a roll of the active NNjava.util.concurrent.ExecutionException: java.io.IOException: Cannot find any valid remote NN to service request!	at java.util.concurrent.FutureTask.report(FutureTask.java:122)	at java.util.concurrent.FutureTask.get(FutureTask.java:206)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer.triggerActiveLogRoll(EditLogTailer.java:380)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$EditLogTailerThread.doWork(EditLogTailer.java:430)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$EditLogTailerThread.access$300(EditLogTailer.java:399)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$EditLogTailerThread$1.run(EditLogTailer.java:416)	at org.apache.hadoop.security.SecurityUtil.doAsLoginUserOrFatal(SecurityUtil.java:484)	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$EditLogTailerThread.run(EditLogTailer.java:412)Caused by: java.io.IOException: Cannot find any valid remote NN to service request!	at org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer$MultipleNameNodeProxy.call(EditLogTailer.java:515)	at java.util.concurrent.FutureTask.run(FutureTask.java:266)	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)	at java.lang.Thread.run(Thread.java:748)2019-06-28 03:27:29,843 INFO org.apache.hadoop.util.JvmPauseMonitor: Detected pause in JVM or host machine (eg GC): pause of approximately 1605msNo GCs detected2019-06-28 03:28:30,033 INFO org.apache.hadoop.hdfs.server.namenode.ha.EditLogTailer: Triggering log roll on remote NameNode2019-06-28 03:28:30,278 INFO org.apache.hadoop.hdfs.server.namenode.FSImage: Reading org.apache.hadoop.hdfs.server.namenode.RedundantEditLogInputStream@6d00c3eb expecting start txid #12019-06-28 03:28:30,279 INFO org.apache.hadoop.hdfs.server.namenode.FSImage: Start loading edits file http://dn3:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true, http://dn1:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true maxTxnsToRead = 92233720368547758072019-06-28 03:28:30,288 INFO org.apache.hadoop.hdfs.server.namenode.RedundantEditLogInputStream: Fast-forwarding stream &#x27;http://dn3:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true, http://dn1:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true&#x27; to transaction ID 12019-06-28 03:28:30,288 INFO org.apache.hadoop.hdfs.server.namenode.RedundantEditLogInputStream: Fast-forwarding stream &#x27;http://dn3:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true&#x27; to transaction ID 12019-06-28 03:28:30,625 INFO org.apache.hadoop.hdfs.server.namenode.FSImage: Edits file http://dn3:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true, http://dn1:8480/getJournal?jid=mycluster&amp;segmentTxId=1&amp;storageInfo=-65%3A1565240010%3A1561706674134%3ACID-d60aab16-2a77-48ed-8a5f-5699ca87b6bc&amp;inProgressOk=true of size 42 edits # 2 loaded in 0 seconds
@@ -16029,6 +16778,26 @@ YARN_RESOURCEMANAGER_USER=rootHADOOP_SECURE_DN_USER=yarnYARN_NODEMANAGER_USER=ro
 These subcommands cause a given NameNode to transition to the Active or Standby state, respectively. These commands do not attempt to perform any fencing, and thus should rarely be used. Instead, one should almost always prefer to use the “hdfs haadmin -failover” subcommand
 
 # 在想要转换为 active 状态的 namenode 的节点上操作hdfs haadmin -transitionToActive --forcemanual nn1]]></content>
+      <categories>
+        <category>大数据</category>
+        <category>安装部署</category>
+        <category>常见错误</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大数据常见错误：Hadoop启动成功，但50070端口无法访问</title>
+    <url>/posts/aa689eab/</url>
+    <content><![CDATA[目录Hadoop启动成功，但50070端口无法访问先查看自己的hadoop版本
+我的 hadoop 是 3.2.3 版本的，hadoop-3.2.3 是我的 hadoop 目录
+/app/hadoop-3.2.3
+
+2.x.x 版本的 hadoop 默认端口为 http://IP:50070
+但是新出的 3.x.x 版本的默认端口为 http://IP:9870
+如果不是这个原因，那就去从机的 hadoop 的根目录下的 log 目录查看 log 文件，看看报的什么错误。再根据错误，查找相应的解决方法。
+]]></content>
       <categories>
         <category>大数据</category>
         <category>安装部署</category>
