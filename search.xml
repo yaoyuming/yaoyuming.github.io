@@ -24,6 +24,15 @@
     <url>/posts/a3b6ed09/</url>
     <content><![CDATA[目录查看java应用的信息jps -mlvV
 
+多 jar 命令行启动一般运行包含 manifest 的 jar 包，可以使用
+java -jar &lt;jar-file-name&gt;.jar
+
+如果 jar 里没有 manifest，则可以使用， 如果用 -cp 则需要写每一个 jar，很麻烦。
+java -cp foo.jar full.package.name.ClassName
+
+当 main 类依赖多个 jar 时，可以把多个 jar 打包到一个目录，然后用 -Djava.ext.dirs 指定该目录，引用依赖的多个 jar。
+java -Djava.ext.dirs=&lt;多个jar包的目录&gt; com.test.HelloWordMain
+
 ]]></content>
       <categories>
         <category>Java</category>
@@ -180,6 +189,19 @@ make &amp;&amp; make install
 
 $http_host 不是一个固定的变量，他其实是 $http_HEADER 通配后的结果。
 $http_HEADER，注意，这里的HEADER是一个通配符，通配的是请求头里的header属性，例如 $http_content_type 表示请求头里 content-type 属性的值，同理，$http_host 指的就是请求头里的 host 属性，也就是说，如果请求头里面 Host 为空，$http_host 取到的值也就是空。
+root 和 alias 区别重点是理解 alias 与 root 的区别，root 与 alias 主要区别在于 nginx 如何解释 location 后面的 uri，这使两者分别以不同的方式将请求映射到服务器文件上。
+root（根目录）是最上层目录的定义，举个栗子：
+
+当请求 http://vmess.yahyav2rayssr.top/image/logo.png 时，会返回 /ROOT/image/logo.png 文件，即用 /ROOT 加上 /image。
+
+location /image/ &#123;    root /ROOT;&#125;
+
+alias（别名）是一个目录别名，举个栗子：
+
+当请求 http://vmess.yahyav2rayssr.top/image/logo.png 时，会返回 /ROOT/logo.png 文件，即用 /ROOT 替换 /image。
+
+location /image/ &#123;    alias /ROOT;&#125;
+
 ]]></content>
       <categories>
         <category>nginx</category>
@@ -210,12 +232,12 @@ $http_HEADER，注意，这里的HEADER是一个通配符，通配的是请求�
   <entry>
     <title>nginx 常用配置</title>
     <url>/posts/59e56e3a/</url>
-    <content><![CDATA[nginx使用非80端口时url带端口号的解决办法
-注意这里$server_port要和浏览器你想显示的端口号保持一致，因为我listen是80所以是80，如果你listen是8080，又想浏览器显示80，这里server_port 就设置成80。
+    <content><![CDATA[目录nginx 使用非 80 端口时 url 带端口号的解决办法
+注意这里 $server_port 要和浏览器你想显示的端口号保持一致，因为我 listen 是80所以是80，如果你 listen 是8080，又想浏览器显示80，这里 server_port 就设置成80。
 
-server &#123;    listen 80;    server_name localhost;			# 参数之一    port_in_redirect off        proxy_set_header Host $host:$server_port;    proxy_set_header X-Real-IP $remote_addr;    proxy_set_header REMOTE-HOST $remote_addr;    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    location / &#123;        proxy_pass http://127.0.0.1:8080/;    &#125;&#125;
+server &#123;    listen 80;    server_name localhost;			  # 参数之一    port_in_redirect off        proxy_set_header Host $host:$server_port;    proxy_set_header X-Real-IP $remote_addr;    proxy_set_header REMOTE-HOST $remote_addr;    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    location / &#123;        proxy_pass http://127.0.0.1:8080/;    &#125;&#125;
 
-proxy_pass反向代理cookie,session丢失server &#123;    listen 80;    server_name le.qin.com le.qin.cn;    location / &#123;        proxy_pass http://127.0.0.1:9002/;        root html;        index index.html;        rewrite &quot;^/+$&quot; /officialsite/initLedaIndex last;        proxy_cookie_path /offIcialsite/initLedaIndex /;        proxy_set_header Cookie $http_cookie;        proxy_set_header Host $http_host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    &#125;&#125;
+proxy_pass 反向代理 cookie,session 丢失server &#123;    listen 80;    server_name le.qin.com le.qin.cn;    location / &#123;        proxy_pass http://127.0.0.1:9002/;        root html;        index index.html;        rewrite &quot;^/+$&quot; /officialsite/initLedaIndex last;        proxy_cookie_path /offIcialsite/initLedaIndex /;        proxy_set_header Cookie $http_cookie;        proxy_set_header Host $http_host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;    &#125;&#125;
 
 proxy header 端口错误
 nginx监听端口为非80端口时需要配置如下：
@@ -231,7 +253,7 @@ server &#123;    listen 80;    server_name www.boke.com;    location / &#123;   
 
 [root@localhost nginx]# curl -I http://www.boke.com/wumanHTTP/1.1 301 Moved PermanentlyServer: nginxDate: Thu, 24 Dec 2015 12:02:00 GMTContent-Type: text/html; charset=iso-8859-1Connection: keep-alive# 修改前Location: http://192.168.1.154:8080/wuman/# 修改后Location: http://www.boke.com/wuman/
 
-location配置直接输出文本直接返回文本：
+location 配置直接输出文本直接返回文本：
 location / &#123;    default_type    text/plain;    return 502 &quot;服务正在升级，请稍后再试……&quot;;&#125;
 
 也可以使用html标签格式：
@@ -240,7 +262,7 @@ location / &#123;    default_type    text/html;    return 502 &quot;服务正在
 也可以直接返回json文本：
 location / &#123;    default_type    application/json;    return 502 &#x27;&#123;&quot;status&quot;:502,&quot;msg&quot;:&quot;服务正在升级，请稍后再试……&quot;&#125;&#x27;;&#125;
 
-配置resolver指定DNS解析resolver可以指定多个DNS，使用valid来设置缓存时间，如下：
+配置 resolver 指定 DNS 解析resolver可以指定多个DNS，使用valid来设置缓存时间，如下：
 resolver 119.29.29.29 114.114.114.114 valid=3600s;
 
 如果不填写端口则默认使用53，还可以向下面这样指定DNS端口：
@@ -275,7 +297,7 @@ _、__或者!@#等无效的域名，可以理解为其可以匹配任意域名�
 
 server &#123;    listen       80  default_server;    server_name  _;    return       444;&#125;
 
-server_name匹配顺序当需要决定采用哪个server块的配置处理请求时,会根据以下的顺序查找:
+server_name 匹配顺序当需要决定采用哪个server块的配置处理请求时,会根据以下的顺序查找:
 
 精确匹配
 以 * 开头的最长通配符名称
@@ -283,7 +305,7 @@ server_name匹配顺序当需要决定采用哪个server块的配置处理请求
 根据在配置文件出现的顺序第一个匹配上的正则表示式名称
 默认配置，在 listen 指令中指明了 default_server 的 server 块，若无，为配置文件中第一个声明的 server 块
 
-配置默认serverserver &#123;    listen 80 default_server;    server_name _;    return 200 &quot;default_server&quot;;&#125;
+配置默认 serverserver &#123;    listen 80 default_server;    server_name _;    return 200 &quot;default_server&quot;;&#125;
 
 关于listen指令,有几点需要注意的地方:
 
@@ -324,7 +346,9 @@ location 配置配置语法Syntax:    location [ = | ~ | ~* | ^~ ] uri &#123; ..
 
 注意：
 关于最后一条测试结果,需要注意的是，/a/.*$这个正则表达式,并不要求请求URI以/a开头，这也是很容易疏漏的地方,若想匹配以/a开头的请求，应改为^/a/.*$
-@name的用法location /try &#123;    try_files $uri $uri/ @name;&#125;location /error &#123;    error_page 404 = @name;    return 404;&#125;location @name &#123;    return 200 &quot;@name&quot;;&#125;
+@name 的用法location /try &#123;    try_files $uri $uri/ @name;&#125;location /error &#123;    error_page 404 = @name;    return 404;&#125;location @name &#123;    return 200 &quot;@name&quot;;&#125;
+
+转发 mysql 连接stream &#123;    upstream cloudsocket &#123;       hash $remote_addr consistent;       server 192.168.182.155:3306 weight=5 max_fails=3 fail_timeout=30s;    &#125;        server &#123;       listen 3306; #数据库服务器监听端口       proxy_connect_timeout 1s;       proxy_timeout 3s; #设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。       proxy_pass cloudsocket;    &#125;&#125;
 
 ]]></content>
       <categories>
@@ -573,7 +597,17 @@ git commit –amend有时提交过代码之后，发现一个地方改错了，�
 
 删除配置git config --unset user.name
 
-对比差异导出文件git archive -o [输出文件] HEAD $(git diff [SHA值1] [SHA值2] --name-only)# 例git archive -o code-compare.zip HEAD $(git diff c43278d3b5ee4fb2e4644dce3b5081371d068e14 1a91b349a593616d35bfbd035af8ae1053d58d48 --name-only)
+对比差异导出文件
+剔除掉删除的文件
+1、方式一：
+只展示两次提交版本间增加，拷贝，修改，重命名的文件。
+git diff --diff-filter=ACMR comitid_old commitid_new --name-only
+
+2、方式二：
+–diff-filter参数为小写时，为过滤掉删除的文件。
+git diff --diff-filter=d comitid_old commitid_new --name-only
+
+git archive -o [输出文件] HEAD $(git diff [旧SHA值1] [新SHA值2] --name-only)# 例git archive -o code-compare.zip HEAD $(git diff c43278d3b5ee4fb2e4644dce3b5081371d068e14 1a91b349a593616d35bfbd035af8ae1053d58d48 --name-only)
 
 代理
 
@@ -643,7 +677,7 @@ git branch --set-upstream-to=origin/master master
   <entry>
     <title>Git 常见错误</title>
     <url>/posts/f11796dd/</url>
-    <content><![CDATA[Add correct host key in &#x2F;root&#x2F;.ssh&#x2F;known_hosts to get rid of this message.问题现象ssh 远程到远端服务器报错
+    <content><![CDATA[目录1. Add correct host key in &#x2F;root&#x2F;.ssh&#x2F;known_hosts to get rid of this message.问题现象ssh 远程到远端服务器报错
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!Someone could be eavesdropping on you right now (man-in-the-middle attack)!It is also possible that a host key has just been changed.The fingerprint for the ECDSA key sent by the remote host isSHA256:NHg/pDwRdtQThZzY3Z4Uwq/Rz93FgmL3UdBAFleWFWk.Please contact your system administrator.Add correct host key in /Users/yuanting/.ssh/known_hosts to get rid of this message.Offending ECDSA key in /Users/yuanting/.ssh/known_hosts:102ECDSA host key for 192.168.198.190 has changed and you have requested strict checking.Host key verification failed.
 
 原因因为服务器的ip发生变更了第一次SSH连接时，会生成一个认证，储存在客户端（也就是用SSH连线其他电脑的那个，自己操作的那个）中的known_hosts，但是如果服务器验证过了，认证资讯当然也会更改，服务器端与客户端不同时，就会跳出错误啦。
@@ -657,7 +691,7 @@ ssh-keygen -R 192.168.198.147# Host 192.168.198.147 found: line 36/Users/renwoxi
 举个栗子：
 # vim ~/.ssh/known_hosts// 删除下列内容192.168.118.98 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBO7yIeXPP4/dSuaV/0hObmbc0Si1rtGLFbi7Lz75SAzMO5dseLe1w5TwJKDJ+vQ5GgZaWmqhIrXgx0o8VdWSEQA=
 
-彻底解决【“curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused”】错误临时方案用如下命令下载安装msf时，提示curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused
+2. 彻底解决【“curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused”】错误临时方案用如下命令下载安装msf时，提示curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstall &amp;&amp; \chmod 755 msfinstall &amp;&amp; \./msfinstall
 
 之前也遇到过类似的错误，用的解决方法是，fq工具打开全局模式，然后打开curl后面的地址（这里是：https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb），之后另存为文件，并依次执行后续命令。
@@ -670,6 +704,9 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 
 注：上面内容中 185.199.108.133 是 raw.githubusercontent.com 所在的服务器IP（通过  https://www.ipaddress.com/ 获知）。
 保存该文件，再使用即可正常访问。
+3. has no tracked branchgit branch --set-upstream-to origin/master-- 或者git branch --set-upstream-to=origin/master
+
+可以关联本地的 master 分支和远程的 master 分支了。
 ]]></content>
       <categories>
         <category>Git</category>
@@ -817,15 +854,23 @@ TCC事务框架应该提供Confirm&#x2F;Cancel服务的幂等性保障
   <entry>
     <title>gitkraken 破解</title>
     <url>/posts/8aace767/</url>
-    <content><![CDATA[1. 下载客户端
+    <content><![CDATA[目录1. 下载客户端
 gitkraken windows版本 6.5.1下载地址-1
 gitkraken windows版本 6.5.1下载地址-2
 gitkraken Mac版本 6.5.1下载地址
 gitkraken linux deb 6.5.1下载地址
 
+
+历史版本下载（改改版本号就行）
+
+Linux-deb : https://release.axocdn.com/linux/GitKraken-v7.5.1.deb
+Linux-rpm : https://release.axocdn.com/linux/GitKraken-v7.5.1.rpm
+Linux-tar.gz : https://release.axocdn.com/linux/GitKraken-v7.5.1.tar.gz
+Win64 https://release.axocdn.com/win64/GitKrakenSetup-7.5.1.exe
+Mac : https://release.axocdn.com/darwin/GitKraken-v7.5.1.zip
 2. 屏蔽更新host# gitKraken 更新屏蔽127.0.0.1 release.gitkraken.com
 
-3. 打开gitkraken并登陆4. 下载破解脚本git clone https://github.com/5cr1pt/GitCracken.gitcd GitCracken/GitCrackenrm yarn.lockyarn installyarn build# windows gitbashnode dist/bin/gitcracken.js patcher --asar ~/AppData/Local/gitkraken/app-6.5.0/resources/app.asar# mac node dist/bin/gitcracken.js patcher --asar 你的gitkraken的目录/resources/app.asar
+3. 打开gitkraken并登陆4. 下载破解脚本# 原仓库git clone https://github.com/5cr1pt/GitCracken.gitgit clone https://gitee.com/pan13640612207/GitKraken.git cd GitCracken/GitCrackenrm yarn.lockyarn installyarn build# windows gitbashnode dist/bin/gitcracken.js patcher --asar ~/AppData/Local/gitkraken/app-6.5.0/resources/app.asar# mac node dist/bin/gitcracken.js patcher --asar 你的gitkraken的目录/resources/app.asar
 
 5. 禁用更新删掉Update.exe, 查找和Gitkraken目录有关的Update.exe(一般在C:\Users\你的用户名\AppData\Local\gitkraken目录下)。
 
@@ -833,6 +878,11 @@ gitkraken linux deb 6.5.1下载地址
 插件github
 破解插件
 才发现 gitkraken 现在要给钱才能打开私有库了
+6. 其他修改删除C:/Users/&#123;用户名&#125;/AppData/Local/gitkraken/Update.exe
+启动时用同路径 app-7.5.5 下的 gitkraken.exe 来打开
+打开注册表计算机\HKEY_CLASSES_ROOT\Directory\Background\shell\GitKraken\command
+修改键值为 &quot;C:\Users\&#123;用户名&#125;\AppData\Local\gitkraken\app-7.5.5\gitkraken.exe&quot; --processStart=gitkraken.exe --
+process-start-args=&quot;-p \&quot;%V\&quot;&quot;
 ]]></content>
       <categories>
         <category>破解</category>
@@ -1273,6 +1323,10 @@ req.Headers[&quot;Accept-Encoding&quot;] = &quot;gzip,deflate&quot;;req.Automati
 
 451 Unavailable For Legal Reasons
 该请求因法律原因不可用
+
+
+499 Client has closed connection
+客户端断开了连接
 
 
 服务器错误：5xx， 6xx代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理
@@ -3809,11 +3863,12 @@ opencore 重置 nvram在 OpenCore 中，重置 NVRAM 的方法有以下几种：
   <entry>
     <title>mac 常用快捷键</title>
     <url>/posts/3e8d1a22/</url>
-    <content><![CDATA[目录任务管理器option + command + esc
+    <content><![CDATA[目录任务管理器（强制退出）option + command + esc
 快速复制文件或文件夹路径macOS 下没有 Windows 那样的地址栏，无法直观的复制文件的链接，有时候为了获取文件或文件夹的路径变成一件很棘手的事情，以下为快速复制路径方法：
 快捷键 option + command + C
 在 Finder 中选择文件或是文件夹，然后按下快捷键 option + command + C，即可复制文件的全路径。
 重命名文件 &#x2F; 文件夹选中需要重命名的文件，按下 return 键即可。
+finder 相关拷贝当前路径option + command + C
 ]]></content>
       <categories>
         <category>黑苹果</category>
@@ -3858,6 +3913,12 @@ Kernel -&gt; Quirks -&gt; DisableRtcChecksum
 
 
 注意：如果仍然有问题，则需要使用 RTCMemoryFixup.kext 并排除范围。
+开启软件任何来源打开终端，输入如下命令：
+sudo spctl --master-disable
+
+
+
+然后就可以看到允许任何来源的选项了，现在可以自由安装三方软件了。
 参考链接Big Sur安装常见问题
 ]]></content>
       <categories>
@@ -3881,9 +3942,15 @@ Kernel -&gt; Quirks -&gt; DisableRtcChecksum
 
 
 网卡
-T919 BCM94360CD
+T919 BCM94360CD（win + mac）
 150
 闲鱼
+
+
+网卡
+CF-AX200 PRO（win）
+
+
 
 
 显卡
@@ -4280,6 +4347,26 @@ yum install docker-ce-&lt;VERSION STRING&gt;
 
 将主机文件拷贝到 podkubectl cp &lt;主机文件路径&gt; -n &lt;分区&gt; -c &lt;容器&gt; &lt;pod名&gt;:&lt;容器内绝对路径&gt;// 举个栗子：kubectl cp -n namespace -c container_name ./test.sql example-745db984f4-9b57g:/data/test.sql 
 
+实例伸缩# deploymentkubectl scale --replicas=[实例数] deployment/[部署名称]# ReplicaSetkubectl scale --replicas=[实例数] rs/[部署名称]# ReplicationControllerkubectl scale --replicas=[实例数] rc/[部署名称]# StatefulSetkubectl scale --replicas=[实例数] sts/[部署名称]
+
+查看日志kubectl logs 常用于将容器中的日志导出。命令格式：
+kubectl logs [-f] [-p] POD [-c CONTAINER]
+
+命令选项详解：
+-c, --container=&quot;&quot;: 容器名 -f, --follow[=false]: 指定是否持续输出日志    --interactive[=true]: 如果为true，当需要时提示用户进行输入。默认为true    --limit-bytes=0: 输出日志的最大字节数。默认无限制 -p, --previous[=false]: 如果为true，输出pod中曾经运行过，但目前已终止的容器的日志    --since=0: 仅返回相对时间范围，如5s、2m或3h，之内的日志。默认返回所有日志。只能同时使用since和since-time中的一种    --since-time=&quot;&quot;: 仅返回指定时间（RFC3339格式）之后的日志。默认返回所有日志。只能同时使用since和since-time中的一种    --tail=-1: 要显示的最新的日志条数。默认为-1，显示所有的日志    --timestamps[=false]: 在日志中包含时间戳
+
+since-time
+–since-time&#x3D;””: 仅返回指定时间（RFC3339格式）之后的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
+
+举个栗子：
+kubectl logs -n saas saas-ebil-os-job-749445bd5d-xzqzg --since-time=&#x27;2023-08-14T02:11:46.267Z&#x27;
+
+since
+-since&#x3D;0: 仅返回相对时间范围，如5s、2m或3h，之内的日志。默认返回所有日志。只能同时使用since和since-time中的一种。
+
+举个栗子：
+kubectl logs -n saas saas-ebil-os-job-749445bd5d-xzqzg --since=1h
+
 ]]></content>
       <categories>
         <category>CICD</category>
@@ -4511,7 +4598,7 @@ apollo.bootstrap.eagerLoad.enabled ： 将 Apollo 加载提到初始化日志系
     <content><![CDATA[目录常用参数自动 dump 堆快照-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=&lt;绝对文件路径&gt;
 
 为了方便复现问题，可以把堆内存的参数调小些，示例命令如下：
--Xms10m -Xmx20m -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=F:\hporf
+-Xms10m -Xmx20m -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=F:\hprof
 
 ]]></content>
       <categories>
@@ -6578,9 +6665,9 @@ import com.fasterxml.jackson.core.JsonGenerator;import com.fasterxml.jackson.cor
   <entry>
     <title>Mybatis-plus XML 标签用法</title>
     <url>/posts/2f2b0963/</url>
-    <content><![CDATA[Mybatis传入字符串分割成数组并且遍历(并判断是否包含逗号)&lt;if test=&quot;stringParam != null and stringParam != &#x27;&#x27;&quot;&gt;	&lt;if test=&quot;stringParam.indexOf(&#x27;,&#x27;) != -1&quot;&gt;	    and  stringParam in		&lt;foreach item=&quot;item&quot; index=&quot;index&quot; collection=&quot;stringParam.split(&#x27;,&#x27;)&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;			#&#123;item&#125;		&lt;/foreach&gt;	&lt;/if&gt;	&lt;if test=&quot;stringParam.indexOf(&#x27;,&#x27;) == -1&quot;&gt;			and  stringParam=#&#123;stringParam&#125;	&lt;/if&gt;&lt;/if&gt;
+    <content><![CDATA[目录Mybatis传入字符串分割成数组并且遍历(并判断是否包含逗号)&lt;if test=&quot;stringParam != null and stringParam != &#x27;&#x27;&quot;&gt;	&lt;if test=&quot;stringParam.indexOf(&#x27;,&#x27;) != -1&quot;&gt;	    and  stringParam in		&lt;foreach item=&quot;item&quot; index=&quot;index&quot; collection=&quot;stringParam.split(&#x27;,&#x27;)&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;			#&#123;item&#125;		&lt;/foreach&gt;	&lt;/if&gt;	&lt;if test=&quot;stringParam.indexOf(&#x27;,&#x27;) == -1&quot;&gt;			and  stringParam=#&#123;stringParam&#125;	&lt;/if&gt;&lt;/if&gt;
 
-数组IN遍历&lt;if test=&quot;labelIds != null and labelIds.size &gt; 0&quot;&gt;	AND (	t3.type = 1	AND t2.filter_id IN	&lt;foreach collection=&quot;labelIds&quot; item=&quot;id&quot; index=&quot;index&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;		#&#123;id&#125;	&lt;/foreach&gt;	)&lt;/if&gt;
+数组IN遍历&lt;if test=&quot;labelIds != null and labelIds.size &gt; 0&quot;&gt;	AND (              t3.type = 1              AND t2.filter_id IN              &lt;foreach collection=&quot;labelIds&quot; item=&quot;id&quot; index=&quot;index&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;                  #&#123;id&#125;              &lt;/foreach&gt;          )&lt;/if&gt;
 
 嵌套查询以及传参
 可通过在主SQL上建立入参伪列来实现resultMap中&lt;collection&gt;标签的参数传递
@@ -6616,7 +6703,7 @@ separator: 每次循环的分隔符
 举个例子：
 &lt;select id=&quot;selectByStudentIdList&quot; resultMap=&quot;BaseResultMap&quot;&gt;    select    &lt;include refid=&quot;Base_Column_List&quot; /&gt;    from student    where student_id in    &lt;foreach collection=&quot;list&quot; item=&quot;id&quot; open=&quot;(&quot; close=&quot;)&quot; separator=&quot;,&quot; index=&quot;i&quot;&gt;      #&#123;id&#125;    &lt;/foreach&gt;&lt;/select&gt;
 
-include标签&lt;sql id=&quot;all_column&quot;&gt;       $&#123;alias&#125;.id,$&#123;alias&#125;.username,$&#123;alias&#125;.pazzword,$&#123;alias&#125;.state,$&#123;alias&#125;.reg_date&lt;/sql&gt;&lt;select id=&quot;getUser&quot; resultType=&quot;cn.jq.mybatis.model.User&quot;&gt;	select 		&lt;include refid=&quot;all_column&quot;&gt;			&lt;property name=&quot;alias&quot; value=&quot;t1&quot;/&gt;		&lt;/include&gt; 	from t_user t1 where t1.id = #&#123;id&#125;&lt;/select&gt;
+include 标签&lt;sql id=&quot;all_column&quot;&gt;       $&#123;alias&#125;.id,$&#123;alias&#125;.username,$&#123;alias&#125;.pazzword,$&#123;alias&#125;.state,$&#123;alias&#125;.reg_date&lt;/sql&gt;&lt;select id=&quot;getUser&quot; resultType=&quot;cn.jq.mybatis.model.User&quot;&gt;	select 		&lt;include refid=&quot;all_column&quot;&gt;			&lt;property name=&quot;alias&quot; value=&quot;t1&quot;/&gt;		&lt;/include&gt; 	from t_user t1 where t1.id = #&#123;id&#125;&lt;/select&gt;
 
 concatai.articleTitle like concat(&#x27;%&#x27;,#&#123;pageInfo.searchText&#125;,&#x27;%&#x27;)
 
@@ -6677,7 +6764,7 @@ useGeneratedKeys在settings元素中设置useGeneratedKeys参数在settings元�
 
 在xml映射器中配置useGeneratedKeys参数&lt;!-- 插入数据:返回记录的id值 --&gt;&lt;insert id=&quot;insertOneTest&quot; parameterType=&quot;org.chench.test.mybatis.model.Test&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot; keyColumn=&quot;id&quot;&gt;    insert into test(name,descr,url,create_time,update_time)     values(#&#123;name&#125;,#&#123;descr&#125;,#&#123;url&#125;,now(),now())&lt;/insert&gt;
 
-JDBCType和JavaType映射关系
+JDBCType 和 JavaType 映射关系
 
 
 JDBCType
@@ -6793,6 +6880,21 @@ DATALINK
 java.net.URL
 
 
+if 标签判断字符串相等
+映射文件中，if 标签判断字符串相等，两种方式：因为 mybatis 映射文件，是使用的 ognl 表达式，所以在判断字符串 sex 变量是否是字符串 Y 的时候使用。
+
+用法一：
+&lt;if test=&quot;sex == &#x27;Y&#x27;.toString()&quot;&gt;
+用法二：
+&lt;if test=&#x27;sex == &quot;Y&quot;&#x27;&gt;
+
+if 判断 boolean 值用法一：
+&lt;if test=&quot;flag == true&quot;&gt;&lt;/if&gt;
+
+用法二：
+&lt;if test=&quot;flag&quot;&gt;&lt;/if&gt;
+
+where&lt;where&gt; 标签在解析时，会根据实际的sql，来决定是否有 where，是否去掉前面和后面非法的and&#x2F;or
 ]]></content>
       <categories>
         <category>Java</category>
@@ -7370,7 +7472,10 @@ classpath:&#x2F;bootstrap.yml
 @AutoConfigureAfter注解@AutoConfigureAfter 在加载配置的类之后再加载当前类它的value 是一个数组 一般配合着**@import** 注解使用 ，在使用import时必须要让这个类先被spring ioc 加载好所以@AutoConfigureAfter必不可少
 @Configurationpublic class ClassA &#123;	//在加载DemoConfig之前加载ClassA类&#125;@Configuration@AutoConfigureAfter(ClassA.class)@Import(ClassA.class)public class DemoConfig &#123;&#125;@Retention(RetentionPolicy.RUNTIME)@Target(&#123; ElementType.TYPE &#125;)public @interface AutoConfigureAfter &#123;	/**	 * The auto-configure classes that should have already been applied.	 * @return the classes	 */	Class&lt;?&gt;[] value() default &#123;&#125;;	/**	 * The names of the auto-configure classes that should have already been applied.	 * @return the class names	 * @since 1.2.2	 */	String[] name() default &#123;&#125;;&#125;
 
-@scopeScope，也称作用域，在 Spring IoC 容器是指其创建的 Bean 对象相对于其他 Bean 对象的请求可见范围。在 Spring IoC 容器中具有以下几种作用域：基本作用域（singleton、prototype），Web 作用域（request、session、globalsession），自定义作用域。
+@scope
+参考链接：深入了解Spring的@Scope注解中作用域代理proxyMode属性的实现
+
+Scope，也称作用域，在 Spring IoC 容器是指其创建的 Bean 对象相对于其他 Bean 对象的请求可见范围。在 Spring IoC 容器中具有以下几种作用域：基本作用域（singleton、prototype），Web 作用域（request、session、globalsession），自定义作用域。
 @Scope(scopeName = WebApplicationContext.SCOPE_SESSION)
 
 @Lazy
@@ -11017,6 +11122,21 @@ SELECT TABLE_NAME, TABLE_COMMENT, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHER
 
 查询列名SELECT column_name FROM information_schema.columns WHERE table_schema=&#x27;数据库名&#x27; AND table_name=&#x27;表名&#x27;
 
+ON DUPLICATE KEY UPDATE
+在MySQL数据库中，如果在insert语句后面带上ON DUPLICATE KEY UPDATE 子句，而要插入的行与表中现有记录的惟一索引或主键中产生重复值，那么就会发生旧行的更新；如果插入的行数据与现有表中记录的唯一索引或者主键不重复，则执行新纪录插入操作。
+说通俗点就是数据库中存在某个记录时，执行这个语句会更新，而不存在这条记录时，就会插入。
+此时使用该语句可以满足需要，但是要注意几个问题：
+
+更新的内容中unique key或者primary key最好保证一个，不然不能保证语句执行正确(有任意一个unique key重复就会走更新,当然如果更新的语句中在表中也有重复校验的字段，那么也不会更新成功而导致报错,只有当该条语句没有任何一个unique key重复才会插入新记录)；尽量不对存在多个唯一键的table使用该语句，避免可能导致数据错乱。
+在有可能有并发事务执行的insert 语句情况下不使用该语句，可能导致产生death lock。
+如果数据表id是自动递增的不建议使用该语句；id不连续，如果前面更新的比较多，新增的下一条会相应跳跃的更大。
+该语句是mysql独有的语法，如果可能会设计到其他数据库语言跨库要谨慎使用。
+
+参考链接：https://www.cnblogs.com/better-farther-world2099/articles/11737376.html
+
+举个栗子：
+INSERT INTO table (a,b,c)	VALUES (1,2,3)  	ON DUPLICATE KEY UPDATE		c=c+1;  INSERT INTO table (a,b,c)	VALUES (1,2,3),(4,5,6)  	ON DUPLICATE KEY UPDATE		c=VALUES(a)+VALUES(b); 
+
 ]]></content>
       <categories>
         <category>中间件</category>
@@ -11412,7 +11532,7 @@ Redis Cluster可以进行节点的动态扩容缩容，这一过程，在目前�
       </tags>
   </entry>
   <entry>
-    <title>nodejs 常用命令</title>
+    <title>npm 常用命令</title>
     <url>/posts/63e97dc8/</url>
     <content><![CDATA[目录缓存npm 查看缓存目录npm config get cache
 
@@ -11431,13 +11551,42 @@ socks5 代理npm 不支持 socks 代理，但是我们可以用一个工具将 s
 删除代理npm config delete proxynpm config delete https-proxy
 
                       
+npm 查看包信息
+下面以 jquery 为例作为演示。
+
+查询包所有版本信息语法：
+npm view &lt;PACKAGE_NAME&gt; versions [--json]
+
+举个栗子：
+# 查询 jquery 的所有信息npm view jquery versions --json
+
+查询包最新版本语法：
+npm view &lt;PACKAGE_NAME&gt; version# 或者npm info &lt;PACKAGE_NAME&gt;
+
+举个栗子：
+npm view jquery version# 或者npm info jquery
+
+查询包已安装版本语法：
+局部依赖查询：
+npm ls &lt;PACKAGE_NAME&gt;# 或者npm list &lt;PACKAGE_NAME&gt;
+
+全局依赖查询：
+npm ls &lt;PACKAGE_NAME&gt; -g# 或者npm list &lt;PACKAGE_NAME&gt; -g
+
+举个栗子：
+npm ls jquery -g
+
+npm 查询依赖版本列表npm info &lt;依赖名称&gt;
+
+npm 查看已安装的依赖包npm list --depth=0
+
 ]]></content>
       <categories>
         <category>前端</category>
-        <category>nodejs</category>
+        <category>npm</category>
       </categories>
       <tags>
-        <tag>nodejs</tag>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -12864,6 +13013,28 @@ V2Ray 路由规则文件加强版
     <title>翻墙杂项</title>
     <url>/posts/126dc918/</url>
     <content><![CDATA[目录一级域名yahyav2rayssr.top
+服务器信息
+
+
+IP
+系统
+用户名
+密码
+
+
+
+216.246.21.248
+centos-7.9-x86_64
+root
+Yao8282925ok
+
+
+103.114.162.109
+centos-7.9-x86_64
+root
+
+
+
 namesilo
 
 
@@ -12874,9 +13045,13 @@ namesilo
 
 
 yahya-yaoyuming
-&#x36;&#55;&#x32;&#53;&#53;&#x34;&#x37;&#x38;&#52;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;
+&#x36;&#x37;&#50;&#53;&#53;&#x34;&#55;&#56;&#52;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;
 Yao88219620ko!
 
+
+NS nameserver 服务器cloudflarecarter.ns.cloudflare.comjen.ns.cloudflare.com
+
+dnspodsandpaper.dnspod.netbroderick.dnspod.net
 
 cloudflare
 
@@ -12886,14 +13061,45 @@ cloudflare
 
 
 
-&#54;&#x37;&#50;&#53;&#x35;&#x34;&#x37;&#x38;&#x34;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;
+&#x36;&#x37;&#50;&#x35;&#53;&#x34;&#55;&#x38;&#52;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;
 Yao88219620ko!
 
 
 端口说明文档参考链接：https://developers.cloudflare.com/fundamentals/get-started/reference/network-ports/
 已开放HTTPS端口有：443, 2053, 2083, 2087, 2096, 8443
-全局API KEY:
-66f6f58b393232b878e6a855ab40944431724
+全局 API KEY66f6f58b393232b878e6a855ab40944431724
+
+端口已用一览
+
+
+端口号
+用途
+
+
+
+8443
+VPS X-UI 面板
+
+
+2096
+VMESS 协议端口号
+
+
+2087
+-
+
+
+2083
+VLESS 协议端口号
+
+
+2053
+Nginx 文件服务器
+
+
+443
+-
+
 
 DNS 缓存清除
 DNS 解析 CloudFlare 1.1.1.1、1.0.0.1 的类型：
@@ -12903,6 +13109,30 @@ DNS 解析 CloudFlare 1.1.1.1、1.0.0.1 的类型：
 DNS 解析为 Google 8.8.8.8、8.8.4.4 的类型：
 
 ​	https://developers.google.com/speed/public-dns/cache?hl=zh-cn
+DNS 映射一览
+
+
+类型
+名称
+内容
+
+
+
+A
+ryzen
+103.114.162.109
+
+
+A
+vmess
+216.246.21.248
+
+
+CNAME
+blog
+yaoyuming.github.io
+
+
 hosteONS
 VPS 服务器信息。
 IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;paymentsuccess=true
@@ -12915,11 +13145,11 @@ IP付款链接： https://my.hosteons.com/viewinvoice.php?id=107772&amp;payments
 
 
 
-&#x36;&#x37;&#50;&#53;&#x35;&#52;&#x37;&#x38;&#x34;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;
+&#54;&#55;&#50;&#53;&#53;&#x34;&#55;&#x38;&#52;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;
 Yao88219620ko!
 
 
-x-ui 面板信息
+x-ui面板信息
 
 
 访问地址
@@ -12928,12 +13158,17 @@ x-ui 面板信息
 
 
 
-https://194.33.38.170:8443/ 或者 https://vless.yahyav2rayssr.top:8443
+https://216.246.21.248:8443/ 或者 https://vmess.yahyav2rayssr.top:8443
 admin
 7613302589
 
 
-x-ui 安装
+https://103.114.162.109:8443/ 或者 https://ryzen.yahyav2rayssr.top:8443
+admin
+7613302589
+
+
+安装命令
 这里采用 centos7-minin 系统。
 
 系统安装证书前置命令：
@@ -13057,17 +13292,17 @@ DNS
   <entry>
     <title>Intellij IDEA maven 配置</title>
     <url>/posts/a3c558a3/</url>
-    <content><![CDATA[idea配置maven依赖优先从指定本地仓库获取在设置中搜索 Runner ,在VM Option中设置参数 -DarchetypeCatalog=internal
+    <content><![CDATA[idea 配置 maven 依赖优先从指定本地仓库获取在设置中搜索 Runner ,在VM Option中设置参数 -DarchetypeCatalog=internal
 -DarchetypeCatalog=internal
 
 
 
-maven离线模式及设置下载maven依赖通过idea创建maven项目，maven插件会自动将maven依赖下载到本地仓库。
+maven 离线模式及设置下载 maven 依赖通过idea创建maven项目，maven插件会自动将maven依赖下载到本地仓库。
 复制本地仓库先要找到maven的本地仓库，可以通过 file-&gt;settings-&gt;maven 流程查看到maven本地仓库的位置，然后直接复制，粘贴到生产环境下。
-修改maven配置这里指修改生产环境（即不能联网）下的maven的settings.xml文件
+修改 maven 配置这里指修改生产环境（即不能联网）下的maven的settings.xml文件
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt; 	&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;	&lt;localRepository&gt;D:\Apache\apache-maven-3.6.3&lt;/localRepository&gt;	  &lt;mirrors&gt;	 &lt;mirror&gt;            &lt;id&gt;central&lt;/id&gt;            &lt;name&gt;central&lt;/name&gt;					&lt;!-- 这个就是第二步，maven本地仓库粘贴在生产环境下的位置 --&gt;            &lt;url&gt;file://D:\Apache\apache-maven-3.6.3&lt;/url&gt;            &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;        &lt;/mirror&gt;  &lt;/mirrors&gt;&lt;/settings&gt;
 
-步骤四，设置idea通过 file-&gt;settings-&gt;maven 流程，勾选 work offline 选项，并填写上 maven 本地仓库和修改过的 settings.xml 的位置                      
+步骤四，设置 idea通过 file-&gt;settings-&gt;maven 流程，勾选 work offline 选项，并填写上 maven 本地仓库和修改过的 settings.xml 的位置                      
 ]]></content>
       <categories>
         <category>研发工具</category>
@@ -13295,6 +13530,20 @@ jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar test
 远程服务器防火墙端口放行
 # sudo vim /etc/sysconfig/iptables-A INPUT -m state --state NEW -m tcp -p tcp --dport 5005 -j ACCEPT# 重启生效sudo systemctl restart iptables
 
+git commit 模态框转换为侧边栏标签
+
+勾选 Use non-modal commit interface 选项即可。
+查找所有未引用的代码点击 code 菜单，以此展开 Analyze Code -&gt; Run Inspection by Name，或者直接 通过 Ctrl + Alt +Shift + I 快捷键进行操作。
+
+
+输入undeclared，打开 Unused declaration 这个检查项。
+
+
+之后进行选择。
+
+
+idea 提供 4 中解决方式处理未引用项，根据自身需要选择即可。
+
 ]]></content>
       <categories>
         <category>研发工具</category>
@@ -13319,6 +13568,10 @@ maven 控制台中文乱码打开 File -&gt; Settings -&gt; Build, Execution, De
 
 如图所示：
 
+
+编码 EUC_CN 的不可映射字符在maven中默认采用gbk编码，我在IDEA中编写的代码默认为utf-8，因此在自动化构建的过程中就可能出现“编码EUC_CN的不可映射字符”，此时可以在pom.xml文件中添加如下代码,添加如下代码之后标2.3.1会报红，可以不用管
+添加&lt;encoding&gt;utf8&lt;/encoding&gt;，最终效果如下：
+&lt;project&gt;	 &lt;build&gt;         &lt;plugins&gt;             &lt;plugin&gt;                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;                 &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;                 &lt;version&gt;3.8.1&lt;/version&gt;                 &lt;configuration&gt;                     &lt;source&gt;1.8&lt;/source&gt;                     &lt;target&gt;1.8&lt;/target&gt;                     &lt;encoding&gt;utf8&lt;/encoding&gt;                 &lt;/configuration&gt;             &lt;/plugin&gt;         &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;
 
 ]]></content>
       <categories>
@@ -13347,10 +13600,18 @@ https://www.haah.net/jetbrains
   <entry>
     <title>Visual Studio Code 常用配置</title>
     <url>/posts/6f59c50b/</url>
-    <content><![CDATA[显示当前文件完整路径信息
+    <content><![CDATA[目录显示当前文件完整路径信息
 菜单栏：“文件”→“首选项”→“设置”，进入用户配置界面；
 在软件默认的配置界面搜索关键字 “window.title”，将这一行配置复制到右边的用户配置界面中，并将 “activeEditorShort” 修改为 “activeEditorLong”；
 保存后，再编辑文件时，软件窗口的标题栏上就可以看到当前文件的完整路径了。
+
+驼峰下划线转换商店搜索 change-case 插件，安装完毕重启后在键盘快捷方式绑定如下配置：
+
+
+默认情况下包含以下转换配置项：
+
+
+
 
 ]]></content>
       <categories>
@@ -13918,12 +14179,19 @@ chcp 437
     <url>/posts/7101b844/</url>
     <content><![CDATA[目录转换磁盘convert [driver] /fs:ntfs
 查看局域网所有IParp -a
-CMD临时代理set http_proxy=http://127.0.0.1:1080set https_proxy=http://127.0.0.1:1080
-设置IP、DNS、网关netsh interface ip set address name=&quot;本地连接&quot; source=static addr=192.168.132.5 mask=255.255.255.0netsh interface ip set address name=&quot;本地连接&quot; gateway=192.168.132.1 gwmetric=0netsh interface ip set dns name=&quot;本地连接&quot; source=static addr=192.168.132.1 register=PRIMARYnetsh interface ip set wins name=&quot;本地连接&quot; source=static addr=none
-查看IP、DNS、网关netsh interface ip show address
-清除DNS缓存ipconfig /flushdns
+CMD 临时代理set http_proxy=http://127.0.0.1:1080set https_proxy=http://127.0.0.1:1080
+设置 IP、DNS、网关netsh interface ip set address name=&quot;本地连接&quot; source=static addr=192.168.132.5 mask=255.255.255.0netsh interface ip set address name=&quot;本地连接&quot; gateway=192.168.132.1 gwmetric=0netsh interface ip set dns name=&quot;本地连接&quot; source=static addr=192.168.132.1 register=PRIMARYnetsh interface ip set wins name=&quot;本地连接&quot; source=static addr=none
+查看 IP、DNS、网关netsh interface ip show address
+清除 DNS 缓存ipconfig /flushdns
 
-重置Winsock目录netsh winsock reset
+重置 WINSOCK 和 IP 堆栈重置WINSOCK条目
+netsh winsock reset catalog
+
+重置IPv4 TCP &#x2F; IP堆栈
+netsh int ipv4 reset reset.log
+
+重置IPv6 TCP &#x2F; IP堆栈
+netsh int ipv6 reset reset.log
 
 tasklist
 &#x2F;S     system           指定连接到的远程系统。  
@@ -13948,15 +14216,20 @@ Diskpart 手动创建 EFI、MSR 引导分区用傲梅分区助手将磁盘转换
 
 创建 Recovery 分区 (WindowsRE)create partition primary size=450format quick fs=ntfs label=&quot;Recovery&quot;assign letter=&quot;R&quot;set id=&quot;de94bba4-06d1-4d40-a16a-bfd50179d6ac&quot;gpt attributes=0x8000000000000001      ( 8 和 1之间有14个0)
 
-IP释放、更新、以及清除 DNS
-在桌面上，按Windows键，然后输入CMD。
-右键单击“ 命令提示符”，然后选择“以管理员身份运行”。
-在命令提示符下输入ipconfig / release。
-等待几秒钟可以得到IP地址已释放。
-在命令提示符下输入ipconfig /renew。
-等待几秒钟可以得到已重新建立IP地址。
-在命令提示符下输入ipconfig / flushdns。
-关闭命令窗口并尝试建立连接。
+IP 释放、更新、以及清除 DNS释放本地 ipv4 连接地址# 等待几秒钟可以得到IP地址已释放ipconfig /release# 等待几秒钟可以得到已重新建立IP地址ipconfig /renew# 清除DNS缓存ipconfig /flushdns# 关闭命令窗口并尝试建立连接
+
+释放本地 ipv6 连接地址ipconfig /release6 &amp;&amp; ipconfig /renew6
+
+win10 查看电脑已连接过的无线密码查看单个
+netsh wlan show profiles name=&quot;wifi名字&quot; key=clear
+
+查看所有
+netsh wlan show profiles
+
+代理配置临时设置set http_proxy=http://127.0.0.1:端口号set https_proxy=http://127.0.0.1:端口号
+
+永久设置添加以下系统变量：
+
 
 ]]></content>
       <categories>
@@ -14112,6 +14385,12 @@ rm -f *字符串*
 
 4. awk 系列1. 获取某一行中指定字符后的内容比如有个xxx.txt文件，里面有很多行内容，其中有行内容为ro.xxx&#x3D;123，要想获取到123这个值，可以如下处理
 #!/bin/shNAME=`cat xxx.txt | grep &#x27;ro.xxx&#x27; | awk -F &#x27;=&#x27; &#x27;&#123;print $2&#125;&#x27;`echo $NAME
+
+2. 使用bash传递的变量
+awk 外部变量的传入可多次定义，通过 -v key&#x3D;value, -v key&#x3D;value 这种形式进行定义。
+
+类似自定义变量，在脚本中可以轻易的用-v参数将bash的变量传递给awk，如下所示：
+name=sni7awk -v var=$&#123;name&#125; &#x27;BEGIN&#123;print var&#125;&#x27;sni7
 
 5. $(cd dirname $0;pwd)cd &quot;$(dirname &quot;$0&quot;)&quot;;pwd 等同于 $(dirname $(readlink -f &quot;$0&quot;))
 # 在/home/admin/test/下新建test.sh内容如下：cd `dirname $0`echo `pwd` # 然后返回到/home/admin/执行sh test/test.sh # 运行结果:/home/admin/test
@@ -14295,6 +14574,12 @@ unzip -v example.zip
 
 验证压缩文件是否下载完全
 unzip -t example.zip
+
+13. gz 文件压缩 gzip
+gzip -d FileName.gz
+
+解压 gunzip
+gunzip FileName.gz
 
 ]]></content>
       <categories>
@@ -15473,7 +15758,76 @@ mvn io.takari:maven:wrapper -Dmaven=3.6.3
   <entry>
     <title>Maven 基础概念</title>
     <url>/posts/6ff6dc3c/</url>
-    <content><![CDATA[基础概念scope 作用域一览图如下：
+    <content><![CDATA[基础概念内置环境变量内置环境变量用 ${……} 形式进行包裹，可在 xml 文件中灵活使用。
+
+
+
+变量名
+说明
+
+
+
+basedir
+项目根目录，即 pom.xml 文件所在目录
+
+
+project.build.directory
+构建目录，缺省为 target 目录
+
+
+project.outputDirectory
+构建过程输出目录，缺省为 target&#x2F;classes
+
+
+project.testOutputDirectory
+项目测试主代码输出目录，默认为 target&#x2F;testclasses&#x2F;
+
+
+project.build.sourceDirectory
+项目的主源码目录，默认为 src&#x2F;main&#x2F;java&#x2F;
+
+
+project.build.testSourceDirectory
+项目的测试源码目录，默认为 src&#x2F;test&#x2F;java&#x2F;
+
+
+project.build.finalName
+产出物名称，缺省为 ${project.artifactId}-${project.version}
+
+
+project.packaging
+打包类型，缺省为 jar
+
+
+project.xxx
+当前 pom 文件的任意节点的内容
+
+
+env.xxx
+获取系统环境变量。例如，”env.PATH” 指代了 $path 环境变量（在Windows上是%PATH%）
+
+
+settings.xxx
+指代了settings.xml中对应元素的值。例如：false通过 ${settings.offline} 获得offline的值。
+
+
+Java System Properties
+所有可通过 java.lang.System.getProperties() 访问的属性都能在 POM 中使用，例如 ${JAVA_HOME}
+
+
+project.groupId
+项目的 groupId
+
+
+project.artifactId
+项目的 artifactId
+
+
+project.version
+项目的version，与 ${version} 等价
+
+
+scope 作用域一览图如下：
 
 
 
@@ -15602,6 +15956,19 @@ maven-metadata-localhost.xml 远程仓库获取的时候生成 (repository 的 i
 例如 maven-metadata-localhost 的作用是在 Maven 在拉取包的时候，会先跟本地 maven-metadata-local 比较下 lastUpdated 时间戳值，值大用哪个。如果是 Maven 强制更新 的时候(没有强制更新是不会) 会下载远程的 maven-metadata.xml 比较远程，本地，和之前远程保存下来的 maven-metadata 文件。
 
 所以有时候 maven 库上的 jar 包已经更新，而我们总是拉取不到 maven 的包原因就是本地的 maven-metadata-local 的 lastUpdated 比较大导致的。
+动态环境变量识别规则在 pom.xml 文件中加入如下的配置
+&lt;profiles&gt;    &lt;profile&gt;        &lt;!-- 开发环境 --&gt;        &lt;id&gt;dev&lt;/id&gt;        &lt;properties&gt;            &lt;package.environment&gt;dev&lt;/package.environment&gt;        &lt;/properties&gt;    &lt;/profile&gt;&lt;profiles&gt;
+
+
+package.environment : 这个是变量名（你可以直接叫env等等，随意）。
+dev : 中间这个 dev 就是环境变量的值（和你的环境配置文件, 配置地址等一致即可）。
+
+然后在 maven 打包命令加上 -P dev 标识打 dev 环境的包。
+启动脚本写法如下：
+nohup java -jar your.jar --spring.profiles.active=$&#123;package.environment&#125;
+
+
+
 参考连接Maven中optional和scope元素的使用，你弄明白了？
 ]]></content>
       <categories>
@@ -15657,6 +16024,11 @@ mvn install --settings D:\Apache\apache-maven-3.6.3\conf\settings.xml
 
 mvn help:effective-settings
 
+设置代理intellij idea 中配置 maven 代理的方式如下：
+打开 Maven下 的 Importing 选项，在 VM Options for importer 一栏后面加上 -DproxySet=true -DproxyHost=localhost -DproxyPort=1081，1081 为本地的 http 代理端口。
+
+
+同理也可以在命令行下使用上述命令手动指定代理。
 ]]></content>
       <categories>
         <category>Java</category>
@@ -15669,9 +16041,9 @@ mvn help:effective-settings
   <entry>
     <title>Maven 常用配置</title>
     <url>/posts/615834e0/</url>
-    <content><![CDATA[常用配置profile配置实现动态切换环境1. 更改 spring.profiles.activespring.profiles.active=@env@
+    <content><![CDATA[常用配置profile 配置实现动态切换环境1. application.yml 配置# 多环境配置  profiles:    active: @profiles.active@
 
-2. pom.xml 配置&lt;project&gt;    ... 其他代码略 ...    &lt;profiles&gt;        &lt;!-- 开发环境 --&gt;        &lt;profile&gt;            &lt;id&gt;dev&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;dev&lt;/env&gt;&lt;!-- 之前写的@env@就是通过这里的配置切换环境 --&gt;            &lt;/properties&gt;            &lt;activation&gt;                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;&lt;!-- 指定缺省环境 --&gt;            &lt;/activation&gt;        &lt;/profile&gt;        &lt;!-- 测试环境 --&gt;        &lt;profile&gt;            &lt;id&gt;test&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;test&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;        &lt;!-- 生产环境 --&gt;        &lt;profile&gt;            &lt;id&gt;prod&lt;/id&gt;            &lt;properties&gt;                &lt;env&gt;prod&lt;/env&gt;            &lt;/properties&gt;        &lt;/profile&gt;    &lt;/profiles&gt;&lt;/project&gt;
+2. pom.xml 配置&lt;project&gt;    ... 其他代码略 ...    &lt;profiles&gt;        &lt;!-- 开发环境 --&gt;        &lt;profile&gt;            &lt;id&gt;dev&lt;/id&gt;            &lt;properties&gt;                &lt;profiles.active&gt;dev&lt;/profiles.active&gt;&lt;!-- 之前写的@env@就是通过这里的配置切换环境 --&gt;            &lt;/properties&gt;            &lt;activation&gt;                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;&lt;!-- 指定缺省环境 --&gt;            &lt;/activation&gt;        &lt;/profile&gt;        &lt;!-- 测试环境 --&gt;        &lt;profile&gt;            &lt;id&gt;test&lt;/id&gt;            &lt;properties&gt;                &lt;profiles.active&gt;test&lt;/profiles.active&gt;            &lt;/properties&gt;        &lt;/profile&gt;        &lt;!-- 生产环境 --&gt;        &lt;profile&gt;            &lt;id&gt;prod&lt;/id&gt;            &lt;properties&gt;                &lt;profiles.active&gt;prod&lt;/profiles.active&gt;            &lt;/properties&gt;        &lt;/profile&gt;    &lt;/profiles&gt;        &lt;!-- @profiles.active@，启动会报异常，不能识别@符号，需要增加如下配置 --&gt;    &lt;build&gt;        &lt;resources&gt;            &lt;resource&gt;                &lt;directory&gt;src/main/resources&lt;/directory&gt;                &lt;filtering&gt;true&lt;/filtering&gt;                 &lt;includes&gt;                    &lt;include&gt;**/*.*&lt;/include&gt;                &lt;/includes&gt;            &lt;/resource&gt;        &lt;/resources&gt;    &lt;/build&gt;&lt;/project&gt;
 
 
 
@@ -15758,23 +16130,23 @@ spring boot 1.3之后引入了dev-tools可以让你方便开发应用，在sprin
   <entry>
     <title>Maven 常见问题</title>
     <url>/posts/4f5fa1df/</url>
-    <content><![CDATA[常见问题1、Maven 多模块打包时提示 找不到符号子模块使用 pom 打包方式即可解决
+    <content><![CDATA[常见问题1. Maven 多模块打包时提示 找不到符号子模块使用 pom 打包方式即可解决
 &lt;packaging&gt;pom&lt;/packaging&gt;
 
 如果还未能解决，在公共模块或者当前模块下加入打包工具
 &lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;    			 &lt;!-- 加入此配置start --&gt;            &lt;configuration&gt;                &lt;classifier&gt;exec&lt;/classifier&gt;            &lt;/configuration&gt;		    	 &lt;!-- 加入此配置end --&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
 
-2、Could not find artifact XXXX in aliyun-springMaven在下载依赖时会先在本地仓库查找，如若未找到，则会去内网私服查找，如若仍未找到，再去远程仓库查找。
+2. Could not find artifact XXXX in aliyun-springMaven在下载依赖时会先在本地仓库查找，如若未找到，则会去内网私服查找，如若仍未找到，再去远程仓库查找。
 所以只要把jar包打包到本地缓存仓库即可，如下图所示：
 
 
-3、Failed to execute goal org.apache.maven.plugins:maven-clean-plugin解除提示对应的文件占用即可
-4、org&#x2F;apache&#x2F;maven&#x2F;shared&#x2F;artifact&#x2F;filter&#x2F;collection&#x2F;ArtifactsFilter原来是没有在仓库中找到对应的插件，指定一个找得到的版本号即可解决
-&lt;build&gt;    &lt;plugins&gt;        &lt;plugin&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;        &lt;/plugin&gt;    &lt;/plugins&gt;&lt;/build&gt;
+3. Failed to execute goal org.apache.maven.plugins:maven-clean-plugin解除提示对应的文件占用即可
+4. org&#x2F;apache&#x2F;maven&#x2F;shared&#x2F;artifact&#x2F;filter&#x2F;collection&#x2F;ArtifactsFilter原来是没有在仓库中找到对应的插件，指定一个找得到的版本号即可解决
+&lt;project&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;                &lt;version&gt;1.5.2.RELEASE&lt;/version&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;
 
-5、打包后丢失xml文件&lt;resources&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/java&lt;/directory&gt;        &lt;includes&gt;            &lt;include&gt;**/*.properties&lt;/include&gt;            &lt;include&gt;**/*.xml&lt;/include&gt;        &lt;/includes&gt;        &lt;!-- 是否替换资源中的属性 --&gt;        &lt;filtering&gt;false&lt;/filtering&gt;    &lt;/resource&gt;    &lt;resource&gt;        &lt;directory&gt;src/main/resources&lt;/directory&gt;    &lt;/resource&gt;&lt;/resources&gt;
+5. 打包后丢失xml文件&lt;project&gt;    &lt;build&gt;        &lt;resources&gt;            &lt;resource&gt;                &lt;directory&gt;src/main/java&lt;/directory&gt;                &lt;includes&gt;                    &lt;include&gt;**/*.properties&lt;/include&gt;                    &lt;include&gt;**/*.xml&lt;/include&gt;                &lt;/includes&gt;                &lt;!-- 是否替换资源中的属性 --&gt;                &lt;filtering&gt;false&lt;/filtering&gt;            &lt;/resource&gt;            &lt;resource&gt;                &lt;directory&gt;src/main/resources&lt;/directory&gt;            &lt;/resource&gt;        &lt;/resources&gt;    &lt;/build&gt;&lt;/project&gt;
 
-6、resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced项目jar包是放在nexus上的，这是由于私服的更新策略导致的，nexus上的依赖库在更新库版本号打包时并没有更新，导致项目打包找不到依赖。
+6. resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced项目jar包是放在nexus上的，这是由于私服的更新策略导致的，nexus上的依赖库在更新库版本号打包时并没有更新，导致项目打包找不到依赖。
 解决方法：
 方法一修改nexus的依赖库更新策略，添加 &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
 updatePolicy 该元素指定更新发生的频率。Maven会比较本地 POM 和远程 POM 的时间戳。这里的选项是：
@@ -15788,12 +16160,15 @@ never（从不）
 
 方法二删除未下载成功的文件，重新编译
 maven默认会使用本地缓存的库来编译工程，对于上次下载失败的库，maven会在 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下创建 xxx.lastUpdated 文件，一旦这个文件存在，那么在直到下一次nexus更新之前都不会更新这个依赖库，所以可以根据报错信息，删除 Repository/&lt;group&gt;/&lt;artifact&gt;/&lt;version&gt;/ 目录下的 *.lastUpdated 文件，然后再次运行 mvn compile 编译工程。
-7、Maven传递依赖无法引入解决办法使用 mvn install -X 命令查看完整编译过程，发现有文件提示使用了未经检查或不安全的操作，在提示警告的文件类上增加以下注解：
+7. Maven传递依赖无法引入解决办法使用 mvn install -X 命令查看完整编译过程，发现有文件提示使用了未经检查或不安全的操作，在提示警告的文件类上增加以下注解：
 @SuppressWarnings(&quot;unchecked&quot;)
 
 问题解决。
-8、[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent在 pom.xml 文件中增加一个配置项：
+8. [WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent在 pom.xml 文件中增加一个配置项：
 &lt;properties&gt;    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;&lt;/properties&gt;
+
+9. 编码EUC_CN的不可映射字符在 maven 中默认采用gbk编码，在 IDEA 中编写的代码默认为 utf-8，因此在自动化构建的过程中就可能出现“编码EUC_CN的不可映射字符”，添加 &lt;encoding&gt;utf8&lt;/encoding&gt; 可解决，最终效果如下：
+&lt;project&gt;	 &lt;build&gt;	        &lt;plugins&gt;	            &lt;plugin&gt;	                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;	                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;	                &lt;version&gt;3.8.1&lt;/version&gt;	                &lt;configuration&gt;	                    &lt;source&gt;1.8&lt;/source&gt;	                    &lt;target&gt;1.8&lt;/target&gt;	                    &lt;encoding&gt;utf8&lt;/encoding&gt;	                &lt;/configuration&gt;	            &lt;/plugin&gt;	        &lt;/plugins&gt;	    &lt;/build&gt;&lt;/project&gt;
 
 ]]></content>
       <categories>
@@ -16065,11 +16440,15 @@ SSL 协议提供服务主要：
 SSL 记录协议（SSL Record Protocol）：建立靠传输协议（TCP）高层协议提供数据封装、压缩、加密等基本功能支持
 SSL 握手协议（SSL Handshake Protocol）：建立SSL记录协议用于实际数据传输始前通讯双进行身份认证、协商加密算法、 交换加密密钥等。
 不建议在没有服务器身份验证的情况下建立SSL连接。根据 MySQL 5.5.45+、5.6.26+ 和 5.7.6+ 的要求，如果不设置显式选项，则必须建立默认的SSL连接。需要通过设置useSSL=false
-来显式禁用SSL，或者设置useSSL&#x3D;true并为服务器证书验证提供信任存储。
-1.true 需要连接
-2.false 不需要连接
+来显式禁用 SSL，或者设置 useSSL&#x3D;true 并为服务器证书验证提供信任存储。
+
+true 需要连接
+
+false 不需要连接
+
+
 所以建议设置useSSL为false，有时遇到的问题可以这样来考虑
-jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false**
+jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false
 
 参考文章mysql的timestamp会存在时区问题？
 数据库时间慢了14个小时，Mybatis说，这个锅我不背！
@@ -16899,6 +17278,512 @@ localeLANG=LC_CTYPE=&quot;zh_CN.UTF-8&quot;LC_NUMERIC=&quot;zh_CN.UTF-8&quot;LC_
       </categories>
       <tags>
         <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTP 其他</title>
+    <url>/posts/b5f628bf/</url>
+    <content><![CDATA[目录常用网站ipv6 地址测试http://test-ipv6.com
+移动宽带配置https://zhuanlan.zhihu.com/p/146528034
+https://www.cxyzjd.com/article/COCO56/104362070
+]]></content>
+      <categories>
+        <category>网络通讯</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机基础</title>
+    <url>/posts/c783f2ce/</url>
+    <content><![CDATA[目录计算 byte 和 bit 和 kb 的转换1、byte 代表的是字节，1byte &#x3D; 8bit
+2、bit 是最小的计量单位
+单位换算1Byte&#x3D;8bit（一个字节&#x3D;8bit）
+1KB&#x3D;1024Byte(字节)&#x3D;8*1024bit
+1MB&#x3D;1024KB
+1GB&#x3D;1024MB
+1TB&#x3D;1024GB
+性能指标
+参考链接：https://www.51cto.com/article/718780.html
+
+QPS（每秒查询）QPS：Queries Per Second意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。互联网中，作为域名系
+统服务器的机器的性能经常用每秒查询率来衡量。
+TPS（每秒事务）TPS：是TransactionsPerSecond的缩写，也就是事务数&#x2F;秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求
+时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。
+QPS vs TPS：QPS基本类似于TPS，但是不同的是，对于一个页面的一次访问，形成一个TPS；但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计
+入“QPS”之中。如，访问一个页面会请求服务器2次，一次访问，产生一个“T”，产生2个“Q”。
+RT（响应时间）响应时间：执行一个请求从开始到最后收到响应数据所花费的总体时间,即从客户端发起请求到收到服务器响应结果的时间。响应时间RT(Response-time)，是一个系统最重要的指标之
+一，它的数值大小直接反应了系统的快慢。
+并发数并发数是指系统同时能处理的请求数量，这个也是反应了系统的负载能力。
+吞吐量系统的吞吐量（承压能力）与request对CPU的消耗、外部接口、IO等等紧密关联。单个request 对CPU消耗越高，外部系统接口、IO速度越慢，系统吞吐能力越低，反之越高。系统吞
+吐量几个重要参数：QPS（TPS）、并发数、响应时间。
+
+QPS（TPS）：（Query Per Second）每秒钟request &#x2F; 事务 数量
+并发数：系统同时处理的request &#x2F; 事务数
+响应时间：一般取平均响应时间
+
+理解了上面三个要素的意义之后，就能推算出它们之间的关系：
+
+QPS（TPS）&#x3D; 并发数 &#x2F; 平均响应时间
+并发数 &#x3D; QPS * 平均响应时间
+
+实际举例我们通过一个实例来把上面几个概念串起来理解。按二八定律来看，如果每天 80% 的访问集中在 20% 的时间里，这 20% 时间就叫做峰值时间。
+
+公式：( 总PV数 * 80% ) &#x2F; ( 每天秒数 * 20% ) &#x3D; 峰值时间每秒请求数(QPS)
+机器：峰值时间每秒QPS &#x2F; 单台机器的QPS &#x3D; 需要的机器
+
+1、每天 300w PV 的在单台机器上，这台机器需要多少QPS？
+( 3000000 * 0.8 ) &#x2F; (86400 * 0.2 ) &#x3D; 139 (QPS)
+2、如果一台机器的QPS是58，需要几台机器来支持？
+139 &#x2F; 58 &#x3D; 3
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mybatis XML 基础配置</title>
+    <url>/posts/f68be97c/</url>
+    <content><![CDATA[目录MapperScannerConfigurer 多数据源配置
+参考链接：https://blog.csdn.net/u014362882/article/details/114707718
+
+MapperScannerConfigurer 正常只有一个数据源，只有一个 sqlSessionFactory ，这样写没问题，但是有多个数据源，有 2 个 sqlSessionFactory 的时候这样写就不可以了，需要你使用 sqlSessionFactoryBeanName 或 sqlSessionTemplateBeanName 属性来设置正确的 bean 名 称来使用
+&lt;bean class=&quot;tk.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;    &lt;property name=&quot;basePackage&quot; value=&quot;org.mybatis.spring.sample.mapper1&quot;/&gt;    &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory1&quot;/&gt;&lt;/bean&gt;&lt;bean class=&quot;tk.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;    &lt;property name=&quot;basePackage&quot; value=&quot;org.mybatis.spring.sample.mapper2&quot;/&gt;    &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory2&quot;/&gt;&lt;/bean&gt;&lt;!-- 配置sqlSessionFactoryBean1 --&gt;&lt;bean id=&quot;sqlSessionFactory1&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;    &lt;!-- 引用数据源组件 --&gt;    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource1&quot;/&gt;    &lt;!-- 引用mybatis配置文件 中的配置 --&gt;    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis-config.xml&quot;/&gt;&lt;/bean&gt;&lt;!-- 配置sqlSessionFactoryBean1 --&gt;&lt;bean id=&quot;sqlSessionFactory2&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;    &lt;!-- 引用数据源组件 --&gt;    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource2 &quot;/&gt;    &lt;!-- 引用mybatis配置文件 中的配置 --&gt;    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis-config.xml&quot;/&gt;&lt;/bean&gt;&lt;!-- 配置dataSource1 --&gt;&lt;bean id=&quot;dataSource1&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; destroy-method=&quot;close&quot;&gt;    &lt;property name=&quot;driverClassName&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;    &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;    &lt;property name=&quot;username&quot; value=&quot;$&#123;user&#125;&quot;&gt;&lt;/property&gt;    &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;&gt;&lt;/property&gt;&lt;/bean&gt;&lt;!-- 配置dataSource2 --&gt;&lt;bean id=&quot;dataSource1&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; destroy-method=&quot;close&quot;&gt;    &lt;property name=&quot;driverClassName&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;    &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;    &lt;property name=&quot;username&quot; value=&quot;$&#123;user&#125;&quot;&gt;&lt;/property&gt;    &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;&gt;&lt;/property&gt;&lt;/bean&gt;
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+        <tag>xml</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>log 日志基本概念</title>
+    <url>/posts/a6ab95f3/</url>
+    <content><![CDATA[目录格式化符号
+
+
+符号
+说明
+常用
+
+
+
+%d
+输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，如：%d{yyyy&#x2F;MM&#x2F;dd HH:mm:ss,SSS}
+是
+
+
+%t
+输出产生该日志事件的线程名
+是
+
+
+%l
+输出日志事件的发生位置，相当于%c.%M(%F:%L)的组合，包括类全名、方法、文件名以及在代码中的行数。例如：test.TestLog4j.main(TestLog4j.java:10)
+是
+
+
+%c
+输出日志信息所属的类目，通常就是所在类的全名
+是
+
+
+%M
+输出产生日志信息的方法名
+是
+
+
+%L
+输出代码中的行号
+是
+
+
+%m
+输出代码中指定的具体日志信息
+是
+
+
+%n
+输出一个回车换行符，Windows平台为”rn”，Unix平台为”n”
+是
+
+
+%x
+输出和当前线程相关联的 NDC (嵌套诊断环境)，尤其用到像 java servlets 这样的多客户多线程的应用中
+是
+
+
+%F
+输出日志消息产生时所在的文件名称
+
+
+
+%p
+输出日志信息的优先级，即 DEBUG，INFO，WARN，ERROR，FATAL
+
+
+
+%r
+输出自应用程序启动到输出该 log 信息耗费的毫秒数
+
+
+
+%%
+输出一个”%”字符
+
+
+
+另外，还可以在 % 与格式字符之间加上修饰符来控制其最小长度、最大长度、和文本的对齐方式。如：
+
+%-20c：”-“号表示左对齐。
+%.30c：指定输出 category 的名称，最大的长度是 30，如果 category 的名称长度大于 30 的话，就会将左边多出的字符截掉，但小于30的话也不会补空格。
+
+其他参数ImmediateFlush&#x3D;true：表示所有消息都会被立即输出，设为 false 则不输出，默认值是 true。
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>log</category>
+      </categories>
+      <tags>
+        <tag>log</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring XML 配置详解</title>
+    <url>/posts/df193b61/</url>
+    <content><![CDATA[目录properties 文件读取&lt;value&gt;classpath:*.properties&lt;/value&gt;
+
+如果是多个，可以用 list 包裹，代码如下：
+&lt;list&gt;	&lt;value&gt;classpath:*.properties&lt;/value&gt;&lt;/list&gt;
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+        <tag>xml</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring 基本概念</title>
+    <url>/posts/f2bd63b2/</url>
+    <content><![CDATA[目录bean 默认名称规则
+bean 名称的默认规则是类名的首字母小写，如 SysConfig - sysConfig，Tools - tools。
+如果类名前两个或以上个字母都是大写，那么 bean 名称与类名一样，如 RBACUserLog - RBACUserLog，RBACUser - RBACUser。
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring 常用类</title>
+    <url>/posts/b230d5e5/</url>
+    <content><![CDATA[目录bean 的生命周期前置执行顺序
+Constructor 方法 &gt; @PostConstruct 注解修饰的方法 &gt; InitializingBean 接口 &gt; init-method 方法
+后置执行顺序
+@PreDestroy 注解修饰的方法 &gt; destroy() 方法
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>npm 基本概念</title>
+    <url>/posts/c62ddf2b/</url>
+    <content><![CDATA[目录npm 语义化版本号npm使用 a.b.c 的版本号来管理安装包，a 为大版本号，有重大 api 改变，一般不向下兼容，b 为小版本号，新增功能，向下兼容，c 为补丁号，通常修复一些 bug。npm 安装包的时候允许使用一些特殊符号表示安装的版本范围，如：
+# 取最新的c的版本号值，a与b保持不变~a.b.c# 取b和c均为最新版本号，a保持不变^a.b.c
+
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>npm</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/posts/0/</url>
+    <content><![CDATA[目录离线下载mac下载地址：http://dropbox.com/download?full=1&amp;plat=win
+win下载地址：http://dropbox.com/download?full=1&amp;plat=mac
+]]></content>
+  </entry>
+  <entry>
+    <title>Arthas 基本概念</title>
+    <url>/posts/b25563b9/</url>
+    <content><![CDATA[目录入参变量引用OGNL 在计算表达式的过程中, 随时会将当前对象保存在 this 变量中, 这个变量也可以象其他任何变量一样引用,用 #this 表示当前对象，举个栗子：
+ognl -c 18b4aac2 &#x27;#value1=new com.RoleDTO(), #value1.setRole(&quot;role&quot;), @com.SpringUtil@getBean(&quot;roleServiceImpl&quot;).getRole(#value1).(#this.getSysName())&#x27;
+
+可以通过 #this.getSysName() 调用返回结果的相关方法。
+class 类型入参类型如果是 class 类型，需要全包名路径，写法如下：
+ognl &#x27;@全路径包名+类名@class&#x27;
+
+举个栗子：
+ognl -c 338fc1d8 &#x27;@com.example.SpringContextHolder@getApplicationContext().getBean(@com.example.TestBean@class).handle(&#123;&quot;7899896&quot;&#125;)&#x27;
+
+新建对象可以通过声明变量的形式进行传入，语法如下：
+ognl &#x27;#变量名=new 全路径包名+类名, #变量名.方法&#x27;
+
+举个栗子：
+ognl -c 18b4aac2 &#x27;#value1=new com.RoleDTO(), #value1.setRole(&quot;role&quot;), @com.SpringUtil@getBean(&quot;accessSystemRoleServiceImpl&quot;).getRole(#value1)&#x27;
+
+map 类型可以通过声明变量的形式进行传入，语法如下：
+ognl &#x27;#变量名=#&#123;&quot;key1&quot;:&quot;value1&quot;, &quot;key2&quot;:&quot;value2&quot;&#125;&#x27;
+
+举个栗子：
+ognl &#x27;#inputmap=#&#123;&quot;foo&quot;: &quot;foo value&quot;, &quot;bar&quot;:&quot;bar value&quot; &#125;, @com.OgnlTest@getMap(#inputmap)&#x27;
+
+多级传递方法 A 的返回值当做方法 B 的入参，执行多行表达式，返回一个 List，示例如下：
+ognl &#x27;#value1=@com.OgnlTest@getPerson(&quot;src&quot;,18), #value2=@com.OgnlTest@setPerson(#value1), &#123;#value1,#value2&#125;&#x27;
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>arthas</category>
+      </categories>
+      <tags>
+        <tag>arthas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Arthas 常用命令</title>
+    <url>/posts/1b15733b/</url>
+    <content><![CDATA[目录官方文档链接：https://arthas.gitee.io/doc/commands.html#jvm-%E7%9B%B8%E5%85%B3
+ognl 表达式参考文档：https://blog.csdn.net/u010634066/article/details/101013479
+参数说明:
+
+
+
+参数名称
+参数说明
+
+
+
+express
+执行的表达式
+
+
+[c:]
+执行表达式的 ClassLoader 的 hashcode，默认值是 SystemClassLoader
+
+
+[classLoaderClass:]
+指定执行表达式的 ClassLoader 的 class name
+
+
+[x]
+结果对象的展开层次，默认值 1
+
+
+调用静态属性语法：
+ognl &#x27;@全路径类目@静态属性名&#x27;
+
+举个栗子：
+ognl &#x27;@com.shirc.arthasexample.ognl.OgnlTest@static_str&#x27;
+
+调用静态方法语法：
+ognl &#x27;@全路径类目@静态方法名(&quot;参数&quot;)&#x27;
+
+举个栗子：
+ognl -c 18b4aac2  &#x27;@cn.hutool.extra.spring.SpringUtil@getBean(&quot;lineRequireInfoPlatformRepoImpl&quot;).queryByRequireId(&quot;231102012391075&quot;)&#x27;
+
+json 格式化options json-format true
+
+stack很多时候我们都知道一个方法被执行，但这个方法被执行的路径非常多，或者你根本就不知道这个方法是从那里被执行了，此时你需要的是 stack 命令。
+参数说明:
+
+
+
+参数名称
+参数说明
+
+
+
+class-pattern
+类名表达式匹配
+
+
+method-pattern
+方法名表达式匹配
+
+
+condition-express
+条件表达式
+
+
+[E]
+开启正则表达式匹配，默认为通配符匹配
+
+
+[n:]
+执行次数限制
+
+
+[m &lt;arg&gt;]
+指定 Class 最大匹配数量，默认值为 50。长格式为[maxMatch &lt;arg&gt;]。
+
+
+举个栗子：
+stack com.sf.ground.require.mgmt.service.PeriodicLineService exportData -n 5 
+
+sc查看 JVM 已加载的类信息。“Search-Class” 的简写，这个命令能搜索出所有已经加载到 JVM 中的 Class 信息，这个命令支持的参数有 [d]、[E]、[f] 和 [x:]。
+参数说明:
+
+
+
+参数名称
+参数说明
+
+
+
+class-pattern
+类名表达式匹配
+
+
+method-pattern
+方法名表达式匹配
+
+
+[d]
+输出当前类的详细信息，包括这个类所加载的原始文件来源、类的声明、加载的 ClassLoader 等详细信息。 如果一个类被多个 ClassLoader 所加载，则会出现多次
+
+
+[E]
+开启正则表达式匹配，默认为通配符匹配
+
+
+[f]
+输出当前类的成员变量信息（需要配合参数-d 一起使用）
+
+
+[x:]
+指定输出静态变量时属性的遍历深度，默认为 0，即直接使用 toString 输出
+
+
+[c:]
+指定 class 的 ClassLoader 的 hashcode
+
+
+[classLoaderClass:]
+指定执行表达式的 ClassLoader 的 class name
+
+
+[n:]
+具有详细信息的匹配类的最大数量（默认为 100）
+
+
+[cs &lt;arg&gt;]
+指定 class 的 ClassLoader#toString() 返回值。长格式[classLoaderStr &lt;arg&gt;]
+
+
+举个栗子：
+sc -d cn.hutool.extra.spring.SpringUtil
+
+]]></content>
+      <categories>
+        <category>研发工具</category>
+        <category>arthas</category>
+      </categories>
+      <tags>
+        <tag>arthas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/posts/0/</url>
+    <content><![CDATA[目录百度网盘会员https://sm.ii5.top/?key=9PSq8glOdQ4ual6w
+]]></content>
+  </entry>
+  <entry>
+    <title>Maven Archetype 使用</title>
+    <url>/posts/3a21973e/</url>
+    <content><![CDATA[目录简介Archetype 是一个 Maven 项目模板工具包。原型被定义为原始模式或模型，从中创建所有其他相同类型的东西。这些名称适合我们尝试提供一个系统，该系统提供生成Maven项目的一致方法。Archetype 将帮助作者为用户创建 Maven 项目模板，并为用户提供生成这些项目模板的参数化版本的方法。
+Archetype 创建添加 maven 依赖&lt;properties&gt;    &lt;maven.archetype.version&gt;3.2.1&lt;/maven.archetype.version&gt;&lt;/properties&gt;&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;        &lt;artifactId&gt;maven-archetype-plugin&lt;/artifactId&gt;        &lt;version&gt;$&#123;maven.archetype.version&#125;&lt;/version&gt;    &lt;/dependency&gt;&lt;/dependencies&gt;
+
+新建 archetype.properties这个文件的作用就是定义哪些文件需要构建到骨架模版中，和 pom.xml 同级目录。
+# 添加不需要放到模板的正则匹配excludePatterns=.idea/**,README.md,.mvn/wrapper/*,.gitignore# 需要替换处理的文件后缀，默认没有yml、yamlarchetype.filteredExtensions=java,yml,yaml,xml,txt,groovy,cs,mdo,aj,jsp,gsp,vm,html,xhtml,properties,classpath,project,doc,docx,bat,sh,sql,vm
+
+生成 archetype打开 cmd 窗口，在刚才的 maven 项目的根目录中运行 maven 命令：
+mvn archetype:create-from-project
+
+如果报了 Invoker process ended with result different than 0! 这个错误，需要手动指定 maven settings.xml 的文件位置，示例命令如下：
+mvn archetype:create-from-project -s D:\Apache\apache-maven-3.6.3\conf\settings.xml
+
+发布首先进入 target/generated-sources/archetype 目录。
+本地仓库执行 mvn install，当然也可以发布到私服，这里我没有私服，就只安装到本地。
+远程仓库配置你的Maven的setting.xml文件，配置有上传权限的用户名和密码，以及仓库地址。
+配置完成，需要修改 /target/generated-sources/archetype 的 pom.xml 文件，添加以下配置：
+&lt;distributionManagement&gt;    &lt;repository&gt;        &lt;id&gt;central&lt;/id&gt;        &lt;name&gt;Local Nexus Releases Repository&lt;/name&gt;        &lt;url&gt;release仓库地址&lt;/url&gt;    &lt;/repository&gt;    &lt;snapshotRepository&gt;        &lt;id&gt;snapshots&lt;/id&gt;        &lt;name&gt;Local Nexus Snapshots Repository&lt;/name&gt;        &lt;url&gt;snaphost仓库地址&lt;/url&gt;        &lt;uniqueVersion&gt;false&lt;/uniqueVersion&gt;    &lt;/snapshotRepository&gt;&lt;/distributionManagement&gt;
+
+最后执行 mvn deploy 发布到远程仓库即可。
+更新索引（可选）到此，我们自己的 archetype 模板已经创建成功，可以使用 mvn archetype:crawl 更新索引（该命令会执行较长一段时间）。
+使用方式一（idea）：依次展开 File -&gt; Settings -&gt; Build, Execution, Deployment -&gt; Build Tools -&gt; Maven -&gt; Archetype Catalogs 菜单，点击 + 号按钮，添加本地 archetype-catalog.xml 位置，效果如下：
+
+
+然后在 idea 新建一个 maven 项目就可以看到如下效果：
+
+
+在 Advanced Settings 选项填写自己需要的 GroupId，ArtifactId 和 Version 即可。
+方式二：mvn archetype:generate -DarchetypeCatalog=local
+
+archetypeCatalog 参数，用来指定 maven-archetype-plugin 读取 archetype-catalog.xml 文件的位置，
+位置有以下几种类型：
+
+internal——maven-archetype-plugin 内置的
+
+local——本地的，位置为 ~&#x2F;.m2&#x2F;archetype-catalog.xml
+
+remote——指向 Maven 远程仓库的 Catalog
+
+
+方式三：这种模式属于精确指定，需要我们手动指定我们 archetype 信息，示例命令如下：
+mvn archetype:generate \-DarchetypeGroupId=com.sf.saas \-DarchetypeArtifactId=ibu-saas-iss-archetype-quickstart-archetype \-DarchetypeVersion=0.0.1-SNAPSHOT \-DgroupId=com.sf.saas \-DartifactId=quickstart \-Dpackage=com.sf.saas.quickstart \-Dversion=1.0.0 \-DappName=ibu-saas-iss-archetype-quickstart
+
+注意事项
+
+上面语句是一条完整语句，不能有空格
+-D 前面都有个空格
+-DarchetypeArtifactId 注意后面有 archetype
+
+其中最后的5个参数根据实际的情况进行修改，基本规范如下：
+
+groupId：项目工程的 groupId；
+artifactId：项目工程的 artifactId；
+package：项目工程的顶级 package；
+version：项目工程的版本号；
+appName：项目工程打成包时的名字，当基于tomcat插件进行调试时，此名称也作为ContextPath名称。
+
+参考链接Maven Archetype简介以及搭建
+Maven Archetype 模板开发详解
+自定义archetype项目模板并发布到远程仓库
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+        <tag>archetype</tag>
       </tags>
   </entry>
 </search>
